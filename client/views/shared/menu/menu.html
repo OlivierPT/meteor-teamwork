@@ -1,0 +1,60 @@
+<template name="Menu">
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/home">TeamWork</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                 {{#if currentUser}}
+ 
+  
+                <ul class="nav navbar-nav">        
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activités<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            {{#each activities}}
+                            <li>
+                                <a href="{{pathFor 'Activity'}}">
+                                    {{name}}
+                                </a>
+                            </li>
+                            {{/each}}
+                        </ul>
+                    </li>
+                </ul>
+                <div id="searchForm" class="navbar-form navbar-left" role="search">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button class="btn btn-default">Search</button>
+                </div>
+                <!--
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#">Paramétrage</a></li>
+                    <li><a href="#">Utilisateur</a></li>
+                </ul>
+                -->
+                <div id="createActivityForm" class="navbar-form navbar-left" role="form">
+                    <div class="form-group">
+                        <input id="activityName" type="text" class="form-control" placeholder="Create Activity">
+                    </div>
+                    <button id="createActivityBtn" class="btn btn-default">Create</button>
+                </div>
+                {{/if}}
+                <ul class="nav navbar-nav navbar-right">
+                    {{> loginButtons }} <!-- here -->
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
+</template>

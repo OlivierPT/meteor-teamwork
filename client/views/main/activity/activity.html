@@ -1,0 +1,46 @@
+<template name="Activity">
+  <div class="container-fluid">
+    <!-- Activity function -->
+    <div class="row">
+      <div class="col-xs-6 col-md-4">
+        <h1>Activité : {{name}}</h1>
+      </div>
+      <div class="col-xs-6 col-md-4">
+        <div id="addStateForm" class="form-inline" role="form">
+          <div class="form-group">
+            <input id="stateLabel" type="text" class="form-control" placeholder="State Label">
+          </div>
+          <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- All the State are in one row to have a common size -->
+    <div class="row">
+      <!-- Each State use a col -->
+      {{#each states}}
+      <div class="col-xs-3 col-md-2">
+        <div class="row">
+          <h2>{{label}}</h2>
+        </div>
+        <div class="list-group">
+          {{#each tasksState}}
+          <a href="#" class="list-group-item">
+            <h3 class="list-group-item-heading">{{label}}</h3>
+          </a>
+          {{/each}}
+        </div>
+        <div class="row">
+          <div id="addTaskForm" class="form-inline" role="form">
+            <div class="form-group">
+              <input id="taskName{{_id}}" type="text" class="form-control" placeholder="Add a Task">
+            </div>
+            <button id="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
+          </div>
+        </div>
+      </div>
+      {{/each}}
+    </div>
+
+  </div>
+</template>

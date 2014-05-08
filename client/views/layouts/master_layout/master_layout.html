@@ -1,0 +1,15 @@
+<template name="MasterLayout">
+  <head>
+        <title>meteor-client</title>
+    </head>
+
+    <body>
+        <div id="main-menu">
+            {{> Menu}}
+        </div>
+
+        <div id="content">
+            {{> yield}}
+        </div>
+    </body>
+</template>
