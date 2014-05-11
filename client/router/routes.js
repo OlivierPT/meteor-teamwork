@@ -30,4 +30,12 @@ Router.map(function () {
     }
 
   });
+
+  this.route('Team', {
+    path: '/team'
+  });
+
+  this.route('Template', {
+    path: '/template'
+  });
 });

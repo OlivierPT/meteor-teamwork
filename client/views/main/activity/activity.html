@@ -1,103 +1,113 @@
 <template name="Activity">
-    <div class="container-fluid">
-        <!-- Activity function -->
-        <div class="panel panel-primary">
-            <div class="panel-heading"> 
+  <div class="container-fluid">
+    <!-- Activity function -->
+    <div class="panel panel-primary" id="activityPanel" data-activity-id="{{_id}}">
+      <div class="panel-heading">
 
-                <h2 class="panel-title">{{name}}</h2>
+        <h2 class="panel-title">{{name}}</h2>
 
-                <div id="addStateForm" class="form-inline pull-right" role="form">                     
-                    <input id="stateLabel" type="text" class="form-control" placeholder="State Label">
-                    <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
-                </div>
+        <div id="addStateForm" class="form-inline pull-right" role="form">
+          <input id="stateLabel" type="text" class="form-control" placeholder="State Label">
+          <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
+        </div>
+      </div>
+
+
+      <!-- All the State are in one row to have a common size -->
+      <div class="panel-body">
+        <!-- Each State use a col -->
+        {{#each states}}
+        <div class="col-xs-3 col-md-2">
+
+          <div class="panel panel-success">
+            <div class="panel-heading">
+              <span>{{label}}</span>
+              <a href="#" role="button" data-state-id="{{_id}}" name="deleteState">
+                <span class="badge pull-right">
+                  <span class="glyphicon glyphicon-remove"></span>
+                </span>
+              </a>
             </div>
-
-
-            <!-- All the State are in one row to have a common size -->
             <div class="panel-body">
-                <!-- Each State use a col -->
-                {{#each states}}
-                <div class="col-xs-3 col-md-2">
-
-                    <div class="panel panel-success">
-                        <div class="panel-heading">
-                            <span>{{label}}</span>
-                            <a href="#" role="button" data-state-id="{{_id}}" name="deleteState">
-                                <span class="badge pull-right">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </span>
-                            </a>
-                        </div>
-                        <div class="panel-body">
-                            <ul class="list-group">
-                                {{#each tasksState}}
-                                <li class="list-group-item" data-task-id="{{_id}}">
-                                    <a class="list-group-item-heading" data-toggle="modal" data-target="#taskModal" name="taskLabel">{{label}}</a>
-                                    <a href="#" role="button" name="deleteTask">
-                                        <span class="badge pull-right">
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </span>
-                                    </a>
-                                    <p class="list-group-item-text">{{descritpion}}</p>
-                                </li>
-                                {{/each}}
-                            </ul>
-                        </div>
-                        <div class="panel-footer">
-                            <div id="addTaskForm" class="form" role="form">
-                                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="Add a Task">
-                                <button id="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <div class="list-group">
+                {{#each tasks}}
+                <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
+                  <h4 class="list-group-item-heading">{{label}}</h4>
+                  <p class="list-group-item-text">{{description}}...</p>
+                </a>
                 {{/each}}
+              </div>
             </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        {{#with task}}
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">{{label}}</h4>
-                </div>
-                <div class="modal-body">
-                    <div role="form" id="taskForm">
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
-                        </div> 
-                        <div class="form-group">
-                            <label for="taskState">State</label>
-                            <select class="form-control" id="taskState">
-                                {{#each states}}
-                                    {{#if isStateSelected}} 
-                                    <option value="{{_id}}" selected="selected">
-                                        {{label}}
-                                    </option>
-                                    {{else}}        
-                                    <option value="{{_id}}">    
-                                        {{label}}
-                                    </option>
-                                    {{/if}} >
-                                    
-                                    {{/each}}
-                            </select>
-
-                        </div>
-                        <div class="form-group">
-                            <label for="comment">Comment</label>
-                            <input type="text" class="form-control" id="comment" placeholder="Write a comment"/>
-                        </div>                         
-                        <button class="btn btn-default" id="saveTaskForm">Save</button>
-                    </div>
-                </div>           
+            <div class="panel-footer">
+              <div id="addTaskForm" class="form" role="form">
+                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="Add a Task">
+                <button id="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
+              </div>
             </div>
+          </div>
         </div>
-        {{/with}}
+        {{/each}}
+      </div>
     </div>
+  </div>
+
+  {{> TaskDetail}}
+
+</template>
+
+<template name="TaskDetail">
+  <!-- Modal -->
+  <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    {{#with task}}
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title" id="myModalLabel">{{label}}</h4>
+        </div>
+        <div class="modal-body">
+          <div role="form" id="taskForm">
+            <div class="form-group">
+              <label for="description">Description</label>
+              <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
+            </div>
+            <div class="form-group">
+              <label for="taskState">State</label>
+              <select class="form-control" id="taskState">
+                {{#each states}}
+                {{#if isStateSelected}}
+                <option value="{{_id}}" selected="selected">
+                  {{label}}
+                </option>
+                {{else}}
+                <option value="{{_id}}">
+                  {{label}}
+                </option>
+                {{/if}} >
+
+                {{/each}}
+              </select>
+
+            </div>
+            <div class="form-group">
+              <label for="comment">Comment</label>
+              <div class="form-inline">
+                <input type="text" class="form-control" id="comment" placeholder="Write a comment"/>
+                <button class="btn btn-default" id="addCommentBtn">Add</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Comments </label>
+              {{#each comments}}
+              <p>{{content}} - {{author}} - {{dateCreate}}</p>
+              {{/each}}
+            </div>
+            <button class="btn btn-default" id="saveTaskBtn">Save</button>
+            <button class="btn btn-default" id="deleteTaskBtn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {{/with}}
+  </div>
 </template>

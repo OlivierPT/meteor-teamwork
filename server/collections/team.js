@@ -1,27 +1,20 @@
-/**
- * This files define all the access to the
- * Activity collection : Publish methodes and access rights
- *
+/*
+ * Add query methods like this:
+ *  Team.findPublic = function () {
+ *    return Team.find({is_public: true});
+ *  }
  */
-
 /**
- * Return all the activities
- *
- */
-Meteor.publish('allActivities', function () {
-  return Activity.find();
-});
-
-/**
- * Return all the activities that the users can access
+ * Return all the teams that the user is involved to
  * @param {id} userId : the userId of the current user
  */
-Meteor.publish('userActivities', function (userId) {
-  return Activity.find({owner : userId});
+Meteor.publish('teams', function () {
+  return Team.find({members : Meteor.userId()});
 });
 
 
-Activity.allow({
+
+Team.allow({
   insert: function (userId, doc) {
     return true;
   },
@@ -35,7 +28,7 @@ Activity.allow({
   }
 });
 
-Activity.deny({
+Team.deny({
   insert: function (userId, doc) {
     return false;
   },

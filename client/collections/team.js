@@ -1,5 +1,3 @@
-Team = new Meteor.Collection('team');
-
 /*
  * Add query methods like this:
  *  Team.findPublic = function () {
