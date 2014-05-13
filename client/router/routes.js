@@ -32,10 +32,13 @@ Router.map(function () {
   });
 
   this.route('Team', {
-    path: '/team'
+    path: '/team',
+    waitOn: function() {
+            Meteor.subscribe('teams');
+    },
+    data: function() {
+        return Team.findOne();
+    }
   });
 
-  this.route('Template', {
-    path: '/template'
-  });
 });

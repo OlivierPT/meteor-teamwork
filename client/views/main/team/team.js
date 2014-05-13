@@ -2,31 +2,31 @@
 /* Team: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.Team.events({
-  /*
-   * Example: 
-   *  'click .selector': function (e, tmpl) {
-   *
-   *  }
-   */
+    
+       'click #createTeamBtn': function (e) {
+           var name = $("#name").val();
+           var description = $("#description").val();
+           
+           Meteor.call('createTeam', name, description);
+       }
+     
 });
 
 Template.Team.helpers({
-  /*
-   * Example: 
-   *  items: function () {
-   *    return Items.find();
-   *  }
-   */
+    teams: function() {
+        return Team.find();
+    }
+
 });
 
 /*****************************************************************************/
 /* Team: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Team.created = function () {
+Template.Team.created = function() {
 };
 
-Template.Team.rendered = function () {
+Template.Team.rendered = function() {
 };
 
-Template.Team.destroyed = function () {
+Template.Team.destroyed = function() {
 };

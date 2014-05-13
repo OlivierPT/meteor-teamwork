@@ -9,7 +9,7 @@
  * @param {id} userId : the userId of the current user
  */
 Meteor.publish('teams', function () {
-  return Team.find({members : Meteor.userId()});
+  return Team.find({members : this.userId});
 });
 
 

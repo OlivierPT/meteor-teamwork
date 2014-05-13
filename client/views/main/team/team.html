@@ -1,19 +1,60 @@
 <template name="Team">
-  <div class="container-fluid">
-    <!-- Activity function -->
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h2 class="panel-title">Team management</h2>
-      </div>
+    <div class="container-fluid">
+        <!-- Activity function -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title">Team management</h2>
+            </div>
 
-      <div class="panel-body">
-          <!-- Team creation -->
-
-
-          <!-- Team list -->
-          
-      </div>
+            <div class="panel-body">
+                <!-- Team creation -->
+                <div role="form" id="teamForm">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Team name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea type="text" class="form-control" id="description" placeholder="Add descprition"></textarea>
+                    </div>
+                    <button class="btn btn-default" id="createTeamBtn">Create</button>
+                </div>
+            </div>
+            <!-- Team list -->
+            <div class="panel panel-default">
+                <div class="panel-heading">Team List</div>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Creator</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each teams}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>{{description}}</td>
+                            <td>{{creator}}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                        Action <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{pathFor 'Team'}}">Modify</a></li> 
+                                        <li><a href="#" name="deleteTeamBtn" data-team-id="{_id}">Delete</a></li>                                     
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>   
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-  </div>
 
 </template>
