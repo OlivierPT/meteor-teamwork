@@ -15,8 +15,6 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 {{#if currentUser}}
-
-
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Activities<b class="caret"></b></a>
@@ -37,7 +35,7 @@
                         <input id="activityName" type="text" class="form-control" placeholder="Create Activity">
                     </div>
                     <button id="createActivityBtn" class="btn btn-default">Create</button>
-                </div>                
+                </div>
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
@@ -51,16 +49,16 @@
                         </ul>
                     </li>
                 </ul>
+
                 <div id="searchForm" class="navbar-form navbar-left" role="search">
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="Search">
                     </div>
                     <button class="btn btn-default">Search</button>
                 </div>
-
                 {{/if}}
                 <ul class="nav navbar-nav navbar-right">
-                    {{> loginButtons }} <!-- here -->
+                    {{> loginButtons }}
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
