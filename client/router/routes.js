@@ -31,14 +31,24 @@ Router.map(function () {
 
   });
 
-  this.route('Team', {
-    path: '/team',
+  this.route('Teams', {
+    path: '/teams',
     waitOn: function() {
             Meteor.subscribe('teams');
     },
     data: function() {
-        return Team.findOne();
+        return Team.find();
     }
   });
 
+  this.route('Team', {
+    path: '/team/:_id',
+    waitOn: function() {
+            Meteor.subscribe('teams');
+    },
+    data: function() {
+        return Team.findOne({_id: this.params._id});
+    }
+  });
+  
 });

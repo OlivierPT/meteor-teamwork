@@ -1,5 +1,5 @@
-<template name="Team">
-  <div class="container-fluid">
+<template name="Teams">
+    <div class="container-fluid">
         <!-- Activity function -->
         <div class="panel panel-primary">
             <div class="panel-heading">
@@ -11,34 +11,33 @@
                 <div role="form" id="teamForm">
                     <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Team name" value="{{name}}">
+                        <input type="text" class="form-control" id="name" placeholder="Team name">
                     </div>
                     <div class="form-group">
                         <label for="description">Description</label>
-                        <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
+                        <textarea type="text" class="form-control" id="description" placeholder="Add descprition"></textarea>
                     </div>
-                    <button class="btn btn-default" id="createTeamBtn">Save</button>
+                    <button class="btn btn-default" id="createTeamBtn">Create</button>
                 </div>
             </div>
-            <!-- Member list -->
+            <!-- Team list -->
             <div class="panel panel-default">
-                <div class="panel-heading">Member List</div>
+                <div class="panel-heading">Team List</div>
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th>Name</th>
-                            <th>Firstname</th>
-                            <th>Email</th>
+                            <th>Description</th>
+                            <th>Creator</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!--
-                        {{#each members}}
+                        {{#each teams}}
                         <tr>
                             <td>{{name}}</td>
-                            <td>{{lasname}}</td>
-                            <td>{{email}}</td>
+                            <td>{{description}}</td>
+                            <td>{{creator}}</td>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
@@ -52,10 +51,10 @@
                             </td>
                         </tr>   
                         {{/each}}
-                        -->
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
+
 </template>
