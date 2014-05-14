@@ -6,7 +6,7 @@ Meteor.methods({
 
   'createTeam': function (name, description) {
       console.log("MethodCall : createTeam - name = "+name);
-      Team.insert({name: name, description: description, creator: Meteor.userId(), members: [Meteor.userId()]});
+      Team.insert({name: name, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
       console.log("Team created");
     },
 
