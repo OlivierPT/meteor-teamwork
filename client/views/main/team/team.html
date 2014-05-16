@@ -1,7 +1,7 @@
 <template name="Team">
-  <div class="container-fluid">
+    <div class="container-fluid">
         <!-- Activity function -->
-        <div class="panel panel-primary">
+        <div class="panel panel-primary" id="teamPanel" data-team-id="{{_id}}">
             <div class="panel-heading">
                 <h2 class="panel-title">Team management</h2>
             </div>
@@ -17,7 +17,9 @@
                         <label for="description">Description</label>
                         <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
                     </div>
-                    <button class="btn btn-default" id="createTeamBtn">Save</button>
+                    <div class="form-group">
+                        {{> inputAutocomplete settings=settings id="msg" class="form-control" placeholder="Id user"}}
+                    </div>
                 </div>
             </div>
             <!-- Member list -->
@@ -26,36 +28,39 @@
                 <table class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th>Firstname</th>
+                            <th>Id</th>
+                            <th>Username</th>
                             <th>Email</th>
-                            <th>Actions</th>
+                            <th>Member</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <!--
-                        {{#each members}}
+
+                        {{#each users}}
                         <tr>
-                            <td>{{name}}</td>
-                            <td>{{lasname}}</td>
-                            <td>{{email}}</td>
+                            <td>{{_id}}</td>
+                            <td>{{username}}</td>
+                            <td>{{firstEmail}}</td>
                             <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                        Action <span class="caret"></span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{pathFor 'Team'}}">Modify</a></li> 
-                                        <li><a href="#" name="deleteTeamBtn" data-team-id="{{_id}}">Delete</a></li>                                     
-                                    </ul>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" name="isMemberCheck" data-member-id="{{_id}}" {{isMember}}>
+                                    </label>
                                 </div>
                             </td>
                         </tr>   
                         {{/each}}
-                        -->
+
                     </tbody>
                 </table>
             </div>
+            <div class="btn-group">
+                <button class="btn btn-default" id="createTeamBtn">Save</button>
+            </div>
         </div>
     </div>
+</template>
+
+<template name="UserPill">
+    <span class="label {{labelClass}}">{{name}}</span>
 </template>

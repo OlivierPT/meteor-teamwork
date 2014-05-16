@@ -4,7 +4,8 @@
     "basePackages": {
       "iron-router": {},
       "bootstrap-3": {},
-      "accounts-ui-bootstrap-3": {}
+      "accounts-ui-bootstrap-3": {},
+      "autocomplete": {}
     },
     "packages": {
       "iron-router": {
@@ -22,10 +23,20 @@
         "tag": "v0.3.0-1",
         "commit": "93ffa5d0e325dc7026de89f6d90c178fa04bdd3a"
       },
+      "autocomplete": {
+        "git": "https://github.com/mizzao/meteor-autocomplete.git",
+        "tag": "v0.4.4",
+        "commit": "1ffada2f92b323668e44ae5cfc5d1776b12987d0"
+      },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
         "tag": "v0.2.4",
         "commit": "b40e9b0612329288d75cf52ad14a7da64bb8618f"
+      },
+      "caret-position": {
+        "git": "https://github.com/StockBase/meteor-caret-position.git",
+        "tag": "v2.1.0-3",
+        "commit": "6028cf980f62cbf72cb2ea527091a3a31f87b8a7"
       }
     }
   }

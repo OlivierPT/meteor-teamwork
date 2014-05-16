@@ -21,21 +21,23 @@ Router.map(function () {
   this.route('Activity', {
     path: '/activity/:_id',
     waitOn: function() {
-            Meteor.subscribe('stateByActivity', this.params._id);
-            Meteor.subscribe('tasksByActivity', this.params._id);
+            return  [
+                Meteor.subscribe('stateByActivity', this.params._id),
+                Meteor.subscribe('tasksByActivity', this.params._id)
+            ];
     },
 
     data: function() {
         return Activity.findOne({_id: this.params._id});
     }
-
   });
 
   this.route('Teams', {
     path: '/teams',
     waitOn: function() {
-            Meteor.subscribe('teams');
+            return Meteor.subscribe('teams');
     },
+    
     data: function() {
         return Team.find();
     }
@@ -44,10 +46,19 @@ Router.map(function () {
   this.route('Team', {
     path: '/team/:_id',
     waitOn: function() {
-            Meteor.subscribe('teams');
+            return  [
+                Meteor.subscribe('teams', this.params._id),
+                Meteor.subscribe('userProfiles')
+            ];
     },
+    
     data: function() {
         return Team.findOne({_id: this.params._id});
+    },
+    
+    onAfterAction: function () {
+        Session.set("teamId", this.params._id);
+        Session.set("team", Team.findOne({_id: this.params._id}));        
     }
   });
   

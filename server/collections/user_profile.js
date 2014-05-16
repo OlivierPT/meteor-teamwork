@@ -1,18 +1,19 @@
 /*
  * Add query methods like this:
- *  Team.findPublic = function () {
- *    return Team.find({is_public: true});
+ *  UserProfile.findPublic = function () {
+ *    return UserProfile.find({is_public: true});
  *  }
  */
+
 /**
  * Return all the teams that the user is involved to
  * @param {id} userId : the userId of the current user
  */
-Meteor.publish('teams', function () {
-  return Team.find({members : this.userId});
+Meteor.publish('userProfiles', function () {
+  return UserProfile.find();
 });
 
-Team.allow({
+UserProfile.allow({
   insert: function (userId, doc) {
     return true;
   },
@@ -26,7 +27,7 @@ Team.allow({
   }
 });
 
-Team.deny({
+UserProfile.deny({
   insert: function (userId, doc) {
     return false;
   },
