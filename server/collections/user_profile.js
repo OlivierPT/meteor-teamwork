@@ -13,6 +13,10 @@ Meteor.publish('userProfiles', function () {
   return UserProfile.find();
 });
 
+Meteor.publish('userProfile', function () {
+  return UserProfile.find({userId: this.userId});
+});
+
 UserProfile.allow({
   insert: function (userId, doc) {
     return true;

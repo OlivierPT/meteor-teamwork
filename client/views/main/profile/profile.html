@@ -1,0 +1,26 @@
+<template name="Profile">
+  <div class="container-fluid">
+        <!-- Activity function -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h2 class="panel-title">User profile</h2>
+            </div>
+
+            <div class="panel-body">
+                <!-- Team creation -->
+                <div role="form" id="profileForm">
+                    <input type="hidden" id="idProfile" value="{{_id}}">
+                    <div class="form-group">
+                        <label for="name">Firstname</label>
+                        <input type="text" class="form-control" id="firstName" placeholder="Firstname" value="{{firstName}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Name" value="{{name}}">
+                    </div>
+                    <button class="btn btn-default" id="saveProfileBtn">Save</button>
+                </div>
+            </div>
+        </div>
+  </div>
+</template>
