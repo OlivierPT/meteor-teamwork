@@ -7,6 +7,10 @@ Template.Teams.events({
         var description = $("#description").val();
 
         Meteor.call('createTeam', name, description);
+        
+        $("#name").val("");
+        $("#description").val("");
+        //$(event.currentTarget).
     },
     
     'click a[name="deleteTeamBtn"]': function(event) {
