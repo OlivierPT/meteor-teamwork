@@ -84,7 +84,7 @@ Meteor.methods({
 
     'addCommentToTask': function(task, comment) {
       console.log("MethodCall : addCommentToTask - id = "+task._id+", comment = "+comment);
-      Task.update({_id: task._id}, {$push: {comments: {content: comment, author: Meteor.userId(), dateCreate: $currentDate}}});
+      Task.update({_id: task._id}, {$push: {comments: {content: comment, author: Meteor.userId(), dateCreate: new Date()}}});
       console.log("Tasks store");
     }
 

@@ -3,21 +3,21 @@
 /*****************************************************************************/
 Template.Activity.events({
     'click #addStateBtn': function() {
-        var activityId = $('#addStateForm #addStateBtn').attr("data-activity-id");
-        var label = $('#addStateForm input#stateLabel').val();
+        var activityId = $('#addStateBtn').attr("data-activity-id");
+        var label = $('input#stateLabel').val();
         Meteor.call('addState', label, activityId);
 
-        $('#addStateForm input#stateLabel').val("");
+        $('input#stateLabel').val("");
     },
 
-    'click #addTaskBtn': function(event) {
+    'click button[name="addTaskBtn"]': function(event) {
         var stateId = event.target.getAttribute("data-state-id");
         var activityId = event.target.getAttribute("data-activity-id");
-        var label = $('#addTaskForm input#taskName' + stateId).val();
+        var label = $('input#taskName' + stateId).val();
 
         Meteor.call('addTask', label, activityId, stateId);
 
-        $('#addTaskForm input#taskName' + stateId).val("");
+        $('input#taskName' + stateId).val("");
     },
 
     'click a[name="deleteState"]': function(event) {
@@ -68,6 +68,8 @@ Template.TaskDetail.events({
       var currentTask = Task.findOne({_id: Session.get("selectedTask")});
 
       Meteor.call('addCommentToTask', currentTask, comment);
+      
+      $('#comment').val("");
   }
 
 
