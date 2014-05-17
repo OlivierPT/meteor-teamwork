@@ -9,10 +9,20 @@ Meteor.methods({
       Team.insert({name: name, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
       console.log("Team created");
     },
+    
+    'updateTeam': function (team) {
+      console.log("MethodCall : updateTeamInfos - id = "+team._id);
+      Team.update({_id: team._id}, team);
+      console.log("Team updated");
+    },
 
-    'addMember': function (teamId, userId) {
-      console.log("MethodCall : addMember - userId = "+userId);
-      Team.update({_id: teamId},{$push: {members: userId}});
+    'addMember': function (teamId, userEmail) {
+      console.log("MethodCall : addMember - userEmail = "+userEmail);
+      // First finding the Id from the UserProfile collection
+      var userProfile = UserProfile.findOne({email: userEmail});
+      console.log("User found - userId = "+userProfile.userId);
+      // Using the userId for the link in the team
+      Team.update({_id: teamId},{$push: {members: userProfile.userId}});
       console.log("Team memeber added");
     },
 

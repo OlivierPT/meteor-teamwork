@@ -16,51 +16,54 @@
                                 <div role="form" id="teamForm">
                                     <div class="form-group">
                                         <label for="name">Name</label>
-                                        <input type="text" class="form-control" id="name" placeholder="Team name" value="{{name}}">
+                                        <input type="text" class="form-control" id="teamName" placeholder="Team name" value="{{name}}">
                                     </div>
                                     <div class="form-group">
                                         <label for="description">Description</label>
-                                        <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
+                                        <textarea type="text" class="form-control" id="teamDescription" placeholder="Add descprition">{{description}}</textarea>
                                     </div>
                                     <div class="btn-group">
-                                        <button class="btn btn-default" id="createTeamBtn">Save</button>
+                                        <button class="btn btn-default" id="saveTeamInfoBtn">Save</button>
                                     </div>                        
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> <!-- end col Team info -->
                     <div class="col-xs-6 col-md-6">
                         <!-- Member list -->
                         <div class="panel panel-default">
                             <div class="panel-heading">Member List</div>
                             <div  class="panel-body">
-                                <div class="form-group">
-                                    {{> inputAutocomplete settings=settings id="msg" class="form-control" placeholder="Id user"}}
+                                <div class="input-group">
+                                    {{> inputAutocomplete settings=settings id="newMember" class="form-control" placeholder="New memeber"}}
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button" id="addMember">Add</button>
+                                    </span>
                                 </div>
 
 
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Id</th>
-                                            <th>Username</th>
+                                            <th>Firstname</th>
+                                            <th>Name</th>
                                             <th>Email</th>
-                                            <th>Member</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
                                     <tbody>
 
                                         {{#each users}}
                                         <tr>
-                                            <td>{{_id}}</td>
-                                            <td>{{username}}</td>
-                                            <td>{{firstEmail}}</td>
+                                            <td>{{firstname}}</td>
+                                            <td>{{name}}</td>
+                                            <td>{{email}}</td>
                                             <td>
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox" name="isMemberCheck" data-member-id="{{_id}}" {{isMember}}>
-                                                    </label>
-                                                </div>
+                                                <a href="#" role="button" data-user-id="{{userId}}" name="removeMember">
+                                                    <span class="badge pull-right">
+                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                    </span>
+                                                </a>
                                             </td>
                                         </tr>   
                                         {{/each}}
@@ -68,8 +71,8 @@
                                 </table>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div> <!-- end col team members -->
+                </div> <!-- end row -->
             </div>
         </div>
     </div>

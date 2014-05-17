@@ -2,17 +2,29 @@
 /* Team: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.Team.events({
-    'click input[name="isMemberCheck"]': function(event) {
+    'click a[name="removeMember"]': function(event) {
         var val = event.currentTarget.value;
-        var memberId = event.currentTarget.getAttribute("data-member-id");
+        var userId = event.currentTarget.getAttribute("data-user-id");
         var team = Session.get("team");
-        if (val === "true") {
-            Meteor.call('addMember', team._id, memberId);
-        } else {
-            Meteor.call('removeMember', team._id, memberId);
-        }
 
+        Meteor.call('removeMember', team._id, userId);
     },
+    
+    'click #addMember': function(event) {
+        var memberEmail = $("#newMember").val();
+        var team = Session.get("team");
+        Meteor.call('addMember', team._id, memberEmail);
+    },
+    
+    'click #saveTeamInfoBtn': function(event) {
+        var teamName = $("#teamName").val();
+        var teamDesc = $("#teamDescription"). val();
+        var team = Session.get("team");
+        team.name = teamName;
+        team.description = teamDesc;
+        
+        Meteor.call('updateTeam', team);
+    }
 });
 Template.Team.settings = function() {
     return {
@@ -30,25 +42,18 @@ Template.Team.settings = function() {
 };
 Template.Team.helpers({
     users: function() {
-        return Meteor.users.find();
+        var team = Session.get("team");
+        return UserProfile.find({userId: { $in: team.members}});
     },
     firstEmail: function() {
         return this.emails[0].address;
     },
     teamId: function() {
         Session.set("teamId", this._id)
-    },
-    isMember: function(currentUser) {
-        var team = Session.get("team");
-        if (team) {
-            return _.contains(team.members, currentUser) ? 'checked' : '';
-        } else {
-            return "";
-        }
     }
 });
+
 Template.UserPill.helpers({
-    
     labelClass: function() {
         if (this._id === Meteor.userId()) {
             return "label-warning";
