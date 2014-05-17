@@ -13,7 +13,7 @@ Template.Team.events({
     'click #addMember': function(event) {
         var memberEmail = $("#newMember").val();
         var team = Session.get("team");
-        Meteor.call('addMember', team._id, memberEmail);
+        Meteor.call('addMemberWithEmail', team._id, memberEmail);
     },
     
     'click #saveTeamInfoBtn': function(event) {
