@@ -19,7 +19,6 @@ Meteor.methods({
         
         // First creating a Team for the new Activity
         var teamId =  Meteor.call('createTeam', name, name+ " Team");
-        Meteor.call('addMemberWithId', teamId, Meteor.userId());
         
         var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId});
 

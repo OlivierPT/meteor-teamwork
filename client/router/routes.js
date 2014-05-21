@@ -45,7 +45,7 @@ Router.map(function() {
         path: '/team/:_id',
         waitOn: function() {
             return  [
-                Meteor.subscribe('teams', this.params._id),
+                Meteor.subscribe('teams'),
                 Meteor.subscribe('userProfiles')
             ];
         },
@@ -53,7 +53,6 @@ Router.map(function() {
             return Team.findOne({_id: this.params._id});
         },
         onAfterAction: function() {
-            Session.set("teamId", this.params._id);
             Session.set("team", Team.findOne({_id: this.params._id}));
         }
     });

@@ -1,3 +1,4 @@
+
 /*****************************************************************************/
 /* Team: Event Handlers and Helpers */
 /*****************************************************************************/
@@ -8,21 +9,24 @@ Template.Team.events({
         var team = Session.get("team");
 
         Meteor.call('removeMember', team._id, userId);
+        
+        if (userId === Meteor.userId()) {
+            console.log("Removing myself from the current team");
+            Router.go('Teams');
+        }
     },
-    
     'click #addMember': function(event) {
         var memberEmail = $("#newMember").val();
         var team = Session.get("team");
         Meteor.call('addMemberWithEmail', team._id, memberEmail);
     },
-    
     'click #saveTeamInfoBtn': function(event) {
         var teamName = $("#teamName").val();
-        var teamDesc = $("#teamDescription"). val();
+        var teamDesc = $("#teamDescription").val();
         var team = Session.get("team");
         team.name = teamName;
         team.description = teamDesc;
-        
+
         Meteor.call('updateTeam', team);
     }
 });
@@ -43,13 +47,7 @@ Template.Team.settings = function() {
 Template.Team.helpers({
     users: function() {
         var team = Session.get("team");
-        return UserProfile.find({userId: { $in: team.members}});
-    },
-    firstEmail: function() {
-        return this.emails[0].address;
-    },
-    teamId: function() {
-        Session.set("teamId", this._id)
+        return UserProfile.find({userId: {$in: team.members}});
     }
 });
 

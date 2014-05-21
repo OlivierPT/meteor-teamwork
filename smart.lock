@@ -5,7 +5,8 @@
       "iron-router": {},
       "bootstrap-3": {},
       "accounts-ui-bootstrap-3": {},
-      "autocomplete": {}
+      "autocomplete": {},
+      "reactive-publish": {}
     },
     "packages": {
       "iron-router": {
@@ -28,6 +29,11 @@
         "tag": "v0.4.4",
         "commit": "1ffada2f92b323668e44ae5cfc5d1776b12987d0"
       },
+      "reactive-publish": {
+        "git": "https://github.com/Diggsey/meteor-reactive-publish.git",
+        "tag": "v0.1.6",
+        "commit": "dd8c149f109a1f3d1cac7e36293cf5904538ca90"
+      },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",
         "tag": "v0.2.4",
@@ -37,6 +43,11 @@
         "git": "https://github.com/StockBase/meteor-caret-position.git",
         "tag": "v2.1.0-3",
         "commit": "6028cf980f62cbf72cb2ea527091a3a31f87b8a7"
+      },
+      "server-deps": {
+        "git": "https://github.com/Diggsey/meteor-server-deps.git",
+        "tag": "v0.1.2",
+        "commit": "2db5d15fad9240723549cbbc5260a74b6b7e1c61"
       }
     }
   }

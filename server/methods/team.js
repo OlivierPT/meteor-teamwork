@@ -6,8 +6,9 @@ Meteor.methods({
 
   'createTeam': function (name, description) {
       console.log("MethodCall : createTeam - name = "+name);
-      Team.insert({name: name, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
-      console.log("Team created");
+      var teamId = Team.insert({name: name, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
+      console.log("Team created : "+teamId);
+      return teamId;
     },
     
     'updateTeam': function (team) {
@@ -30,6 +31,7 @@ Meteor.methods({
       console.log("User found - userId = "+userProfile.userId);
       // Using the userId for the link in the team
       Team.update({_id: teamId},{$push: {members: userProfile.userId}});
+      Activity.update({team: teamId}, {$set: {teamUpdate: new Date()}});
       console.log("Team memeber added");
     },
 

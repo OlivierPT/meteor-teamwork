@@ -2,8 +2,8 @@
 /* Menu: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.Menu.events({
-  'click #createActivityBtn': function() {
-        var name = $('#createActivityForm input#activityName').val();        
+    'click #createActivityBtn': function() {
+        var name = $('#createActivityForm input#activityName').val();
         Meteor.call('createActivity', name);
         // Reset the input
         $('#createActivityForm input#activityName').val("");
@@ -11,7 +11,6 @@ Template.Menu.events({
 });
 
 Template.Menu.helpers({
-    
     activities: function() {
         return Activity.find();
     }
@@ -20,11 +19,11 @@ Template.Menu.helpers({
 /*****************************************************************************/
 /* Menu: Lifecycle Hooks */
 /*****************************************************************************/
-Template.Menu.created = function () {
+Template.Menu.created = function() {
 };
 
-Template.Menu.rendered = function () {
+Template.Menu.rendered = function() {
 };
 
-Template.Menu.destroyed = function () {
+Template.Menu.destroyed = function() {
 };

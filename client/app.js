@@ -13,6 +13,6 @@ _.each(App.helpers, function(helper, key) {
 
 Deps.autorun(function(){
   if(Meteor.userId()){
-    Meteor.subscribe('userActivities', Meteor.userId());
+    Meteor.subscribe('userActivities');
   }
 });
