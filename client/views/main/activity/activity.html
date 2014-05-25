@@ -11,9 +11,37 @@
             <div class="panel-body">
                 <div class="well">
                     <div class="row">
-                        <div class="col-xs-4 col-md-4 pull-right">
+                        <div class="col-xs-4 col-md-4">
                             <div class="input-group">
-                                <input id="stateLabel" type="text" class="form-control" placeholder="State Label">
+                                <select class="form-control" id="teamSelect">
+                                    {{#each teams}}
+                                    <option value="{{_id}}" {{selectedTeam}}>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                                <span class="input-group-btn">
+                                    <button id="teamDetailBtn" class="btn btn-default" data-activity-id="{{_id}}" data-container="body" data-toggle="popover">Detail</button>
+                                </span>
+                                <div id="teamDetail-content" class="hide">
+                                    <div class="list-group">
+                                        <h4 class="list-group-item-heading">Members</h4>
+                                        {{#each members}}                                        
+                                            <p class="list-group-item-text">{{nickName}} - {{firstName}} {{name}}</p>                                        
+                                        {{/each}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4">
+                            <div class="input-group">
+                                {{> inputAutocomplete settings=userSuggestSetting id="newMember" class="form-control" placeholder="Add member"}}
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button" id="addMember">Add</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-xs-4 col-md-4">
+                            <div class="input-group">
+                                <input id="stateLabel" type="text" class="form-control" placeholder="Add state">
                                 <span class="input-group-btn">
                                     <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
                                 </span>
@@ -47,7 +75,7 @@
                         </div>
                         <div class="panel-footer">                            
                             <div class="input-group" name="addTaskForm">
-                                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="Task Label">
+                                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
                                 <span class="input-group-btn">
                                     <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
                                 </span>
@@ -119,4 +147,8 @@
         </div>
         {{/with}}
     </div>
+</template>
+
+<template name="ActivityUserSuggest">
+    <span class="label {{labelClass}}" data-member-userId="{{userId}}">{{firstName}} {{name}} - {{email}}</span>
 </template>

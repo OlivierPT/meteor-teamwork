@@ -35,7 +35,7 @@
                             <div class="panel-heading">Member List</div>
                             <div  class="panel-body">
                                 <div class="input-group">
-                                    {{> inputAutocomplete settings=settings id="newMember" class="form-control" placeholder="New memeber"}}
+                                    {{> inputAutocomplete settings=userSuggestSetting id="newMember" class="form-control" placeholder="New member"}}
                                     <span class="input-group-btn">
                                         <button class="btn btn-default" type="button" id="addMember">Add</button>
                                     </span>
@@ -45,6 +45,7 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Nick name</th>
                                             <th>Firstname</th>
                                             <th>Name</th>
                                             <th>Email</th>
@@ -55,6 +56,7 @@
 
                                         {{#each users}}
                                         <tr>
+                                            <td>{{nickName}}</td>
                                             <td>{{firstName}}</td>
                                             <td>{{name}}</td>
                                             <td>{{email}}</td>
@@ -78,6 +80,6 @@
     </div>
 </template>
 
-<template name="UserPill">
-    <span class="label {{labelClass}}" data-member-userId="{{userId}}">{{firstName}} {{name}} - {{email}}</span>
+<template name="TeamMemberSuggest">
+    <span class="label {{labelClass}}" data-member-userId="{{userId}}">>{{firstName}} {{name}} - {{email}}</span>
 </template>

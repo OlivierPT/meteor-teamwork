@@ -20,6 +20,7 @@ Template.Team.events({
         var team = Session.get("team");
         Meteor.call('addMemberWithEmail', team._id, memberEmail);
     },
+    
     'click #saveTeamInfoBtn': function(event) {
         var teamName = $("#teamName").val();
         var teamDesc = $("#teamDescription").val();
@@ -30,7 +31,8 @@ Template.Team.events({
         Meteor.call('updateTeam', team);
     }
 });
-Template.Team.settings = function() {
+
+Template.Team.userSuggestSetting = function() {
     return {
         position: "bottom",
         limit: 5,
@@ -39,11 +41,12 @@ Template.Team.settings = function() {
                 collection: UserProfile,
                 field: "email",
                 matchAll: true,
-                template: Template.UserPill
+                template: Template.TeamMemberSuggest
             }
         ]
     }
 };
+
 Template.Team.helpers({
     users: function() {
         var team = Session.get("team");
@@ -51,14 +54,12 @@ Template.Team.helpers({
     }
 });
 
-Template.UserPill.helpers({
+Template.TeamMemberSuggest.helpers({
     labelClass: function() {
-        if (this._id === Meteor.userId()) {
+        if (this.userId === Meteor.userId()) {
             return "label-warning";
-        } else if (this.profile.online === true) {
-            return "label-success";
         } else {
-            return "";
+            return "label-default";
         }
     }
 });
@@ -66,12 +67,11 @@ Template.UserPill.helpers({
 /* Team: Lifecycle Hooks */
 /*****************************************************************************/
 Template.Team.created = function() {
-    console.log("Team memeber added");
+    
 };
 Template.Team.rendered = function() {
-    var checkBoxes = this.findAll("input[name='isMemberCheck']");
-    console.log("Team memeber added");
+    
 };
 Template.Team.destroyed = function() {
-    console.log("Team memeber added");
+   
 };

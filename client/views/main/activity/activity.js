@@ -30,6 +30,18 @@ Template.Activity.events({
         var taskId = $( event.currentTarget ).attr("data-task-id");
 
         Session.set("selectedTask",taskId);
+    },
+    
+    'click #addMember': function(event) {
+        var memberEmail = $("#newMember").val();
+        Meteor.call('addMemberWithEmail', this.team, memberEmail);
+    },
+    
+    'change #teamSelect': function(event) {
+        var teamSelected = $( event.currentTarget ).val();
+        var activity = Session.get("activity");
+        
+        Meteor.call('changeTeamActivity', activity._id, teamSelected);
     }
 });
 
@@ -39,8 +51,45 @@ Template.Activity.helpers({
     },
     tasks: function() {
         return Task.find({state: this._id});
+    },
+    teams: function() {
+        return Team.find();
+    },
+    selectedTeam: function() {
+        var activity = Session.get("activity");
+        var teamActivity = activity.team;
+        if (teamActivity == this._id) {
+            return "selected";
+        } else {
+            return "";
+        };
+    },
+    members: function() {
+        var activity = Session.get("activity");
+        var team = Team.find({_id : activity.team})
+        return UserProfile.find({userId: {$in: team.members}});;
     }
 });
+
+/**
+ * Setting for member autocomplete
+ * 
+ * @returns {Template.Activity.memberSuggest.Anonym$3}
+ */
+Template.Activity.userSuggestSetting = function() {
+    return {
+        position: "bottom",
+        limit: 5,
+        rules: [
+            {
+                collection: UserProfile,
+                field: "email",
+                matchAll: true,
+                template: Template.ActivityUserSuggest
+            }
+        ]
+    }
+};
 
 /*****************************************************************************/
 /* TaskDetail: Event Handlers and Helpers */
@@ -88,6 +137,28 @@ Template.TaskDetail.helpers({
     }
 });
 
+/*****************************************************************************/
+/* UserSuggest: Event Handlers and Helpers */
+/*****************************************************************************/
+Template.ActivityUserSuggest.events({
+    /*
+     * Example: 
+     *  'click .selector': function (e, tmpl) {
+     *
+     *  }
+     */
+});
+
+Template.ActivityUserSuggest.helpers({
+    
+    labelClass: function() {
+        if (this.userId === Meteor.userId()) {
+            return "label-warning";
+        } else {
+            return "label-default";
+        }
+    }
+});
 
 /*****************************************************************************/
 /* Activity: Lifecycle Hooks */
@@ -96,6 +167,13 @@ Template.Activity.created = function() {
 };
 
 Template.Activity.rendered = function() {
+     $("#teamDetailBtn").popover({
+        html: true,
+        title: 'Team detail',
+        content: function() {
+            return $("#teamDetail-content").html();
+        }
+    });
 };
 
 Template.Activity.destroyed = function() {

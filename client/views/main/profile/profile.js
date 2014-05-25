@@ -3,11 +3,13 @@
 /*****************************************************************************/
 Template.Profile.events({
   'click #saveProfileBtn': function(event) {
+        var nickName = $("#nickName").val();
         var firstName = $("#firstName").val();
         var name = $("#name"). val();
         var id = $("#idProfile").val();
         
         var profile = UserProfile.findOne({_id: id});
+        profile.nickName = nickName;
         profile.firstName = firstName;
         profile.name = name;
                 

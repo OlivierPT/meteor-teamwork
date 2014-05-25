@@ -27,6 +27,12 @@ Meteor.methods({
         State.insert({activity: actvityId, label: "Done", position: 3});
         console.log("Activity created");
     },
+    
+    'changeTeamActivity': function(activityId, teamId) {
+        console.log("MethodCall : changeTeamActivity - activity = "+activityId+" team = "+teamId);
+        Activity.update({_id:activityId}, {$set: {team: teamId}});
+        console.log("Activity team changed");
+    },
 
     /**
      * Add a State to an activity. The state is added as the last state
