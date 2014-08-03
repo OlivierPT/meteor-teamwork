@@ -29,10 +29,7 @@ Router.map(function() {
             ];
         },
         data: function() {
-            return Activity.findOne({_id: this.params._id});
-        },
-        onAfterAction: function() {
-            Session.set("activity", Activity.findOne({_id: this.params._id}));
+            return Activity.findOne({_id: this.params._id});;
         }
     });
 

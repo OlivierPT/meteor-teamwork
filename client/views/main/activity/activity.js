@@ -9,7 +9,6 @@ Template.Activity.events({
 
         $('input#stateLabel').val("");
     },
-
     'click button[name="addTaskBtn"]': function(event) {
         var stateId = event.target.getAttribute("data-state-id");
         var activityId = event.target.getAttribute("data-activity-id");
@@ -19,33 +18,33 @@ Template.Activity.events({
 
         $('input#taskName' + stateId).val("");
     },
-
     'click a[name="deleteState"]': function(event) {
         var stateId = event.currentTarget.getAttribute("data-state-id");
 
         Meteor.call('removeState', stateId);
     },
-
     'click a[name="taskSummary"]': function(event) {
-        var taskId = $( event.currentTarget ).attr("data-task-id");
+        var taskId = $(event.currentTarget).attr("data-task-id");
 
-        Session.set("selectedTask",taskId);
+        Session.set("selectedTask", taskId);
     },
-    
     'click #addMember': function(event) {
         var memberEmail = $("#newMember").val();
         Meteor.call('addMemberWithEmail', this.team, memberEmail);
     },
-    
     'change #teamSelect': function(event) {
-        var teamSelected = $( event.currentTarget ).val();
+        var teamSelected = $(event.currentTarget).val();
         var activity = Session.get("activity");
-        
+
         Meteor.call('changeTeamActivity', activity._id, teamSelected);
     }
 });
 
 Template.Activity.helpers({
+    initSession: function(id) {         
+        Session.set("activity", Activity.findOne({_id: id}));
+        return id;
+    },
     states: function() {
         return State.find();
     },
@@ -56,18 +55,24 @@ Template.Activity.helpers({
         return Team.find();
     },
     selectedTeam: function() {
-        var activity = Session.get("activity");
-        var teamActivity = activity.team;
-        if (teamActivity == this._id) {
-            return "selected";
+        var activity = Session.get("activity");    
+        if (team) {
+            var teamActivity = activity.team;
+            if (teamActivity == this._id) {
+                return "selected";
+            } 
         } else {
             return "";
         };
     },
     members: function() {
-        var activity = Session.get("activity");
-        var team = Team.find({_id : activity.team})
-        return UserProfile.find({userId: {$in: team.members}});;
+        var activity = Session.get("activity"); 
+        if (activity) {
+            var team = Team.findOne({_id: activity.team})
+            return UserProfile.find({userId: {$in: team.members}});
+        } else {
+            return [];
+        }
     }
 });
 
@@ -95,31 +100,29 @@ Template.Activity.userSuggestSetting = function() {
 /* TaskDetail: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.TaskDetail.events({
-  'click button#saveTaskBtn': function(event) {
-      var desc = $('#description').val();
-      var state = $('#taskState').val();
+    'click button#saveTaskBtn': function(event) {
+        var desc = $('#description').val();
+        var state = $('#taskState').val();
 
-      var currentTask = Task.findOne({_id: Session.get("selectedTask")});
-      currentTask.description = desc;
-      currentTask.state = state;
+        var currentTask = Task.findOne({_id: Session.get("selectedTask")});
+        currentTask.description = desc;
+        currentTask.state = state;
 
-      Meteor.call('storeTask', currentTask);
-      $('#taskModal').modal('hide');
-  },
+        Meteor.call('storeTask', currentTask);
+        $('#taskModal').modal('hide');
+    },
+    'click button#deleteTaskBtn': function(event) {
+        Meteor.call('removeTask', Session.get("selectedTask"));
+        $('#taskModal').modal('hide');
+    },
+    'click button#addCommentBtn': function(event) {
+        var comment = $('#comment').val();
+        var currentTask = Task.findOne({_id: Session.get("selectedTask")});
 
-  'click button#deleteTaskBtn': function(event) {
-      Meteor.call('removeTask', Session.get("selectedTask"));
-      $('#taskModal').modal('hide');
-  },
+        Meteor.call('addCommentToTask', currentTask, comment);
 
-  'click button#addCommentBtn': function(event) {
-      var comment = $('#comment').val();
-      var currentTask = Task.findOne({_id: Session.get("selectedTask")});
-
-      Meteor.call('addCommentToTask', currentTask, comment);
-      
-      $('#comment').val("");
-  }
+        $('#comment').val("");
+    }
 
 
 });
@@ -150,7 +153,6 @@ Template.ActivityUserSuggest.events({
 });
 
 Template.ActivityUserSuggest.helpers({
-    
     labelClass: function() {
         if (this.userId === Meteor.userId()) {
             return "label-warning";
@@ -167,12 +169,25 @@ Template.Activity.created = function() {
 };
 
 Template.Activity.rendered = function() {
-     $("#teamDetailBtn").popover({
+    // Activating popover on temaDetail button 
+    $("#teamDetailBtn").popover({
         html: true,
         title: 'Team detail',
         content: function() {
             return $("#teamDetail-content").html();
         }
+    });
+
+    // Activiating popover on stateInfo
+    $("span[name='stateInfo'][data-toggle='popover']").each(function(index) {
+        $(this).popover({
+            html: true,
+            title: 'State options',
+            placement: 'top',
+            content: function() {
+                return $(this).next("div[name='stateInfo-content']").html();
+            }
+        });
     });
 };
 

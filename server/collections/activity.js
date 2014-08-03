@@ -15,7 +15,7 @@ Meteor.reactivePublish('userActivities', function() {
         var teamIds = userTeams.map(function(p) {
             return p._id
         });
-        console.log("PublishCollection : userActivities - userId = " + this.userId);
+        console.log("PublishCollection : userActivities - userId = " + this.userId+" teams authorized = "+teamIds);
         return Activity.find({team: {$in: teamIds}});
     }
 });

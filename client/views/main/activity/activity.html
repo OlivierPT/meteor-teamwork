@@ -1,9 +1,15 @@
 <template name="Activity">
     <div class="container-fluid">
         <!-- Activity function -->
-        <div class="panel panel-primary" id="activityPanel" data-activity-id="{{_id}}">
+        <div class="panel panel-primary" id="activityPanel" data-activity-id="{{initSession _id}}">
             <div class="panel-heading">
-                <h2 class="panel-title">{{name}}</h2>                
+                <h2 class="panel-title">{{name}}
+                    <a href="#" role="button" data-activity-id="{{_id}}" name="deleteActivity">
+                        <span class="badge">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </span>
+                    </a>
+                </h2>
             </div>
 
 
@@ -25,7 +31,7 @@
                                     <div class="list-group">
                                         <h4 class="list-group-item-heading">Members</h4>
                                         {{#each members}}                                        
-                                            <p class="list-group-item-text">{{nickName}} - {{firstName}} {{name}}</p>                                        
+                                        <p class="list-group-item-text">{{nickName}} - {{firstName}} {{name}}</p>                                        
                                         {{/each}}
                                     </div>
                                 </div>
@@ -57,11 +63,15 @@
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <span>{{label}}</span>
-                            <a href="#" role="button" data-state-id="{{_id}}" name="deleteState">
-                                <span class="badge pull-right">
-                                    <span class="glyphicon glyphicon-remove"></span>
+                            <a href="#" role="button">
+                                <span class="badge pull-right" name="stateInfo" data-container="body" data-toggle="popover">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
                                 </span>
                             </a>
+                            <div name="stateInfo-content" class="hide">
+                                    Info state : {{_id}}
+                            </div>
+
                         </div>
                         <div class="panel-body">
                             <div class="list-group">
