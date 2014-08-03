@@ -16,9 +16,9 @@ Template.Team.events({
         }
     },
     'click #addMember': function(event) {
-        var memberEmail = $("#newMember").val();
+        var username = $("#newMember").val();
         var team = Session.get("team");
-        Meteor.call('addMemberWithEmail', team._id, memberEmail);
+        Meteor.call('addMemberWithUsername', team._id, username);
     },
     
     'click #saveTeamInfoBtn': function(event) {
@@ -38,8 +38,8 @@ Template.Team.userSuggestSetting = function() {
         limit: 5,
         rules: [
             {
-                collection: UserProfile,
-                field: "email",
+                collection: Meteor.users,
+                field: "username",
                 matchAll: true,
                 template: Template.TeamMemberSuggest
             }
@@ -50,7 +50,7 @@ Template.Team.userSuggestSetting = function() {
 Template.Team.helpers({
     users: function() {
         var team = Session.get("team");
-        return UserProfile.find({userId: {$in: team.members}});
+        return Meteor.users.find({_id: {$in: team.members}});
     }
 });
 

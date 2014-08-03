@@ -45,10 +45,9 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Nick name</th>
-                                            <th>Firstname</th>
-                                            <th>Name</th>
-                                            <th>Email</th>
+                                            <th>Username</th>
+                                            <th>First name</th>
+                                            <th>Last name</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -56,10 +55,9 @@
 
                                         {{#each users}}
                                         <tr>
-                                            <td>{{nickName}}</td>
-                                            <td>{{firstName}}</td>
-                                            <td>{{name}}</td>
-                                            <td>{{email}}</td>
+                                            <td>{{username}}</td>
+                                            <td>{{profile.firstname}}</td>
+                                            <td>{{profile.lastname}}</td>
                                             <td>
                                                 <a href="#" role="button" data-user-id="{{userId}}" name="removeMember">
                                                     <span class="badge pull-right">
@@ -81,5 +79,5 @@
 </template>
 
 <template name="TeamMemberSuggest">
-    <span class="label {{labelClass}}" data-member-userId="{{userId}}">>{{firstName}} {{name}} - {{email}}</span>
+    <span class="label {{labelClass}}" data-member-userId="{{_id}}">>{{firstname}} {{lastname}} - {{username}}</span>
 </template>

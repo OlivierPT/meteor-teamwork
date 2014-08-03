@@ -24,7 +24,6 @@ Router.map(function() {
             return  [
                 Meteor.subscribe('stateByActivity', this.params._id),
                 Meteor.subscribe('tasksByActivity', this.params._id),
-                Meteor.subscribe('userProfiles'),
                 Meteor.subscribe('teams')
             ];
         },
@@ -48,7 +47,6 @@ Router.map(function() {
         waitOn: function() {
             return  [
                 Meteor.subscribe('teams'),
-                Meteor.subscribe('userProfiles')
             ];
         },
         data: function() {
@@ -61,11 +59,8 @@ Router.map(function() {
 
     this.route('Profile', {
         path: '/profile',
-        waitOn: function() {
-            return  Meteor.subscribe('userProfile');
-        },
         data: function() {
-            return UserProfile.findOne();
+            return Meteor.user();
         }
     });
 

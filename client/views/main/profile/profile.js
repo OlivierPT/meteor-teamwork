@@ -3,17 +3,14 @@
 /*****************************************************************************/
 Template.Profile.events({
   'click #saveProfileBtn': function(event) {
-        var nickName = $("#nickName").val();
-        var firstName = $("#firstName").val();
-        var name = $("#name"). val();
-        var id = $("#idProfile").val();
+        var firstname = $("#firstname").val();
+        var lastname = $("#lastname"). val();      
         
-        var profile = UserProfile.findOne({_id: id});
-        profile.nickName = nickName;
-        profile.firstName = firstName;
-        profile.name = name;
-                
-        Meteor.call('updateProfile', profile);
+        var profile = new Object();
+        profile.firstname = firstname;
+        profile.lastname = lastname;
+        
+        Meteor.call('updateUserProfile', profile);
     }
 });
 

@@ -9,18 +9,18 @@
             <div class="panel-body">
                 <!-- Team creation -->
                 <div role="form" id="profileForm">
-                    <input type="hidden" id="idProfile" value="{{_id}}">
+                    <input type="hidden" id="userId" value="{{_id}}">
                     <div class="form-group">
-                        <label for="name">Nick name</label>
-                        <input type="text" class="form-control" id="nickName" size="7" placeholder="Nick name" value="{{nickName}}">
+                        <label for="name">Username</label>
+                        <input type="text" class="form-control" id="username" size="7" placeholder="Nick name" disabled="disabled" value="{{username}}">
                     </div>
                     <div class="form-group">
                         <label for="name">Firstname</label>
-                        <input type="text" class="form-control" id="firstName" placeholder="Firstname" value="{{firstName}}">
+                        <input type="text" class="form-control" id="firstname" placeholder="Firstname" value="{{profile.firstname}}">
                     </div>
                     <div class="form-group">
-                        <label for="description">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Name" value="{{name}}">
+                        <label for="description">Lastname</label>
+                        <input type="text" class="form-control" id="lastname" placeholder="Lastname" value="{{profile.lastname}}">
                     </div>
                     <button class="btn btn-default" id="saveProfileBtn">Save</button>
                 </div>

@@ -24,13 +24,13 @@ Meteor.methods({
       console.log("Team memeber added");
     },
 
-    'addMemberWithEmail': function (teamId, userEmail) {
+    'addMemberWithUsername': function (teamId, username) {
       console.log("MethodCall : addMember - userEmail = "+userEmail);
       // First finding the Id from the UserProfile collection
-      var userProfile = UserProfile.findOne({email: userEmail});
-      console.log("User found - userId = "+userProfile.userId);
+      var user = Meteor.users.find({username: username});
+      console.log("User found - userId = "+user._id);
       // Using the userId for the link in the team
-      Team.update({_id: teamId},{$push: {members: userProfile.userId}});
+      Team.update({_id: teamId},{$push: {members: user._id}});
       Activity.update({team: teamId}, {$set: {teamUpdate: new Date()}});
       console.log("Team memeber added");
     },

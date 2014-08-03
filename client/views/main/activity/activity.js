@@ -69,7 +69,7 @@ Template.Activity.helpers({
         var activity = Session.get("activity"); 
         if (activity) {
             var team = Team.findOne({_id: activity.team})
-            return UserProfile.find({userId: {$in: team.members}});
+            return Meteor.users.find({userId: {$in: team.members}});
         } else {
             return [];
         }
@@ -87,8 +87,8 @@ Template.Activity.userSuggestSetting = function() {
         limit: 5,
         rules: [
             {
-                collection: UserProfile,
-                field: "email",
+                collection: Meteor.users,
+                field: "username",
                 matchAll: true,
                 template: Template.ActivityUserSuggest
             }

@@ -31,7 +31,7 @@
                                     <div class="list-group">
                                         <h4 class="list-group-item-heading">Members</h4>
                                         {{#each members}}                                        
-                                        <p class="list-group-item-text">{{nickName}} - {{firstName}} {{name}}</p>                                        
+                                        <p class="list-group-item-text">{{username}} - {{profile.firstname}} {{profile.lastname}}</p>                                        
                                         {{/each}}
                                     </div>
                                 </div>
@@ -160,5 +160,5 @@
 </template>
 
 <template name="ActivityUserSuggest">
-    <span class="label {{labelClass}}" data-member-userId="{{userId}}">{{firstName}} {{name}} - {{email}}</span>
+    <span class="label {{labelClass}}" data-member-userId="{{_id}}">>{{firstname}} {{lastname}} - {{username}}</span>
 </template>
