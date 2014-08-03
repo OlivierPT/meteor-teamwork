@@ -16,3 +16,7 @@ Deps.autorun(function(){
     Meteor.subscribe('userActivities');
   }
 });
+
+Accounts.ui.config({
+  passwordSignupFields: 'USERNAME_AND_OPTIONAL_EMAIL'
+});
