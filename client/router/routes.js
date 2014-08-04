@@ -11,11 +11,17 @@ Router.configure({
 
 Router.map(function() {
     this.route('App', {
-        path: '/'
+        path: '/',
+        waitOn: function() {
+            return Meteor.subscribe('teams');
+        }
     });
 
     this.route('App', {
-        path: '/home'
+        path: '/home',
+        waitOn: function() {
+            return Meteor.subscribe('teams');
+        }
     });
 
     this.route('Activity', {
@@ -45,9 +51,7 @@ Router.map(function() {
     this.route('Team', {
         path: '/team/:_id',
         waitOn: function() {
-            return  [
-                Meteor.subscribe('teams'),
-            ];
+            return Meteor.subscribe('teams');
         },
         data: function() {
             return Team.findOne({_id: this.params._id});

@@ -29,13 +29,6 @@
                         </ul>
                     </li>
                 </ul>
-
-                <div id="createActivityForm" class="navbar-form navbar-left" role="form">
-                    <div class="form-group">
-                        <input id="activityName" type="text" class="form-control" placeholder="Create Activity">
-                    </div>
-                    <button id="createActivityBtn" class="btn btn-default">Create</button>
-                </div>
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
@@ -54,6 +47,19 @@
                         </ul>
                     </li>
                 </ul>
+                <div id="createActivityForm" class="navbar-form navbar-left" role="form">
+                    <div class="form-group">
+                        <input id="activityName" type="text" class="form-control" placeholder="Create Activity">
+                        <select class="form-control" id="teamSelect">
+                            <option value="new" selected="selected">New team</option>
+                            {{#each teams}}
+                            <option value="{{_id}}">{{name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                    <button id="createActivityBtn" class="btn btn-default">Create</button>
+                </div>
+
 
                 <div id="searchForm" class="navbar-form navbar-left" role="search">
                     <div class="form-group">

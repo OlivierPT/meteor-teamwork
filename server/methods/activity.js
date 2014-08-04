@@ -13,12 +13,17 @@ Meteor.methods({
      * @param {type} userId
      * @returns {undefined}
      */
-    'createActivity': function(name) {
+    'createActivity': function(name, teamValue) {
         console.log("MethodCall : createActivity - name = "+name);
+        console.log("MethodCall : createActivity - teamValue = "+teamValue);
         console.log("MethodCall : createActivity - currentUser = "+Meteor.userId());
         
         // First creating a Team for the new Activity
-        var teamId =  Meteor.call('createTeam', name, name+ " Team");
+        var teamId = teamValue;
+        if (teamId === "new") {            
+            teamId =  Meteor.call('createTeam', name+" Team", name+ "activity's Team");
+            console.log("Created new Team : "+teamId);
+        }
         
         var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId});
 

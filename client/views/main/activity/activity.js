@@ -56,7 +56,7 @@ Template.Activity.helpers({
     },
     selectedTeam: function() {
         var activity = Session.get("activity");    
-        if (team) {
+        if (activity) {
             var teamActivity = activity.team;
             if (teamActivity == this._id) {
                 return "selected";

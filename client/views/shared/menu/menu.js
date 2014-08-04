@@ -4,15 +4,23 @@
 Template.Menu.events({
     'click #createActivityBtn': function() {
         var name = $('#createActivityForm input#activityName').val();
-        Meteor.call('createActivity', name);
+        var teamValue =  $('#createActivityForm #teamSelect').val();
+        
+        Meteor.call('createActivity', name, teamValue);
         // Reset the input
         $('#createActivityForm input#activityName').val("");
+        $('#createActivityForm #teamSelect').val("new");
     }
 });
 
 Template.Menu.helpers({
     activities: function() {
         return Activity.find();
+    },
+    
+    
+    teams: function() {
+        return Team.find();
     }
 });
 
