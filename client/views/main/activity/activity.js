@@ -69,7 +69,7 @@ Template.Activity.helpers({
         var activity = Session.get("activity"); 
         if (activity) {
             var team = Team.findOne({_id: activity.team})
-            return Meteor.users.find({userId: {$in: team.members}});
+            return Meteor.users.find({_id: {$in: team.members}});
         } else {
             return [];
         }

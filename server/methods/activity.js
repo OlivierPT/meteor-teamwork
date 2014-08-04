@@ -21,7 +21,7 @@ Meteor.methods({
         // First creating a Team for the new Activity
         var teamId = teamValue;
         if (teamId === "new") {            
-            teamId =  Meteor.call('createTeam', name+" Team", name+ "activity's Team");
+            teamId =  Meteor.call('createTeam', name+" Team", name+ " activity's Team");
             console.log("Created new Team : "+teamId);
         }
         
