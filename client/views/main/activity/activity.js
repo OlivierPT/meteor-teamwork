@@ -103,10 +103,14 @@ Template.TaskDetail.events({
     'click button#saveTaskBtn': function(event) {
         var desc = $('#description').val();
         var state = $('#taskState').val();
+        var complexity = $('#complexity').val();
+        var category = $('#category').val();
 
         var currentTask = Task.findOne({_id: Session.get("selectedTask")});
         currentTask.description = desc;
         currentTask.state = state;
+        currentTask.complexity = complexity;
+        currentTask.category = category;
 
         Meteor.call('storeTask', currentTask);
         $('#taskModal').modal('hide');
@@ -137,6 +141,15 @@ Template.TaskDetail.helpers({
     isStateSelected: function() {
         var task = Task.findOne({_id: Session.get("selectedTask")});
         return task.state === this._id;
+    },
+    members: function() {
+        var activity = Session.get("activity"); 
+        if (activity) {
+            var team = Team.findOne({_id: activity.team})
+            return Meteor.users.find({_id: {$in: team.members}});
+        } else {
+            return [];
+        }
     }
 });
 

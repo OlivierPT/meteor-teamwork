@@ -6,7 +6,9 @@
       "bootstrap-3": {},
       "accounts-ui-bootstrap-3": {},
       "autocomplete": {},
-      "reactive-publish": {}
+      "reactive-publish": {},
+      "kadira": {},
+      "sortable": {}
     },
     "packages": {
       "iron-router": {
@@ -21,8 +23,8 @@
       },
       "accounts-ui-bootstrap-3": {
         "git": "https://github.com/mangasocial/meteor-accounts-ui-bootstrap-3.git",
-        "tag": "v0.3.3",
-        "commit": "2e50b605d8d5ed68e48c4529a65f13552d8af3f9"
+        "tag": "v0.3.4",
+        "commit": "9f006ee48d869877d90d54ac75b54550a587df8f"
       },
       "autocomplete": {
         "git": "https://github.com/mizzao/meteor-autocomplete.git",
@@ -33,6 +35,16 @@
         "git": "https://github.com/Diggsey/meteor-reactive-publish.git",
         "tag": "v0.1.6",
         "commit": "dd8c149f109a1f3d1cac7e36293cf5904538ca90"
+      },
+      "kadira": {
+        "git": "https://github.com/meteorhacks/kadira.git",
+        "tag": "v2.4.13",
+        "commit": "1f3c1a427084af5a2eca2e299eb65bc01387df8a"
+      },
+      "sortable": {
+        "git": "https://github.com/fishdude/meteor-sortable.git",
+        "tag": "v0.0.4",
+        "commit": "4e5106793e523d110bd3d11b5bedecc277225e39"
       },
       "iron-layout": {
         "git": "https://github.com/EventedMind/iron-layout.git",

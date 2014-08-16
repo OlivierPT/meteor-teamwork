@@ -89,7 +89,7 @@ Meteor.methods({
 
     'storeTask': function(task) {
         console.log("MethodCall : storeTask - id = "+task._id);
-        Task.update({_id: task._id}, {$set: {description: task.description, state: task.state}});
+        Task.update({_id: task._id}, {$set: {description: task.description, state: task.state, complexity: task.complexity, category:task.category}});
         console.log("Tasks store");
     },
 
