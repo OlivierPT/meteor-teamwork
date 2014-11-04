@@ -21,7 +21,7 @@
                         <ul class="dropdown-menu">
                             {{#each activities}}
                             <li>
-                                <a href="{{pathFor 'Activity'}}">
+                                <a href="{{pathFor route='activity'}}">
                                     {{name}}
                                 </a>
                             </li>
@@ -34,10 +34,10 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="{{pathFor 'Teams'}}">Teams</a>
+                                <a href="{{pathFor route='teams'}}">Teams</a>
                             </li>
                             <li>
-                                <a href="{{pathFor 'Profile'}}">Profile</a>
+                                <a href="{{pathFor route='profile'}}">Profile</a>
                             </li>
                             <!--
                             <li>

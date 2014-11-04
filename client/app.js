@@ -11,7 +11,7 @@ _.each(App.helpers, function(helper, key) {
     Handlebars.registerHelper(key, helper);
 });
 
-Deps.autorun(function(){
+Tracker.autorun(function(){
   if(Meteor.userId()){
     Meteor.subscribe('userActivities');
   }
