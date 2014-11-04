@@ -9,20 +9,17 @@ Router.configure({
     routeControllerNameConverter: 'upperCamelCase'
 });
 
-
-
-
 Router.route('/', {
     template: 'App',
-    waitOn: function () {
-        return Meteor.subscribe('teams');
+    data: function () {
+        return Activity.find();
     }
 });
 
 Router.route('/home', {
     template: 'App',
-    waitOn: function () {
-        return Meteor.subscribe('teams');
+    data: function () {
+        return Activity.find();
     }
 });
 
@@ -32,22 +29,17 @@ Router.route('/activity/:_id', {
     waitOn: function () {
         return  [
             Meteor.subscribe('stateByActivity', this.params._id),
-            Meteor.subscribe('tasksByActivity', this.params._id),
-            Meteor.subscribe('teams')
+            Meteor.subscribe('tasksByActivity', this.params._id)            
         ];
     },
     data: function () {
         return Activity.findOne({_id: this.params._id});
-        ;
     }
 });
 
 Router.route('/teams', {
     template: 'Teams',
     name: 'teams',
-    waitOn: function () {
-        return Meteor.subscribe('teams');
-    },
     data: function () {
         return Team.find();
     }
@@ -56,9 +48,6 @@ Router.route('/teams', {
 Router.route('/team/:_id', {
     template: 'Team',
     name: 'team',
-    waitOn: function () {
-        return Meteor.subscribe('teams');
-    },
     data: function () {
         return Team.findOne({_id: this.params._id});
     },

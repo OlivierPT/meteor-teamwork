@@ -1,4 +1,4 @@
-Activity = new Meteor.Collection('activity');
+Activity = new Mongo.Collection('activity');
 
 /*
  * Add query methods like this:

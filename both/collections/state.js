@@ -1,1 +1,1 @@
-State = new Meteor.Collection('state');
+State = new Mongo.Collection('state');

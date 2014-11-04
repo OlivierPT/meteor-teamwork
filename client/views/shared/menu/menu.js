@@ -13,6 +13,7 @@ Template.Menu.events({
     }
 });
 
+
 Template.Menu.helpers({
     activities: function() {
         return Activity.find();
@@ -28,8 +29,7 @@ Template._loginButtonsLoggedInDropdown.events({
     'click #login-buttons-edit-profile': function(event) {
         event.stopPropagation();
         Template._loginButtons.toggleDropdown();
-        //Router.go('profileEdit');
-        Router.go('Profile');
+        Router.go('profile');
     }
 });
 
