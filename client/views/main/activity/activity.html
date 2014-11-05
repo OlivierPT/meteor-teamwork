@@ -55,45 +55,61 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Each State use a col -->
-                {{#each states}}
-                <div class="col-xs-2 col-md-2">
-
-                    <div class="panel panel-success">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            {{#each states}}
+                        <th>
                         <div class="panel-heading">
                             <span>{{label}}</span>
                             <a href="#" role="button">
-                                <span class="badge pull-right" name="stateInfo" data-container="body" data-toggle="popover">
+                                <span class="badge" name="stateInfo" data-container="body" data-toggle="popover">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                 </span>
                             </a>
                             <div name="stateInfo-content" class="hide">
                                 Info state : {{_id}}
                             </div>
-
                         </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                {{#each tasks}}
-                                <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
-                                    <h4 class="list-group-item-heading">{{label}}</h4>
-                                    <p class="list-group-item-text">{{description}}...</p>
-                                </a>
+                        </th>
+                        {{/each}}
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {{#each states}}                            
+                                <td>
+                                    <div class="input-group" name="addTaskForm">
+                                        <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
+                                        <span class="input-group-btn">
+                                            <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
+                                        </span>
+                                    </div><!-- /input-group -->
+                                </td>
                                 {{/each}}
-                            </div>
-                        </div>
-                        <div class="panel-footer">                            
-                            <div class="input-group" name="addTaskForm">
-                                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
-                                <span class="input-group-btn">
-                                    <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
-                                </span>
-                            </div><!-- /input-group -->
-                        </div>
-                    </div>
-                </div>
-                {{/each}}
+                            </tr>
+                            <tr>
+                                {{#each states}}                            
+                                <td>
+                                    <div class="list-group state-column" data-state-id="{{_id}}">
+                                        {{#each tasks}}
+                                        <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
+                                                <div class="panel panel-info task-portlet">
+                                                    <div class="panel-heading task-portlet-header">
+                                                        <h3 class="panel-title">{{label}}</h3>
+                                                    </div>
+                                                    <div class="panel-body task-portlet-content">
+                                                        {{description}}...
+                                                    </div>
+                                                </div>
+                                            </a>
+                                            {{/each}}
+                                    </div>
+                                </td>                            
+                                {{/each}}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                
             </div>
         </div>
     </div>
