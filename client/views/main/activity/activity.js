@@ -211,9 +211,12 @@ Template.Activity.rendered = function () {
         placeholder: "task-portlet-placeholder",
         stop: function( event, ui ) {
             var taskId = ui.item.context.getAttribute("data-task-id");
+            var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
             var stateId = ui.item.context.parentElement.getAttribute("data-state-id");
             var task = Task.findOne({_id: taskId});
+            var nextTask = Task.findOne({_id: nextTaskId});
             task.state = stateId;
+            task.position = nextTask.position;
 
             Meteor.call('storeTask', task);
         }

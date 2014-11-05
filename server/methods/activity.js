@@ -5,7 +5,6 @@
 /*****************************************************************************/
 
 Meteor.methods({
-
     /**
      * Create a new Activity
      *
@@ -13,18 +12,18 @@ Meteor.methods({
      * @param {type} userId
      * @returns {undefined}
      */
-    'createActivity': function(name, teamValue) {
-        console.log("MethodCall : createActivity - name = "+name);
-        console.log("MethodCall : createActivity - teamValue = "+teamValue);
-        console.log("MethodCall : createActivity - currentUser = "+Meteor.userId());
-        
+    'createActivity': function (name, teamValue) {
+        console.log("MethodCall : createActivity - name = " + name);
+        console.log("MethodCall : createActivity - teamValue = " + teamValue);
+        console.log("MethodCall : createActivity - currentUser = " + Meteor.userId());
+
         // First creating a Team for the new Activity
         var teamId = teamValue;
-        if (teamId === "new") {            
-            teamId =  Meteor.call('createTeam', name+" Team", name+ " activity's Team");
-            console.log("Created new Team : "+teamId);
+        if (teamId === "new") {
+            teamId = Meteor.call('createTeam', name + " Team", name + " activity's Team");
+            console.log("Created new Team : " + teamId);
         }
-        
+
         var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId});
 
         State.insert({activity: actvityId, label: "ToDo", position: 1});
@@ -32,13 +31,11 @@ Meteor.methods({
         State.insert({activity: actvityId, label: "Done", position: 3});
         console.log("Activity created");
     },
-    
-    'changeTeamActivity': function(activityId, teamId) {
-        console.log("MethodCall : changeTeamActivity - activity = "+activityId+" team = "+teamId);
-        Activity.update({_id:activityId}, {$set: {team: teamId}});
+    'changeTeamActivity': function (activityId, teamId) {
+        console.log("MethodCall : changeTeamActivity - activity = " + activityId + " team = " + teamId);
+        Activity.update({_id: activityId}, {$set: {team: teamId}});
         console.log("Activity team changed");
     },
-
     /**
      * Add a State to an activity. The state is added as the last state
      *
@@ -46,27 +43,25 @@ Meteor.methods({
      * @param {type} activityId
      * @returns {undefined}
      */
-    'addState': function(stateLabel, activityId) {
+    'addState': function (stateLabel, activityId) {
         var nbStates = State.find().count({activity: activityId})
-        State.insert({activity: activityId, label: stateLabel, position: nbStates+1});
+        State.insert({activity: activityId, label: stateLabel, position: nbStates + 1});
     },
-
     /**
      * Remove a state and all the tasks included
      *
      * @param {type} stateId
      * @returns {undefined}
      */
-    'removeState': function(stateId) {
-        console.log("MethodCall : removeState - id = "+stateId);
+    'removeState': function (stateId) {
+        console.log("MethodCall : removeState - id = " + stateId);
         // First, remove the state
-        State.remove({_id:stateId});
+        State.remove({_id: stateId});
 
         // Then, remove the tasks
-        Task.remove({state:stateId});
+        Task.remove({state: stateId});
         console.log("State and associated Tasks deleted");
     },
-
     /**
      * Add a task for an Activity and a State
      *
@@ -75,28 +70,45 @@ Meteor.methods({
      * @param {type} stateId
      * @returns {undefined}
      */
-    'addTask': function(label, activityId, stateId) {
+    'addTask': function (label, activityId, stateId) {
         var nbTasks = Task.find().count({state: stateId})
-        Task.insert({activity: activityId, state: stateId, label: label, position: nbTasks+1});
+        Task.insert({activity: activityId, state: stateId, label: label, position: nbTasks + 1});
     },
-
-
-    'removeTask': function(taskId) {
-        console.log("MethodCall : removeTask - id = "+taskId);
+    'removeTask': function (taskId) {
+        console.log("MethodCall : removeTask - id = " + taskId);
         Task.remove({_id: taskId});
+        // reordering tasks
+        var count = 1;
+        Task.find({state: task.state}, {sort: {position: 1}}).forEach(function (currentTask) {
+            console.log("Update taskId : "+currentTask._id+" - position " + count);
+            Task.update({_id: currentTask._id}, {$set: {position: count}});
+            count += 1;
+        });
         console.log("Tasks deleted");
     },
+    'storeTask': function (task) {
+        console.log("MethodCall : storeTask - id = " + task._id + " position : " + task.position);
+        // update the task
+        Task.update({_id: task._id}, 
+            {$set: {description: task.description, state: task.state, complexity: task.complexity, category: task.category, position: task.position}});
+        // reordering tasks
+        var count = 1;
+        Task.find({state: task.state}, {sort: {position: 1}}).forEach(function (currentTask) {
+            console.log("Current task position " + currentTask.position);
+            if (currentTask._id !== task._id) {
+                console.log("Update taskId : "+currentTask._id+" - position " + count);
+                Task.update({_id: currentTask._id}, {$set: {position: count}});
+            }
+            count += 1;
+        });
 
-    'storeTask': function(task) {
-        console.log("MethodCall : storeTask - id = "+task._id);
-        Task.update({_id: task._id}, {$set: {description: task.description, state: task.state, complexity: task.complexity, category:task.category}});
+
         console.log("Tasks store");
     },
-
-    'addCommentToTask': function(task, comment) {
-      console.log("MethodCall : addCommentToTask - id = "+task._id+", comment = "+comment);
-      Task.update({_id: task._id}, {$push: {comments: {content: comment, author: Meteor.userId(), dateCreate: new Date()}}});
-      console.log("Tasks store");
+    'addCommentToTask': function (task, comment) {
+        console.log("MethodCall : addCommentToTask - id = " + task._id + ", comment = " + comment);
+        Task.update({_id: task._id}, {$push: {comments: {content: comment, author: Meteor.userId(), dateCreate: new Date()}}});
+        console.log("Tasks store");
     }
 
 
