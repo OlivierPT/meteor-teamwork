@@ -23,6 +23,12 @@ Template.Activity.events({
 
         Meteor.call('removeState', stateId);
     },
+    'click a[name="deleteActivity"]': function (event) {
+        var activityId = event.currentTarget.getAttribute("data-activity-id");
+
+        Meteor.call('deleteActivity', activityId);
+    },
+    
     'click a[name="taskSummary"]': function (event) {
         var taskId = $(event.currentTarget).attr("data-task-id");
 

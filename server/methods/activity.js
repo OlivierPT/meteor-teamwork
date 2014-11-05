@@ -31,11 +31,44 @@ Meteor.methods({
         State.insert({activity: actvityId, label: "Done", position: 3});
         console.log("Activity created");
     },
+    
+    'deleteActivity': function(activityId) {
+        console.log("MethodCall : deleteActivity - activityId = " + activityId);
+        check(activityId, String);
+        if (Meteor.userId()) {
+            // L'utilisateur doit etre le owner de l'activity
+            var activity = Activity.findOne({_id: activityId});
+            if (activity.owner === Meteor.userId()) {
+                // Supression de l'activite et toutes se dépendances
+                Task.remove({activity: activityId});
+                State.remove({activity: activityId});
+                // Si l'equipe n'existe que pour cette activite, elle est 
+                // aussi supprimé
+                var nbActivityForTeam = Activity.find({team: activity.team}).count();
+                if (nbActivityForTeam <= 1) {
+                    Team.remove({_id: activity.team});
+                }
+                Activity.remove({_id: activityId});
+                // Si l'equipe n'existe que pour cette activite, elle est 
+                // aussi supprimé
+            }
+        }
+        
+        console.log("Activity deleted");
+    },
+    
+    /**
+     * 
+     * @param {type} activityId
+     * @param {type} teamId
+     * @returns {undefined}
+     */
     'changeTeamActivity': function (activityId, teamId) {
         console.log("MethodCall : changeTeamActivity - activity = " + activityId + " team = " + teamId);
         Activity.update({_id: activityId}, {$set: {team: teamId}});
         console.log("Activity team changed");
     },
+    
     /**
      * Add a State to an activity. The state is added as the last state
      *
@@ -62,6 +95,7 @@ Meteor.methods({
         Task.remove({state: stateId});
         console.log("State and associated Tasks deleted");
     },
+    
     /**
      * Add a task for an Activity and a State
      *
@@ -74,6 +108,12 @@ Meteor.methods({
         var nbTasks = Task.find().count({state: stateId})
         Task.insert({activity: activityId, state: stateId, label: label, position: nbTasks + 1});
     },
+    
+    /**
+     * 
+     * @param {type} taskId
+     * @returns {undefined}
+     */
     'removeTask': function (taskId) {
         console.log("MethodCall : removeTask - id = " + taskId);
         Task.remove({_id: taskId});
@@ -86,6 +126,12 @@ Meteor.methods({
         });
         console.log("Tasks deleted");
     },
+    
+    /**
+     * 
+     * @param {type} task
+     * @returns {undefined}
+     */
     'storeTask': function (task) {
         console.log("MethodCall : storeTask - id = " + task._id + " position : " + task.position);
         // update the task
@@ -103,8 +149,15 @@ Meteor.methods({
         });
 
 
-        console.log("Tasks store");
+        console.log("Task stored");
     },
+    
+    /**
+     * 
+     * @param {type} task
+     * @param {type} comment
+     * @returns {undefined}
+     */
     'addCommentToTask': function (task, comment) {
         console.log("MethodCall : addCommentToTask - id = " + task._id + ", comment = " + comment);
         Task.update({_id: task._id}, {$push: {comments: {content: comment, author: Meteor.userId(), dateCreate: new Date()}}});
