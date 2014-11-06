@@ -17,26 +17,7 @@
             <div class="panel-body">
                 <div class="well">
                     <div class="row">
-                        <div class="col-xs-4 col-md-4">
-                            <div class="input-group">
-                                <select class="form-control" id="teamSelect">
-                                    {{#each teams}}
-                                    <option value="{{_id}}" {{selectedTeam}}>{{name}}</option>
-                                    {{/each}}
-                                </select>
-                                <span class="input-group-btn">
-                                    <button id="teamDetailBtn" class="btn btn-default" data-activity-id="{{_id}}" data-container="body" data-toggle="popover">Detail</button>
-                                </span>
-                                <div id="teamDetail-content" class="hide">
-                                    <div class="list-group">
-                                        <h4 class="list-group-item-heading">Members</h4>
-                                        {{#each members}}                                        
-                                        <p class="list-group-item-text">{{username}} - {{profile.firstname}} {{profile.lastname}}</p>                                        
-                                        {{/each}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                         <div class="col-xs-4 col-md-4">
                             <div class="input-group">
                                 {{> inputAutocomplete settings=userSuggestSetting id="newMember" class="form-control" placeholder="Add member"}}

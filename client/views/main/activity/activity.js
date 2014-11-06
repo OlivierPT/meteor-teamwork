@@ -56,30 +56,6 @@ Template.Activity.helpers({
     },
     tasks: function () {
         return Task.find({state: this._id});
-    },
-    teams: function () {
-        return Team.find();
-    },
-    selectedTeam: function () {
-        var activity = Session.get("activity");
-        if (activity) {
-            var teamActivity = activity.team;
-            if (teamActivity == this._id) {
-                return "selected";
-            }
-        } else {
-            return "";
-        }
-        ;
-    },
-    members: function () {
-        var activity = Session.get("activity");
-        if (activity) {
-            var team = Team.findOne({_id: activity.team})
-            return Meteor.users.find({_id: {$in: team.members}});
-        } else {
-            return [];
-        }
     }
 });
 

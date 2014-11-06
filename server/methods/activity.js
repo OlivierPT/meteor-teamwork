@@ -12,10 +12,15 @@ Meteor.methods({
      * @param {type} userId
      * @returns {undefined}
      */
-    'createActivity': function (name, teamValue) {
+    'createActivity': function (name, teamValue, description) {
         console.log("MethodCall : createActivity - name = " + name);
         console.log("MethodCall : createActivity - teamValue = " + teamValue);
         console.log("MethodCall : createActivity - currentUser = " + Meteor.userId());
+        
+        // Controles
+        check(name, String);
+        check(teamValue, String);
+        check(description, Match.Optional(String));
 
         // First creating a Team for the new Activity
         var teamId = teamValue;
@@ -24,7 +29,7 @@ Meteor.methods({
             console.log("Created new Team : " + teamId);
         }
 
-        var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId});
+        var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId, description: description});
 
         State.insert({activity: actvityId, label: "ToDo", position: 1});
         State.insert({activity: actvityId, label: "Doing", position: 2});
@@ -34,7 +39,9 @@ Meteor.methods({
     
     'deleteActivity': function(activityId) {
         console.log("MethodCall : deleteActivity - activityId = " + activityId);
+        // Controles
         check(activityId, String);
+        
         if (Meteor.userId()) {
             // L'utilisateur doit etre le owner de l'activity
             var activity = Activity.findOne({_id: activityId});
