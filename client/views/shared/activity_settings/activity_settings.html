@@ -1,0 +1,35 @@
+<template name="ActivitySettings">
+    <div role="form">
+        <!-- Label block -->
+        <div class="form-group">
+            <label for="activityName">Label</label>
+            <input type="text" class="form-control" id="activityName" placeholder="Choose a Label" value="{{name}}"/>
+        </div>
+        <!-- End description block -->
+
+        <!-- Description block -->
+        <div class="form-group">
+            <label for="activityDescription">Description</label>
+            <textarea type="text" class="form-control" id="activityDescription" placeholder="Add descprition">{{description}}</textarea>
+        </div>
+        <!-- End description block -->
+        
+        
+        <div class="form-group">
+            <div class="input-group">
+                <input id="stateLabel" type="text" class="form-control" placeholder="Add state">
+                <span class="input-group-btn">
+                    <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
+                </span>
+            </div>
+        </div>
+        
+        <!-- Team block -->
+        <div class="form-group">
+            <label for="team">Team</label>
+            <input type="text" class="form-control" id="teamName" placeholder="Choose a Label" value="{{team}}" disabled="disabled"/>
+        </div>
+        
+        <!-- End Assignation block -->
+    </div>
+</template>

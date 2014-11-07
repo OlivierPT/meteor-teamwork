@@ -28,7 +28,6 @@ Template.Activity.events({
 
         Meteor.call('deleteActivity', activityId);
     },
-    
     'click a[name="taskSummary"]': function (event) {
         var taskId = $(event.currentTarget).attr("data-task-id");
 
@@ -37,12 +36,6 @@ Template.Activity.events({
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
         Meteor.call('addMemberWithEmail', this.team, memberEmail);
-    },
-    'change #teamSelect': function (event) {
-        var teamSelected = $(event.currentTarget).val();
-        var activity = Session.get("activity");
-
-        Meteor.call('changeTeamActivity', activity._id, teamSelected);
     }
 });
 
@@ -158,6 +151,16 @@ Template.ActivityUserSuggest.helpers({
     }
 });
 
+/*********************************************************************/
+/* Activity Settings Template */
+/*********************************************************************/
+Template.ActivitySettingsModal.helpers({
+    currentActivity: function () {
+        return Session.get("activity");
+    }
+});
+
+
 /*****************************************************************************/
 /* Activity: Lifecycle Hooks */
 /*****************************************************************************/
@@ -166,13 +169,13 @@ Template.Activity.created = function () {
 
 Template.Activity.rendered = function () {
     // Activating popover on temaDetail button 
-    $("#teamDetailBtn").popover({
-        html: true,
-        title: 'Team detail',
-        content: function () {
-            return $("#teamDetail-content").html();
-        }
-    });
+//    $("#teamDetailBtn").popover({
+//        html: true,
+//        title: 'Team detail',
+//        content: function () {
+//            return $("#teamDetail-content").html();
+//        }
+//    });
 
     // Activiating popover on stateInfo
     $("span[name='stateInfo'][data-toggle='popover']").each(function (index) {
@@ -186,25 +189,41 @@ Template.Activity.rendered = function () {
         });
     });
 
+    // Activiating popover on stateInfo
+    $("#activitySettings").popover({
+        html: true,
+        title: 'Activity Settings',
+        placement: 'bottom',
+        trigger: 'click focus',
+        content: function () {
+            return $("#activitySettings-content").html();
+        }
+    });
+
     $(".state-column").sortable({
         connectWith: ".state-column",
         handle: ".task-portlet-header",
         cancel: ".task-portlet-toggle",
         placeholder: "task-portlet-placeholder",
-        stop: function( event, ui ) {
+        stop: function (event, ui) {
+            var newPostion = 1;
             var taskId = ui.item.context.getAttribute("data-task-id");
-            var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
+            if (ui.item.context.nextElementSibling) {
+                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
+                var nextTask = Task.findOne({_id: nextTaskId});
+                newPostion = nextTask.position;
+            }
             var stateId = ui.item.context.parentElement.getAttribute("data-state-id");
             var task = Task.findOne({_id: taskId});
-            var nextTask = Task.findOne({_id: nextTaskId});
+
             task.state = stateId;
-            task.position = nextTask.position;
+            task.position = newPostion;
 
             Meteor.call('storeTask', task);
         }
     });
 
- 
+
 };
 
 Template.Activity.destroyed = function () {
