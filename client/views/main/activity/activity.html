@@ -3,102 +3,79 @@
         <!-- Activity function -->
         <div class="panel panel-primary" id="activityPanel" data-activity-id="{{initSession _id}}">
             <div class="panel-heading">
-                <h2 class="panel-title">{{name}}
-                    <a href="#" role="button" data-activity-id="{{_id}}" name="deleteActivity">
-                        <span class="badge">
-                            <span class="glyphicon glyphicon-trash"></span>
-                        </span>
-                    </a>
+                <h2 class="panel-title">{{name}}&nbsp;                       
+                    <button type="button" class="btn btn-default"  data-toggle="modal" data-target="#activitySettingsModal">
+                        <span class="glyphicon glyphicon-cog"></span> Settings
+                    </button>
                 </h2>
             </div>
 
 
             <!-- All the State are in one row to have a common size -->
             <div class="panel-body">
-                <div class="well">
-                    <div class="row">
-                        <div class="col-xs-4 col-md-4">
-                            <div class="input-group">
-                                <select class="form-control" id="teamSelect">
-                                    {{#each teams}}
-                                    <option value="{{_id}}" {{selectedTeam}}>{{name}}</option>
-                                    {{/each}}
-                                </select>
-                                <span class="input-group-btn">
-                                    <button id="teamDetailBtn" class="btn btn-default" data-activity-id="{{_id}}" data-container="body" data-toggle="popover">Detail</button>
-                                </span>
-                                <div id="teamDetail-content" class="hide">
-                                    <div class="list-group">
-                                        <h4 class="list-group-item-heading">Members</h4>
-                                        {{#each members}}                                        
-                                        <p class="list-group-item-text">{{username}} - {{profile.firstname}} {{profile.lastname}}</p>                                        
-                                        {{/each}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xs-4 col-md-4">
-                            <div class="input-group">
-                                {{> inputAutocomplete settings=userSuggestSetting id="newMember" class="form-control" placeholder="Add member"}}
-                                <span class="input-group-btn">
-                                    <button class="btn btn-default" type="button" id="addMember">Add</button>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="col-xs-4 col-md-4">
-                            <div class="input-group">
-                                <input id="stateLabel" type="text" class="form-control" placeholder="Add state">
-                                <span class="input-group-btn">
-                                    <button id="addStateBtn" class="btn btn-default" data-activity-id="{{_id}}">Add</button>
-                                </span>
-                            </div><!-- /input-group -->
-                        </div>
-                    </div>
-                </div>
 
-                <!-- Each State use a col -->
-                {{#each states}}
-                <div class="col-xs-2 col-md-2">
-
-                    <div class="panel panel-success">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            {{#each states}}
+                        <th>
                         <div class="panel-heading">
                             <span>{{label}}</span>
                             <a href="#" role="button">
-                                <span class="badge pull-right" name="stateInfo" data-container="body" data-toggle="popover">
+                                <span class="badge" name="stateInfo" data-container="body" data-toggle="popover">
                                     <span class="glyphicon glyphicon-info-sign"></span>
                                 </span>
                             </a>
                             <div name="stateInfo-content" class="hide">
                                 Info state : {{_id}}
                             </div>
-
                         </div>
-                        <div class="panel-body">
-                            <div class="list-group">
-                                {{#each tasks}}
-                                <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
-                                    <h4 class="list-group-item-heading">{{label}}</h4>
-                                    <p class="list-group-item-text">{{description}}...</p>
-                                </a>
+                        </th>
+                        {{/each}}
+                        </thead>
+                        <tbody>
+                            <tr>
+                                {{#each states}}                            
+                                <td>
+                                    <div class="input-group" name="addTaskForm">
+                                        <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
+                                        <span class="input-group-btn">
+                                            <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
+                                        </span>
+                                    </div><!-- /input-group -->
+                                </td>
                                 {{/each}}
-                            </div>
-                        </div>
-                        <div class="panel-footer">                            
-                            <div class="input-group" name="addTaskForm">
-                                <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
-                                <span class="input-group-btn">
-                                    <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
-                                </span>
-                            </div><!-- /input-group -->
-                        </div>
-                    </div>
-                </div>
-                {{/each}}
+                            </tr>
+                            <tr>
+                                {{#each states}}                            
+                                <td>
+                                    <div class="list-group state-column" data-state-id="{{_id}}">
+                                        {{#each tasks}}
+                                        <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
+                                            <div class="panel panel-info task-portlet">
+                                                <div class="panel-heading task-portlet-header">
+                                                    <h3 class="panel-title">{{label}}</h3>
+                                                </div>
+                                                <div class="panel-body task-portlet-content">
+                                                    {{description}}...
+                                                </div>
+                                            </div>
+                                        </a>
+                                        {{/each}}
+                                    </div>
+                                </td>                            
+                                {{/each}}
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                
             </div>
         </div>
     </div>
 
     {{> TaskDetail}}
+    
+    {{> ActivitySettingsModal}}
 
 </template>
 
@@ -196,6 +173,25 @@
     </div>
 </template>
 
-<template name="ActivityUserSuggest">
-    <span class="label {{labelClass}}" data-member-userId="{{_id}}">>{{firstname}} {{lastname}} - {{username}}</span>
+<template name="ActivitySettingsModal">
+    <!-- Modal -->
+    <div class="modal fade" id="activitySettingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{#with currentActivity}}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Activity Settings</h4>
+                </div>
+                <div class="modal-body" id="taskDialogBody">                    
+                   {{> ActivitySettings}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveActivitySettingsBtn">Save</button>
+                </div>
+            </div>
+        </div>
+        {{/with}}
+    </div>
 </template>
