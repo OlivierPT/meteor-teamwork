@@ -2,13 +2,6 @@
 /* Activity: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.Activity.events({
-    'click #addStateBtn': function () {
-        var activityId = $('#addStateBtn').attr("data-activity-id");
-        var label = $('input#stateLabel').val();
-        Meteor.call('addState', label, activityId);
-
-        $('input#stateLabel').val("");
-    },
     'click button[name="addTaskBtn"]': function (event) {
         var stateId = event.target.getAttribute("data-state-id");
         var activityId = event.target.getAttribute("data-activity-id");
@@ -52,25 +45,6 @@ Template.Activity.helpers({
     }
 });
 
-/**
- * Setting for member autocomplete
- * 
- * @returns {Template.Activity.memberSuggest.Anonym$3}
- */
-Template.Activity.userSuggestSetting = function () {
-    return {
-        position: "bottom",
-        limit: 5,
-        rules: [
-            {
-                collection: Meteor.users,
-                field: "username",
-                matchAll: true,
-                template: Template.ActivityUserSuggest
-            }
-        ]
-    }
-};
 
 /*****************************************************************************/
 /* TaskDetail: Event Handlers and Helpers */
@@ -129,27 +103,6 @@ Template.TaskDetail.helpers({
     }
 });
 
-/*****************************************************************************/
-/* UserSuggest: Event Handlers and Helpers */
-/*****************************************************************************/
-Template.ActivityUserSuggest.events({
-    /*
-     * Example: 
-     *  'click .selector': function (e, tmpl) {
-     *
-     *  }
-     */
-});
-
-Template.ActivityUserSuggest.helpers({
-    labelClass: function () {
-        if (this.userId === Meteor.userId()) {
-            return "label-warning";
-        } else {
-            return "label-default";
-        }
-    }
-});
 
 /*********************************************************************/
 /* Activity Settings Template */

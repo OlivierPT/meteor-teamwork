@@ -173,10 +173,6 @@
     </div>
 </template>
 
-<template name="ActivityUserSuggest">
-    <span class="label {{labelClass}}" data-member-userId="{{_id}}">>{{firstname}} {{lastname}} - {{username}}</span>
-</template>
-
 <template name="ActivitySettingsModal">
     <!-- Modal -->
     <div class="modal fade" id="activitySettingsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -191,8 +187,8 @@
                    {{> ActivitySettings}}
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="saveActivityBtn">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveActivitySettingsBtn">Save</button>
                 </div>
             </div>
         </div>
