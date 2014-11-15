@@ -19,39 +19,32 @@
                         <thead>
                             {{#each states}}
                         <th>
-                        <div class="panel-heading">
-                            <span>{{label}}</span>
-                            <a href="#" role="button">
-                                <span class="badge" name="stateInfo" data-container="body" data-toggle="popover">
-                                    <span class="glyphicon glyphicon-info-sign"></span>
-                                </span>
-                            </a>
-                            <div name="stateInfo-content" class="hide">
-                                Info state : {{_id}}
+                        <div class="panel-heading">               
+                            <div class="dropdown">
+                                <span>{{label}}</span>
+                                <a href="#" role="button" data-toggle="dropdown">
+                                    <span class="badge pull-right" name="stateInfo">
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </span>
+                                </a>
+                                <ul class="dropdown-menu pull-right" role="menu">
+                                    <li><a href="#" name="deleteState" data-state-id="{{_id}}">Delete</a></li>
+                                    <li><a href="#" name="openNewTaskModal" data-state-id="{{_id}}" data-toggle="modal" data-target="#newTaskModal">Add task</a></li>
+                                </ul>
                             </div>
                         </div>
+
                         </th>
                         {{/each}}
                         </thead>
                         <tbody>
+
                             <tr>
                                 {{#each states}}                            
                                 <td>
-                                    <div class="input-group" name="addTaskForm">
-                                        <input id="taskName{{_id}}" type="text" class="form-control" placeholder="New Task">
-                                        <span class="input-group-btn">
-                                            <button name="addTaskBtn" class="btn btn-default" data-state-id="{{_id}}" data-activity-id="{{activity}}">Add</button>
-                                        </span>
-                                    </div><!-- /input-group -->
-                                </td>
-                                {{/each}}
-                            </tr>
-                            <tr>
-                                {{#each states}}                            
-                                <td>
-                                    <div class="list-group state-column" data-state-id="{{_id}}">
+                                    <div class="list-group task-column" data-state-id="{{_id}}">
                                         {{#each tasks}}
-                                        <a href="#" name="taskSummary" class="list-group-item" data-toggle="modal" data-target="#taskModal" data-task-id="{{_id}}">
+                                        <a href="#" name="taskDetail" class="list-group-item" data-toggle="modal" data-target="#taskDetailModal" data-task-id="{{_id}}">
                                             <div class="panel panel-info task-portlet">
                                                 <div class="panel-heading task-portlet-header">
                                                     <h3 class="panel-title">{{label}}</h3>
@@ -73,94 +66,51 @@
         </div>
     </div>
 
-    {{> TaskDetail}}
-    
+    {{> TaskDetailModal}}
+
     {{> ActivitySettingsModal}}
+    
+    {{> NewTaskModal}}
 
 </template>
 
-<template name="TaskDetail">
+<template name="NewTaskModal">
     <!-- Modal -->
-    <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        {{#with task}}
+    <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{#with newTask}}
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">{{label}}</h4>
+                    <h4 class="modal-title" id="newTaskModalLabel">
+                    <input type="text" class="form-control" id="newTaskLabel" placeholder="Task Label" value="{{label}}" />
+                    </h4>
                 </div>
-                <div class="modal-body" id="taskDialogBody">
-                    <div role="form">
-                        <!-- Description block -->
-                        <div class="form-group">
-                            <label for="description">Description</label>
-                            <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
-                        </div>
-                        <!-- End description block -->
+                <div class="modal-body" id="newTaskModalBody">
+                    {{> TaskForm}}                    
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="createTaskBtn">Create</button>
+                </div>
+            </div>
+        </div>
+        {{/with}}
+    </div>
+</template>
 
-
-                        <!-- State block -->
-                        <div class="form-group">
-                            <label for="taskState">State</label>
-                            <select class="form-control" id="taskState">
-                                {{#each states}}
-                                {{#if isStateSelected}}
-                                <option value="{{_id}}" selected="selected">
-                                    {{label}}
-                                </option>
-                                {{else}}
-                                <option value="{{_id}}">
-                                    {{label}}
-                                </option>
-                                {{/if}} >
-
-                                {{/each}}
-                            </select>
-                        </div>
-                        <!-- End state block -->
-
-                        <!-- Assignation block -->
-                        <div class="form-group">
-                            <label for="assignedTo">Assigned to</label>
-                            <select class="form-control" id="assignedTo">
-                                {{#each members}}      
-                                <option value="{{_id}}">
-                                    {{profile.firstname}} {{profile.lastname}}
-                                </option>
-                                {{/each}}
-                            </select>
-                        </div>
-                        <!-- End Assignation block -->
-
-                        <!-- Complexity block -->
-                        <div class="form-group">
-                            <label for="complexity">Complexity</label>
-                            <input type="text" class="form-control" id="complexity" placeholder="Enter the complexity" value="{{complexity}}" />
-                        </div>
-                        <!-- End complexity block -->
-
-                        <!-- Categorie block -->
-                        <div class="form-group">
-                            <label for="category">Category</label>
-                            <input type="text" class="form-control" id="category" placeholder="Select the category" value="{{category}}" />
-                        </div>
-                        <!-- End complexity block -->
-
-                        <!-- Comments block -->
-                        <div class="form-group">
-                            <label>Comments </label>
-                            {{#each comments}}
-                            <p>{{content}} - {{author}} - {{dateCreate}}</p>
-                            {{/each}}
-                        </div>
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="comment" placeholder="New Comment"/>
-                            <span class="input-group-btn">
-                                <button class="btn btn-default" id="addCommentBtn">Add</button>
-                            </span>
-                        </div>
-                        <!-- End comments block -->
-                    </div>
+<template name="TaskDetailModal">
+    <!-- Modal -->
+    <div class="modal fade" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{#with currentTask}}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="taskDetailModalLabel">{{label}}</h4>
+                </div>
+                <div class="modal-body" id="taskDetailModalBody">
+                    {{> TaskForm}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
@@ -184,7 +134,7 @@
                     <h4 class="modal-title" id="myModalLabel">Activity Settings</h4>
                 </div>
                 <div class="modal-body" id="taskDialogBody">                    
-                   {{> ActivitySettings}}
+                    {{> ActivitySettings}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

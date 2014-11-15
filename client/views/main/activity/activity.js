@@ -2,15 +2,6 @@
 /* Activity: Event Handlers and Helpers */
 /*****************************************************************************/
 Template.Activity.events({
-    'click button[name="addTaskBtn"]': function (event) {
-        var stateId = event.target.getAttribute("data-state-id");
-        var activityId = event.target.getAttribute("data-activity-id");
-        var label = $('input#taskName' + stateId).val();
-
-        Meteor.call('addTask', label, activityId, stateId);
-
-        $('input#taskName' + stateId).val("");
-    },
     'click a[name="deleteState"]': function (event) {
         var stateId = event.currentTarget.getAttribute("data-state-id");
 
@@ -21,14 +12,19 @@ Template.Activity.events({
 
         Meteor.call('deleteActivity', activityId);
     },
-    'click a[name="taskSummary"]': function (event) {
+    'click a[name="taskDetail"]': function (event) {
         var taskId = $(event.currentTarget).attr("data-task-id");
 
-        Session.set("selectedTask", taskId);
+        Session.set("selectedTaskId", taskId);
     },
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
         Meteor.call('addMemberWithEmail', this.team, memberEmail);
+    },
+    'click a[name="openNewTaskModal"]': function (event) {
+        var stateId = $(event.currentTarget).attr("data-state-id");
+        Session.set("selectedTaskId", -1);
+        Session.set("selectedStateId", stateId);
     }
 });
 
@@ -47,59 +43,64 @@ Template.Activity.helpers({
 
 
 /*****************************************************************************/
-/* TaskDetail: Event Handlers and Helpers */
+/* TaskDetailModal: Event Handlers and Helpers */
 /*****************************************************************************/
-Template.TaskDetail.events({
+Template.TaskDetailModal.events({
     'click button#saveTaskBtn': function (event) {
         var desc = $('#description').val();
         var state = $('#taskState').val();
         var complexity = $('#complexity').val();
         var category = $('#category').val();
 
-        var currentTask = Task.findOne({_id: Session.get("selectedTask")});
+        var currentTask = Task.findOne({_id: Session.get("selectedTaskId")});
         currentTask.description = desc;
         currentTask.state = state;
         currentTask.complexity = complexity;
         currentTask.category = category;
 
         Meteor.call('storeTask', currentTask);
-        $('#taskModal').modal('hide');
+        $('#taskDetailModal').modal('hide');
     },
     'click button#deleteTaskBtn': function (event) {
-        Meteor.call('removeTask', Session.get("selectedTask"));
-        $('#taskModal').modal('hide');
-    },
-    'click button#addCommentBtn': function (event) {
-        var comment = $('#comment').val();
-        var currentTask = Task.findOne({_id: Session.get("selectedTask")});
-
-        Meteor.call('addCommentToTask', currentTask, comment);
-
-        $('#comment').val("");
+        Meteor.call('removeTask', Session.get("selectedTaskId"));
+        $('#taskDetailModal').modal('hide');
     }
 
 
 });
 
-Template.TaskDetail.helpers({
-    states: function () {
-        return State.find();
-    },
-    task: function () {
-        return Task.findOne({_id: Session.get("selectedTask")});
-    },
-    isStateSelected: function () {
-        var task = Task.findOne({_id: Session.get("selectedTask")});
-        return task.state === this._id;
-    },
-    members: function () {
-        var activity = Session.get("activity");
-        if (activity) {
-            var team = Team.findOne({_id: activity.team})
-            return Meteor.users.find({_id: {$in: team.members}});
-        } else {
-            return [];
-        }
+Template.TaskDetailModal.helpers({
+    currentTask: function () {
+        return Task.findOne({_id: Session.get("selectedTaskId")});
+    }
+});
+
+/*****************************************************************************/
+/* NewTaskModal: Event Handlers and Helpers */
+/*****************************************************************************/
+Template.NewTaskModal.events({
+    'click button#createTaskBtn': function (event) {
+        
+        var label = $('input#newTaskLabel').val();
+        var desc = $('#description').val();
+        var stateId = $('#taskState').val();
+        var complexity = $('#complexity').val();
+        var category = $('#category').val();
+
+        Meteor.call('addTask', label, this.activity, stateId);
+
+        $('input#taskName' + stateId).val("");
+    }
+});
+
+Template.NewTaskModal.helpers({
+    newTask: function () {  
+        var newTask = {};
+        newTask._id = -1;
+        newTask.state = Session.get("selectedStateId");
+        newTask.activity = this._id;
+        
+        return newTask;
     }
 });
 
@@ -121,23 +122,15 @@ Template.Activity.created = function () {
 };
 
 Template.Activity.rendered = function () {
-    // Activating popover on temaDetail button 
-//    $("#teamDetailBtn").popover({
-//        html: true,
-//        title: 'Team detail',
-//        content: function () {
-//            return $("#teamDetail-content").html();
-//        }
-//    });
 
     // Activiating popover on stateInfo
     $("span[name='stateInfo'][data-toggle='popover']").each(function (index) {
         $(this).popover({
             html: true,
             title: 'State options',
-            placement: 'top',
+            placement: 'bottom',
             content: function () {
-                return $(this).next("div[name='stateInfo-content']").html();
+                return $("div[name='stateInfo-content-"+this.getAttribute("data-state-id")+"'").html();
             }
         });
     });
@@ -153,11 +146,11 @@ Template.Activity.rendered = function () {
         }
     });
 
-    $(".state-column").sortable({
-        connectWith: ".state-column",
+    $(".task-column").sortable({
+        connectWith: ".task-column",
         handle: ".task-portlet-header",
         cancel: ".task-portlet-toggle",
-        placeholder: "task-portlet-placeholder",
+        placeholder: "list-group-item placeholder",
         stop: function (event, ui) {
             var newPostion = 1;
             var taskId = ui.item.context.getAttribute("data-task-id");
@@ -175,7 +168,6 @@ Template.Activity.rendered = function () {
             Meteor.call('storeTask', task);
         }
     });
-
 
 };
 

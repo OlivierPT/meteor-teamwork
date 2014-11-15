@@ -1,30 +1,23 @@
 /*****************************************************************************/
 /* Activity: Style */
 /*****************************************************************************/
-.state-column {
+.task-column {
     width: 256px;
-    float: left;
     padding-bottom: 50px;
-  }
-  .task-portlet {
+}
+.task-portlet {
+    
+}
+.task-portlet-header {
+}
+.task-portlet-toggle {
+}
+.task-portlet-content {
+    
+}
+.placeholder {
+    border: 1px dotted black;
     margin: 0 1em 1em 0;
-  }
-  .task-portlet-header {
-    position: relative;
-  }
-  .task-portlet-toggle {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    margin-top: -8px;
-  }
-  .task-portlet-content {
-    padding: 0.4em;
-  }
-  .task-portlet-placeholder {
-    border: 2px dotted black;
-    margin: 0 1em 1em 0;
-    background-color: grey;
-    height: 150px;
-    width: 256px;
-  }
+    background-color: lightgrey;
+    height: 50px;
+}

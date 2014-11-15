@@ -1,0 +1,67 @@
+<template name="TaskForm">
+    <div role="form">
+        <!-- Description block -->
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
+        </div>
+        <!-- End description block -->
+
+
+        <!-- State block -->
+        <div class="form-group">
+            <label for="taskState">State</label>
+            <select class="form-control" id="taskState">
+                {{#each states}}
+                <option value="{{_id}}" {{stateSelected}}>
+                    {{label}}
+                </option>                
+                {{/each}}
+            </select>
+        </div>
+        <!-- End state block -->
+
+        <!-- Assignation block -->
+        <div class="form-group">
+            <label for="assignedTo">Assigned to</label>
+            <select class="form-control" id="assignedTo">
+                <option value="-1">Not Assigned</option>
+                {{#each members}}      
+                <option value="{{_id}}">
+                    {{profile.firstname}} {{profile.lastname}}
+                </option>
+                {{/each}}
+            </select>
+        </div>
+        <!-- End Assignation block -->
+
+        <!-- Complexity block -->
+        <div class="form-group">
+            <label for="complexity">Complexity</label>
+            <input type="text" class="form-control" id="complexity" placeholder="Enter the complexity" value="{{complexity}}" />
+        </div>
+        <!-- End complexity block -->
+
+        <!-- Categorie block -->
+        <div class="form-group">
+            <label for="category">Category</label>
+            <input type="text" class="form-control" id="category" placeholder="Select the category" value="{{category}}" />
+        </div>
+        <!-- End complexity block -->
+        
+        <!-- Comments block -->
+        <div class="form-group">
+            <label>Comments </label>
+            {{#each comments}}
+            <p>{{content}} - {{author}} - {{dateCreate}}</p>
+            {{/each}}
+        </div>
+        <div class="input-group">
+            <input type="text" class="form-control" id="comment" placeholder="New Comment"/>
+            <span class="input-group-btn">
+                <button class="btn btn-default" id="addCommentBtn">Add</button>
+            </span>
+        </div>
+        <!-- End comments block -->
+    </div>
+</template>
