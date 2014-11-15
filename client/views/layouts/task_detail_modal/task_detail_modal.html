@@ -1,0 +1,23 @@
+<template name="TaskDetailModal">
+    <!-- Modal -->
+    <div class="modal fade" id="taskDetailModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        {{#with currentTask}}
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="taskDetailModalLabel">{{label}}</h4>
+                </div>
+                <div class="modal-body" id="taskDetailModalBody">
+                    {{> TaskForm}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="deleteTaskBtn">Delete</button>
+                    <button type="button" class="btn btn-primary" id="saveTaskBtn">Save changes</button>
+                </div>
+            </div>
+        </div>
+        {{/with}}
+    </div>
+</template>
