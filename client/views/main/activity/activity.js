@@ -72,9 +72,10 @@ Template.Activity.rendered = function () {
         }
     });
     
-    $(".list-group .state-liste-task").sortable({
-        connectWith: ".list-group .state-liste-task",
-        placeholder: "placeholder",
+    // Drag and drop for task
+    $(".task-list").sortable({
+        connectWith: ".task-list",
+        placeholder: "list-group-item task-placeholder",
         dropOnEmpty: true,
         update: function (event, ui) {
             var nextTaskId = -1;
@@ -88,9 +89,10 @@ Template.Activity.rendered = function () {
         }
     });
     
+    // Drag and drop for state
     $(".list-states").sortable({
         connectWith: ".list-states",
-        placeholder: "placeholder",
+        placeholder: "list-group-item state state-placeholder",
         update: function (event, ui) {
             var nextStateId = -1;
             var stateId = ui.item.context.getAttribute("data-state-id");            

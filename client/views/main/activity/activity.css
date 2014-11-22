@@ -19,7 +19,7 @@
     width: 220px;
 }
 
-.list-states {
+.state-list {
     
 }
 
@@ -27,26 +27,38 @@
     width: 220px; 
     vertical-align: top;
     background-color: azure;
+    margin: 0 0.5em 0 0.5em;
+    border-radius: 5px;
 }
 
 .state-title {
     background-color: #428bca;
     padding: 0.5em;
-    border-radius: 10px;
+    border-radius: 5px;
     margin-bottom: 0.5em;
     color: #fff;
 }
 
-.state-liste-task {
-    
+.state-placeholder {
+    border: 1px dotted black;
+    margin: 0 1em 0 1em;
+    background-color: lightgrey;
+    width: 220px; 
+    min-height: 300px;
+}
+
+.task-list {
+    padding: 5px;
 }
 
 .task {
     padding: 10px;
 }
 
-.placeholder {
+.task-placeholder {
     border: 1px dotted black;
-    margin: 0 1em 1em 0;
+    margin: 1em 0 1em 0;
     background-color: lightgrey;
+    width: 100%; 
+    min-height: 50px;
 }
