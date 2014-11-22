@@ -71,29 +71,37 @@ Template.Activity.rendered = function () {
             return $("#activitySettings-content").html();
         }
     });
-
-    $(".task-column").sortable({
-        connectWith: ".task-column",
-        handle: ".task-portlet-header",
-        cancel: ".task-portlet-toggle",
-        placeholder: "list-group-item placeholder",
-        stop: function (event, ui) {
-            var newPostion = 1;
-            var taskId = ui.item.context.getAttribute("data-task-id");
-            if (ui.item.context.nextElementSibling) {
-                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
-                var nextTask = Task.findOne({_id: nextTaskId});
-                newPostion = nextTask.position;
-            }
+    
+    $(".list-group .state-liste-task").sortable({
+        connectWith: ".list-group .state-liste-task",
+        placeholder: "placeholder",
+        dropOnEmpty: true,
+        update: function (event, ui) {
+            var nextTaskId = -1;
+            var taskId = ui.item.context.getAttribute("data-task-id");            
             var stateId = ui.item.context.parentElement.getAttribute("data-state-id");
-            var task = Task.findOne({_id: taskId});
+            if (ui.item.context.nextElementSibling) {
+                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");                
+            }
 
-            task.state = stateId;
-            task.position = newPostion;
-
-            Meteor.call('storeTask', task);
+            Meteor.call('moveTask', taskId, stateId, nextTaskId);
         }
     });
+    
+    $(".list-states").sortable({
+        connectWith: ".list-states",
+        placeholder: "placeholder",
+        update: function (event, ui) {
+            var nextStateId = -1;
+            var stateId = ui.item.context.getAttribute("data-state-id");            
+            if (ui.item.context.nextElementSibling) {
+                var nextStateId = ui.item.context.nextElementSibling.getAttribute("data-state-id");                
+            }
+
+            Meteor.call('moveState', stateId, nextStateId);
+        }
+    });
+    
 
 };
 

@@ -1,14 +1,12 @@
 <template name="NewTaskModal">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         {{#with newTask}}
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="newTaskModalLabel">
-                        <input type="text" class="form-control" id="newTaskLabel" placeholder="Task Label" value="{{label}}" />
-                    </h4>
+                    <h4 class="modal-title" id="newTaskModalLabel">Create new Task</h4>
                 </div>
                 <div class="modal-body" id="newTaskModalBody">
                     {{> TaskForm}}                    

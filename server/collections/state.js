@@ -10,7 +10,7 @@
  *
  */
 Meteor.publish('stateByActivity', function (activityId) {
-  return State.find({activity : activityId});
+  return State.find({activity : activityId}, {sort: {position: 1}});
 });
 
 

@@ -1,12 +1,18 @@
 <template name="TaskForm">
     <div role="form">
+        <!-- Label block -->
+        <div class="form-group">
+            <label for="label">Label</label>
+            <input type="text" class="form-control" id="newTaskLabel" placeholder="Task Label" value="{{label}}" />
+        </div>
+        <!-- End label block -->
+        
         <!-- Description block -->
         <div class="form-group">
             <label for="description">Description</label>
             <textarea type="text" class="form-control" id="description" placeholder="Add descprition">{{description}}</textarea>
         </div>
         <!-- End description block -->
-
 
         <!-- State block -->
         <div class="form-group">
@@ -48,7 +54,7 @@
             <input type="text" class="form-control" id="category" placeholder="Select the category" value="{{category}}" />
         </div>
         <!-- End complexity block -->
-        
+
         <!-- Comments block -->
         <div class="form-group">
             <label>Comments </label>

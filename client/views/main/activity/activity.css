@@ -1,23 +1,52 @@
 /*****************************************************************************/
 /* Activity: Style */
 /*****************************************************************************/
-.task-column {
-    width: 256px;
-    padding-bottom: 50px;
+#activity-content{
+    min-height: 100%;
+    height: auto; 
+
 }
-.task-portlet {
+#activity-content > .row {
+    overflow-x:scroll;
+    overflow-y:hidden;
+    white-space:nowrap;
+}    
+#activity-content > .row [class*="col-lg"], #main-content > .row [class*="col-md"], #main-content > .row [class*="col-sm"] {
+    float:none;
+    display:inline-block;
+    white-space:normal;
+    vertical-align:top;
+    width: 220px;
+}
+
+.list-states {
     
 }
-.task-portlet-header {
+
+.state {
+    width: 220px; 
+    vertical-align: top;
+    background-color: azure;
 }
-.task-portlet-toggle {
+
+.state-title {
+    background-color: #428bca;
+    padding: 0.5em;
+    border-radius: 10px;
+    margin-bottom: 0.5em;
+    color: #fff;
 }
-.task-portlet-content {
+
+.state-liste-task {
     
 }
+
+.task {
+    padding: 10px;
+}
+
 .placeholder {
     border: 1px dotted black;
     margin: 0 1em 1em 0;
     background-color: lightgrey;
-    height: 50px;
 }

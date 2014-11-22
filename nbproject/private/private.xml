@@ -3,14 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/layouts/master_layout/master_layout.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/shared/task_form/task_form.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/activity/activity.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/shared/menu/menu.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/activity/activity.css</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/shared/task_form/task_form.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/layouts/task_detail_modal/task_detail_modal.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/activity/activity.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/shared/menu/menu.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/activity.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/kadira.js</file>
         </group>
     </open-files>
 </project-private>

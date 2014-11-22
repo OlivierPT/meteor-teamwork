@@ -10,7 +10,7 @@
  *
  */
 Meteor.publish('tasksByActivity', function (activityId) {
-  return Task.find({activity : activityId});
+  return Task.find({activity : activityId}, {sort: {position: 1}});
 });
 
 
