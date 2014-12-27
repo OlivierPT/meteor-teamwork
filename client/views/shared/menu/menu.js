@@ -25,19 +25,18 @@ Template.CreateActivity.events({
         var description = $('input#activityDescription').val();
         var teamValue = $('#activityTeamSelect').val();
 
-        // Controles
-        check(name, NonEmptyString);
-        if (!description) {
-            description = "";
-        }
-
-        Meteor.call('createActivity', name, teamValue, description);
-
-        // Reset the input
-        $('input#activityName').val(undefined);
-        $('input#activityDescription').val(undefined);
-        $('#activityTeamSelect').val("new");
-
+        Meteor.call('createActivity', name, teamValue, description, function(error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Erreur lors de la création de l'activité", error);
+            } else {
+                emitNotification("Activité crée : "+result);
+                // Reset the input
+                $('input#activityName').val(undefined);
+                $('input#activityDescription').val(undefined);
+                $('#activityTeamSelect').val("new");                
+            }
+        });
         // Fermeture de la fenetre modal
         $('#createActivityModal').modal('hide');
     }
@@ -49,15 +48,12 @@ Template.CreateActivity.helpers({
         return activity;
     }
 });
-
 /*****************************************************************************/
 /* Menu: Lifecycle Hooks */
 /*****************************************************************************/
 Template.Menu.created = function () {
 };
-
 Template.Menu.rendered = function () {
 };
-
 Template.Menu.destroyed = function () {
 };

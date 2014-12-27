@@ -8,9 +8,17 @@ Template.Team.events({
         var userId = event.currentTarget.getAttribute("data-user-id");
         var team = Session.get("team");
 
-        Meteor.call('removeMember', team._id, userId);
+        Meteor.call('removeMember', team._id, userId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to remove the member.", error);
+            } else {
+                emitNotification("Member removed from team.");                
+            }
+        });
         
         if (userId === Meteor.userId()) {
+            emitNotification("You are not anymore a part of the current team.");
             console.log("Removing myself from the current team");
             Router.go('Teams');
         }
@@ -18,7 +26,14 @@ Template.Team.events({
     'click #addMember': function(event) {
         var username = $("#newMember").val();
         var team = Session.get("team");
-        Meteor.call('addMemberWithUsername', team._id, username);
+        Meteor.call('addMemberWithUsername', team._id, username, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add the member.", error);
+            } else {
+                emitNotification("Member added to the team.");                
+            }
+        });
     },
     
     'click #saveTeamInfoBtn': function(event) {
@@ -28,7 +43,14 @@ Template.Team.events({
         team.name = teamName;
         team.description = teamDesc;
 
-        Meteor.call('updateTeam', team);
+        Meteor.call('updateTeam', team, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to update the team.", error);
+            } else {
+                emitNotification("Team updated.");                
+            }
+        });
     }
 });
 

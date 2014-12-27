@@ -5,13 +5,27 @@ Template.ActivitySettings.events({
   'click #addStateBtn': function () {
         var activityId = $('#addStateBtn').attr("data-activity-id");
         var label = $('input#newStateLabel').val();
-        Meteor.call('addState', label, activityId);
+        Meteor.call('addState', label, activityId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add state.", error);
+            } else {
+                emitNotification("New state added.");                
+            }
+        });
 
         $('input#newStateLabel').val("");
     },
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
-        Meteor.call('addMemberWithEmail', this.team, memberEmail);
+        Meteor.call('addMemberWithEmail', this.team, memberEmail, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add a member.", error);
+            } else {
+                emitNotification("New member added.");                
+            }
+        });
     },
     
 });

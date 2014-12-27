@@ -5,12 +5,26 @@ Template.Activity.events({
     'click a[name="deleteState"]': function (event) {
         var stateId = event.currentTarget.getAttribute("data-state-id");
 
-        Meteor.call('removeState', stateId);
+        Meteor.call('removeState', stateId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to delete the state.", error);
+            } else {
+                emitNotification("State deleted.");
+            }
+        })
     },
     'click a[name="deleteActivity"]': function (event) {
         var activityId = event.currentTarget.getAttribute("data-activity-id");
 
-        Meteor.call('deleteActivity', activityId);
+        Meteor.call('deleteActivity', activityId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to delete the Activity.", error);
+            } else {
+                emitNotification("Activity deleted.");
+            }
+        });
     },
     'click a[name="taskDetail"]': function (event) {
         var taskId = $(event.currentTarget).attr("data-task-id");
@@ -19,7 +33,14 @@ Template.Activity.events({
     },
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
-        Meteor.call('addMemberWithEmail', this.team, memberEmail);
+        Meteor.call('addMemberWithEmail', this.team, memberEmail, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add the member.", error);
+            } else {
+                emitNotification("Memeber added.");
+            }
+        });
     },
     'click a[name="openNewTaskModal"]': function (event) {
         var stateId = $(event.currentTarget).attr("data-state-id");
@@ -56,7 +77,7 @@ Template.Activity.rendered = function () {
             title: 'State options',
             placement: 'bottom',
             content: function () {
-                return $("div[name='stateInfo-content-"+this.getAttribute("data-state-id")+"'").html();
+                return $("div[name='stateInfo-content-" + this.getAttribute("data-state-id") + "'").html();
             }
         });
     });
@@ -71,7 +92,7 @@ Template.Activity.rendered = function () {
             return $("#activitySettings-content").html();
         }
     });
-    
+
     // Drag and drop for task
     $(".task-list").sortable({
         connectWith: ".task-list",
@@ -79,31 +100,41 @@ Template.Activity.rendered = function () {
         dropOnEmpty: true,
         update: function (event, ui) {
             var nextTaskId = -1;
-            var taskId = ui.item.context.getAttribute("data-task-id");            
+            var taskId = ui.item.context.getAttribute("data-task-id");
             var stateId = ui.item.context.parentElement.getAttribute("data-state-id");
             if (ui.item.context.nextElementSibling) {
-                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");                
+                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
             }
 
-            Meteor.call('moveTask', taskId, stateId, nextTaskId);
+            Meteor.call('moveTask', taskId, stateId, nextTaskId, function (error, result) {
+                // identify the error           
+                if (error) {
+                    emitError("Error when moving task.", error);
+                }
+            });
         }
     });
-    
+
     // Drag and drop for state
     $(".list-states").sortable({
         connectWith: ".list-states",
         placeholder: "list-group-item state state-placeholder",
         update: function (event, ui) {
             var nextStateId = -1;
-            var stateId = ui.item.context.getAttribute("data-state-id");            
+            var stateId = ui.item.context.getAttribute("data-state-id");
             if (ui.item.context.nextElementSibling) {
-                var nextStateId = ui.item.context.nextElementSibling.getAttribute("data-state-id");                
+                var nextStateId = ui.item.context.nextElementSibling.getAttribute("data-state-id");
             }
 
-            Meteor.call('moveState', stateId, nextStateId);
+            Meteor.call('moveState', stateId, nextStateId, function (error, result) {
+                // identify the error           
+                if (error) {
+                    emitError("Error when moving state.", error);
+                } 
+            });
         }
     });
-    
+
 
 };
 

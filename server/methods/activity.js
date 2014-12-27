@@ -18,14 +18,20 @@ Meteor.methods({
         console.log("MethodCall : createActivity - currentUser = " + Meteor.userId());
 
         // Controles
-        check(name, String);
-        check(teamValue, String);
-        check(description, Match.Optional(String));
+        check(name, NonEmptyString);
+        check(teamValue, NonEmptyString);
 
         // First creating a Team for the new Activity
         var teamId = teamValue;
         if (teamId === "new") {
-            teamId = Meteor.call('createTeam', name + " Team", name + " activity's Team");
+            teamId = Meteor.call('createTeam', name + " Team", name + " activity's Team", function (error, result) {
+                // identify the error           
+                if (error) {
+                    emitError("Impossible to create a new team.", error);
+                } else {
+                    emitNotification("New team created.");
+                }
+            });
             console.log("Created new Team : " + teamId);
         }
 
@@ -35,6 +41,7 @@ Meteor.methods({
         State.insert({activity: actvityId, label: "Doing", position: 2});
         State.insert({activity: actvityId, label: "Done", position: 3});
         console.log("Activity created");
+        return actvityId;
     },
     'deleteActivity': function (activityId) {
         console.log("MethodCall : deleteActivity - activityId = " + activityId);
@@ -92,18 +99,22 @@ Meteor.methods({
      */
     'removeState': function (stateId) {
         console.log("MethodCall : removeState - id = " + stateId);
+        
+        // First, save the origin Activity
+        var activity = State.findOne({_id: stateId}).activity;
+        
         // First, remove the tasks
         Task.remove({state: stateId});
         // Then, remove the state
         State.remove({_id: stateId});
-        
+
         // Check the order
         var order = 0;
-        State.find({activity: stateToMove.activity}, {sort: {position: 1}}).forEach(function (currentState) {
-            order += 1;            
-            State.update({_id: currentState._id}, {$set: {position: order}});         
+        State.find({activity: activity}, {sort: {position: 1}}).forEach(function (currentState) {
+            order += 1;
+            State.update({_id: currentState._id}, {$set: {position: order}});
         });
-        
+
         console.log("State and associated Tasks deleted");
     },
     /**
@@ -127,7 +138,7 @@ Meteor.methods({
             }
             if (currentState._id !== stateToMove._id) {
                 State.update({_id: currentState._id}, {$set: {position: order}});
-            }            
+            }
         });
 
         if (newPosition === -1) {
@@ -187,7 +198,7 @@ Meteor.methods({
         var newPosition = -1;
         console.log("MethodCall : moveTask - Reordoring current state.");
         Task.find({state: taskToMove.state}, {sort: {position: 1}}).forEach(function (currentTask) {
-            
+
             order += 1;
             if (currentTask._id === nextTaskId) {
                 newPosition = order;
@@ -197,7 +208,7 @@ Meteor.methods({
             if (currentTask._id !== taskToMove._id) {
                 Task.update({_id: currentTask._id}, {$set: {position: order}});
             }
-            
+
         });
 
 
@@ -216,7 +227,7 @@ Meteor.methods({
                 if (currentTask._id !== taskToMove._id) {
                     Task.update({_id: currentTask._id}, {$set: {position: order}});
                 }
-                
+
             });
             if (newPosition === -1) {
                 newPosition = order;

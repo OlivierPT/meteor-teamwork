@@ -6,7 +6,14 @@ Template.TaskForm.events({
         var comment = $('#comment').val();
         var currentTask = Task.findOne({_id: Session.get("selectedTaskId")});
 
-        Meteor.call('addCommentToTask', currentTask, comment);
+        Meteor.call('addCommentToTask', currentTask, comment, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add a comment.", error);
+            } else {
+                emitNotification("Commend added.");                
+            }
+        });
 
         $('#comment').val("");
     }

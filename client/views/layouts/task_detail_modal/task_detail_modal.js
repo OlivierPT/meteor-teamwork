@@ -14,11 +14,25 @@ Template.TaskDetailModal.events({
         currentTask.complexity = complexity;
         currentTask.category = category;
 
-        Meteor.call('storeTask', currentTask);
+        Meteor.call('storeTask', currentTask, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to store task modification.", error);
+            } else {
+                emitNotification("Task saved.");                
+            }
+        });
         $('#taskDetailModal').modal('hide');
     },
     'click button#deleteTaskBtn': function (event) {
-        Meteor.call('removeTask', Session.get("selectedTaskId"));
+        Meteor.call('removeTask', Session.get("selectedTaskId"), function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to remove task.", error);
+            } else {
+                emitNotification("Task deleted.");                
+            }
+        });
         $('#taskDetailModal').modal('hide');
     }
 });

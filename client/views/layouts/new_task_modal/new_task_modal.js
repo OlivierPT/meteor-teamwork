@@ -10,9 +10,15 @@ Template.NewTaskModal.events({
         var complexity = $('#complexity').val();
         var category = $('#category').val();
 
-        Meteor.call('addTask', label, this.activity, stateId);
-
-        $('input#taskName' + stateId).val("");
+        Meteor.call('addTask', label, this.activity, stateId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add the task.", error);
+            } else {
+                emitNotification("Task added.");
+                $('input#taskName' + stateId).val("");
+            }
+        });
     }
 });
 

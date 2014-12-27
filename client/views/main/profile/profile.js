@@ -10,7 +10,14 @@ Template.Profile.events({
         profile.firstname = firstname;
         profile.lastname = lastname;
         
-        Meteor.call('updateUserProfile', profile);
+        Meteor.call('updateUserProfile', profile, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible update the profile.", error);
+            } else {
+                emitNotification("Profile updated.");                
+            }
+        });
     }
 });
 

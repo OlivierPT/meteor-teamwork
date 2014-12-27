@@ -6,7 +6,14 @@ Template.Teams.events({
         var name = $("#name").val();
         var description = $("#description").val();
 
-        Meteor.call('createTeam', name, description);
+        Meteor.call('createTeam', name, description, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to create the team.", error);
+            } else {
+                emitNotification("Team created.");                
+            }
+        });
         
         $("#name").val("");
         $("#description").val("");
@@ -16,7 +23,14 @@ Template.Teams.events({
     'click a[name="deleteTeamBtn"]': function(event) {
         var teamId = $(event.currentTarget).attr("data-team-id");
         
-        Meteor.call('deleteTeam', teamId);
+        Meteor.call('deleteTeam', teamId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to delete the team.", error);
+            } else {
+                emitNotification("Team deleted.");                
+            }
+        });
     }
 
 });
