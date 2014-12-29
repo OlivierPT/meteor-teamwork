@@ -47,10 +47,9 @@ Template.TaskDetailModal.helpers({
     currentTask: function () {
         var task = {};
         var activity = Session.get("activity");
-        if (activity) {
-            var taskId = Session.get("selectedTaskId");
-            var stateId = Session.get("selectedStateId");
-            
+        var taskId = Session.get("selectedTaskId");
+        var stateId = Session.get("selectedStateId");
+        if (activity && stateId && taskId) {            
             var state = getStateById(activity, stateId);
             task = getTaskById(state, taskId);
         }

@@ -11,17 +11,17 @@
  * @param {type} datas
  * @returns {undefined}
  */
-createTask = function(datas) {
-  var newTask = {id: new Mongo.ObjectID().toHexString(), label: datas.label, comments: []};
-  return newTask;
+createTask = function (datas) {
+    var newTask = {id: new Mongo.ObjectID().toHexString(), label: datas.label, comments: []};
+    return newTask;
 }
 
 /**
  * 
  * @param {type} param
  */
-createState = function(datas) {
-    var newState =  {id: new Mongo.ObjectID().toHexString(), label: datas.label, tasks: []};
+createState = function (datas) {
+    var newState = {id: new Mongo.ObjectID().toHexString(), label: datas.label, tasks: []};
     return newState;
 }
 
@@ -50,14 +50,14 @@ Meteor.methods({
         if (teamId === "new") {
             teamId = Meteor.call('createTeam', name + " Team", name + " activity's Team");
         }
-        
+
         var newActivity = {};
         newActivity.name = name;
         newActivity.description = description;
         newActivity.owner = Meteor.userId();
         newActivity.team = teamId;
         newActivity.states = [];
-        
+
         var stateDatas = {};
         stateDatas.label = "ToDo";
         newActivity.states.push(createState(stateDatas));
@@ -71,7 +71,6 @@ Meteor.methods({
         console.log("New activity created!");
         return actvityId;
     },
-    
     'deleteActivity': function (activityId) {
         console.log("MethodCall : deleteActivity - activityId = " + activityId);
         // Controles
@@ -80,7 +79,7 @@ Meteor.methods({
         if (Meteor.userId()) {
             // L'utilisateur doit etre le owner de l'activity
             var activity = Activity.findOne({_id: activityId});
-            if (activity.owner === Meteor.userId()) {                
+            if (activity.owner === Meteor.userId()) {
                 // Si l'equipe n'existe que pour cette activite, elle est 
                 // aussi supprimé
                 var nbActivityForTeam = Activity.find({team: activity.team}).count();
@@ -115,12 +114,12 @@ Meteor.methods({
      * @param {type} activityId
      * @returns {undefined}
      */
-    'addState': function (stateLabel, activityId) {     
+    'addState': function (stateLabel, activityId) {
         var stateDatas = {};
         stateDatas.label = stateLabel;
-        var newState = createState(stateDatas);   
+        var newState = createState(stateDatas);
         Activity.update({_id: activityId},
-                   {$push: {states: newState}});        
+        {$push: {states: newState}});
     },
     /**
      * Remove a state and all the tasks included
@@ -129,9 +128,9 @@ Meteor.methods({
      * @returns {undefined}
      */
     'removeState': function (stateId, activityId) {
-        console.log("MethodCall : removeState - id = " + stateId);        
+        console.log("MethodCall : removeState - id = " + stateId);
         Activity.update({_id: activityId},
-                   {$pull: {states: {id: stateId}}}); 
+        {$pull: {states: {id: stateId}}});
         console.log("State and associated Tasks deleted");
     },
     /**
@@ -140,11 +139,42 @@ Meteor.methods({
      * @param {type} stateId
      * @returns {undefined}
      */
-    'moveState': function (activityId, stateId, newPosition) {
+    'moveState': function (activityId, stateId, nextStateId) {
         console.log("MethodCall : moveState - stateId = " + stateId + " - nextStateId= " + nextStateId);
-        
 
-        console.log("State stored : position: " + newPosition);
+        var activity = Activity.findOne({_id: activityId});
+
+        // Fisrt the state is put out
+        var i = 0;
+        var state;
+        while (i < activity.states.length && !state) {
+            if (activity.states[i].id === stateId) {
+                console.log("State found :  ID = " + activity.states[i].id + " - label = " + activity.states[i].label);
+                state = activity.states[i];
+                activity.states.splice(i, 1);
+            }
+            i++;
+        }
+        var newPosition = -1;
+        // Then, the state is added to the new position
+        if (nextStateId === -1) {
+            activity.states.push(state);
+            newPosition = activity.states.length;
+        } else {
+            i = 0;
+            var done = false;
+            while (i < activity.states.length && !done) {
+                if (activity.states[i].id === nextStateId) {
+                    console.log("State found :  ID = " + activity.states[i].id + " - label = " + activity.states[i].label);
+                    activity.states.splice(i, 0, state);
+                    newPosition = i;
+                    done = true;
+                }
+                i++;
+            }
+        }
+        Activity.update({_id: activityId}, activity);
+        console.log("Activity stored. State moved : position: " + newPosition);
     },
     /**
      * Add a task for an Activity and a State
@@ -155,14 +185,14 @@ Meteor.methods({
      * @returns {undefined}
      */
     'addTask': function (label, activityId, stateId) {
-        console.log("MethodCall : addTask - label = " + label + " - activityId = "+activityId+" - stateId = "+stateId);
-        
+        console.log("MethodCall : addTask - label = " + label + " - activityId = " + activityId + " - stateId = " + stateId);
+
         var taskDatas = {};
         taskDatas.label = label;
-        var newTask = createTask(taskDatas); 
-        
+        var newTask = createTask(taskDatas);
+
         Activity.update({_id: activityId, "states.id": stateId},
-            {$push: {"states.$.tasks": newTask}}); 
+        {$push: {"states.$.tasks": newTask}});
     },
     /**
      * 
@@ -170,9 +200,9 @@ Meteor.methods({
      * @returns {undefined}
      */
     'removeTask': function (activityId, stateId, taskId) {
-        console.log("MethodCall : removeTask - activityId = "+activityId+" - stateId = "+stateId+" - taskId = "+taskId);
+        console.log("MethodCall : removeTask - activityId = " + activityId + " - stateId = " + stateId + " - taskId = " + taskId);
         Activity.update({_id: activityId, "states.id": stateId},
-            {$pull: {"states.$.tasks": {id: taskId}}});
+        {$pull: {"states.$.tasks": {id: taskId}}});
         console.log("Tasks deleted");
     },
     /**
@@ -183,10 +213,10 @@ Meteor.methods({
     'storeTask': function (activityId, stateId, task) {
         console.log("MethodCall : storeTask - id = " + task._id + " position : " + task.position);
         // update the task
-        var activity = Activity.findOne({_id: activityId});        
-        var state = getStateById(activity, stateId);        
+        var activity = Activity.findOne({_id: activityId});
+        var state = getStateById(activity, stateId);
         //var task = getTaskById(state, taskId);
-        
+
         Activity.update({_id: activityId}, activity);
         console.log("Task stored");
     },
@@ -195,12 +225,48 @@ Meteor.methods({
      * @param {type} task
      * @returns {undefined}
      */
-    'moveTask': function (activityId, taskId, newState, taskPosition) {
-        console.log("MethodCall : moveTask - id = " + taskId + " newState : " + newState);
+    'moveTask': function (activityId, taskId, newStateId, nextTaskId) {
+        console.log("MethodCall : moveTask - activityId = " + activityId + " - taskId = " +taskId+ " - newStateId : " + newStateId+ " - nextTaskId = "+nextTaskId);
 
+        var activity = Activity.findOne({_id: activityId});
+        var currentState = findStateForTask(activity, taskId);
+        console.log("Current state found :  ID = " + currentState.id);
         
+        // Removing the task from the state
+        var i = 0;
+        var task;
+        while (i < currentState.tasks.length && !task) {
+            if (currentState.tasks[i].id === taskId) {
+                console.log("Task found :  ID = " + currentState.tasks[i].id + " - label = " + currentState.tasks[i].label);
+                task = currentState.tasks[i];
+                currentState.tasks.splice(i, 1);
+            }
+            i++;
+        }
 
-        console.log("Task stored : newState=" + newState + " - position: " + newPosition);
+        // Finding new task and adding the task
+        var newState = getStateById(activity, newStateId);
+        if (nextTaskId === -1) {
+            newState.tasks.push(task);
+            newPosition = 0;
+        } else {
+            var done = false;
+            var newPosition;
+            var j = 0;
+            while (j < newState.tasks.length && !done) {
+                if (newState.tasks[j].id === nextTaskId) {
+                    console.log("Next Task found :  ID = " + currentState.tasks[j].id + " - label = " + currentState.tasks[j].label);
+                    newState.tasks.splice(j, 0, task);
+                    newPosition = j;
+                    done = true;
+                }
+                j++;
+            }
+        }
+
+        Activity.update({_id: activityId}, activity);
+        
+        console.log("Activity stored : newState=" + newState.label + " - position: " + newPosition);
     },
     /**
      * 
@@ -209,19 +275,19 @@ Meteor.methods({
      * @returns {undefined}
      */
     'addCommentToTask': function (activityId, stateId, taskId, comment) {
-        console.log("MethodCall : addCommentToTask - activityId = " + activityId + " - stateId = " + stateId + " - taskId = "+taskId+" , comment = " + comment);
-        
+        console.log("MethodCall : addCommentToTask - activityId = " + activityId + " - stateId = " + stateId + " - taskId = " + taskId + " , comment = " + comment);
+
         var newComment = {};
         newComment.content = comment;
         newComment.author = Meteor.userId();
         newComment.dateCreate = new Date();
-        
-        var activity = Activity.findOne({_id: activityId});        
-        var state = getStateById(activity, stateId);        
+
+        var activity = Activity.findOne({_id: activityId});
+        var state = getStateById(activity, stateId);
         var task = getTaskById(state, taskId);
-        
-        task.comments.push(newComment); 
-        
+
+        task.comments.push(newComment);
+
         Activity.update({_id: activityId}, activity);
         console.log("Tasks store");
     }

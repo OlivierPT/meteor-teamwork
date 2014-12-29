@@ -32,7 +32,6 @@ Template.Activity.events({
         Session.set("selectedTaskId", taskId);
         Session.set("selectedStateId", stateId);
     },
-    
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
         Meteor.call('addMemberWithEmail', this.team, memberEmail, function (error, result) {
@@ -45,7 +44,7 @@ Template.Activity.events({
         });
     },
     'click a[name="openNewTaskModal"]': function (event) {
-        var stateId = $(event.currentTarget).closest(".state").attr("data-state-id");        
+        var stateId = $(event.currentTarget).closest(".state").attr("data-state-id");
         Session.set("selectedTaskId", -1);
         Session.set("selectedStateId", stateId);
     }
@@ -95,49 +94,52 @@ Template.Activity.rendered = function () {
         }
     });
 
-    // Drag and drop for task
-    $(".task-list").sortable({
-        connectWith: ".task-list",
-        placeholder: "list-group-item task-placeholder",
-        dropOnEmpty: true,
+    // Drag and drop for state
+    $(".list-states").sortable({
+        placeholder: "state state-placeholder",
+        handle: ".state-title",
         update: function (event, ui) {
-            var nextTaskId = -1;
-            var taskId = ui.item.context.getAttribute("data-task-id");
-            var stateId = ui.item.context.parentElement.getAttribute("data-state-id");
+            var activityId = $("#activityPanel").attr("data-activity-id");
+            var nextStateId = -1;
+            var stateId = ui.item.context.getAttribute("data-state-id");
             if (ui.item.context.nextElementSibling) {
-                var nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
+                nextStateId = ui.item.context.nextElementSibling.getAttribute("data-state-id");
             }
 
-            Meteor.call('moveTask', taskId, stateId, nextTaskId, function (error, result) {
+            $(this).sortable("cancel");
+            
+            Meteor.call('moveState', activityId, stateId, nextStateId, function (error) {
+                // identify the error           
+                if (error) {
+                    emitError("Error when moving state.", error);
+                }
+
+            });
+        }
+    });
+    
+    // Drag and drop for task
+    $(".task-list").sortable({
+        placeholder: "list-group-item task task-placeholder",
+        dropOnEmpty: true,
+        update: function (event, ui) {
+            var activityId = $("#activityPanel").attr("data-activity-id");
+            var nextTaskId = -1;
+            var taskId = ui.item.context.getAttribute("data-task-id");
+            var stateId = ui.item.context.offsetParent.getAttribute("data-state-id");
+            if (ui.item.context.nextElementSibling) {
+                nextTaskId = ui.item.context.nextElementSibling.getAttribute("data-task-id");
+            }
+
+            Meteor.call('moveTask', activityId, taskId, stateId, nextTaskId, function (error) {
                 // identify the error           
                 if (error) {
                     emitError("Error when moving task.", error);
                 }
+
             });
         }
     });
-
-    // Drag and drop for state
-    $(".list-states").sortable({
-        connectWith: ".list-states",
-        placeholder: "list-group-item state state-placeholder",
-        update: function (event, ui) {
-            var nextStateId = -1;
-            var stateId = ui.item.context.getAttribute("data-state-id");
-            if (ui.item.context.nextElementSibling) {
-                var nextStateId = ui.item.context.nextElementSibling.getAttribute("data-state-id");
-            }
-
-            Meteor.call('moveState', stateId, nextStateId, function (error, result) {
-                // identify the error           
-                if (error) {
-                    emitError("Error when moving state.", error);
-                } 
-            });
-        }
-    });
-
-
 };
 
 Template.Activity.destroyed = function () {
