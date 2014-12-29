@@ -2,16 +2,18 @@
 /* TaskForm: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
 Template.TaskForm.events({
-  'click button#addCommentBtn': function (event) {
+    'click button#addCommentBtn': function (event) {
         var comment = $('#comment').val();
-        var currentTask = Task.findOne({_id: Session.get("selectedTaskId")});
+        var currentTaskId = Session.get("selectedTaskId");
+        var stateId = Session.get("selectedStateId");
+        var activityId = Session.get("activity")._id;
 
-        Meteor.call('addCommentToTask', currentTask, comment, function (error, result) {
+        Meteor.call('addCommentToTask', activityId, stateId, currentTaskId, comment, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to add a comment.", error);
             } else {
-                emitNotification("Commend added.");                
+                emitNotification("Commend added.");
             }
         });
 
@@ -21,7 +23,12 @@ Template.TaskForm.events({
 
 Template.TaskForm.helpers({
     states: function () {
-        return State.find();
+        var activity = Session.get("activity");
+        if (activity) {
+            return activity.states;
+        } else {
+            return [];
+        }
     },
     members: function () {
         var activity = Session.get("activity");
@@ -32,21 +39,17 @@ Template.TaskForm.helpers({
             return [];
         }
     },
-    isStateSelected: function () {
-        var task = Template.parentData(1);
-        
-        return task.state === this._id;
-    },
+    
     stateSelected: function () {
-        var task = Template.parentData(1);
-        
+        var stateId = Session.get("selectedStateId");
+
         var selectedHtml = "";
-        if (task.state && task.state === this._id) {
+        if (stateId && stateId === this._id) {
             selectedHtml = "selected";
         }
         return selectedHtml;
     }
-    
+
 });
 
 /*****************************************************************************/

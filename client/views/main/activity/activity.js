@@ -3,9 +3,9 @@
 /*****************************************************************************/
 Template.Activity.events({
     'click a[name="deleteState"]': function (event) {
-        var stateId = event.currentTarget.getAttribute("data-state-id");
-
-        Meteor.call('removeState', stateId, function (error, result) {
+        var stateId = $(event.currentTarget).closest(".state").attr("data-state-id");
+        var activityId = Template.parentData(1)._id;
+        Meteor.call('removeState', stateId, activityId, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to delete the state.", error);
@@ -15,7 +15,7 @@ Template.Activity.events({
         })
     },
     'click a[name="deleteActivity"]': function (event) {
-        var activityId = event.currentTarget.getAttribute("data-activity-id");
+        var activityId = Template.currentData()._id;
 
         Meteor.call('deleteActivity', activityId, function (error, result) {
             // identify the error           
@@ -27,10 +27,12 @@ Template.Activity.events({
         });
     },
     'click a[name="taskDetail"]': function (event) {
-        var taskId = $(event.currentTarget).attr("data-task-id");
-
+        var taskId = $(event.currentTarget).closest(".task").attr("data-task-id");
+        var stateId = $(event.currentTarget).closest(".state").attr("data-state-id");
         Session.set("selectedTaskId", taskId);
+        Session.set("selectedStateId", stateId);
     },
+    
     'click #addMember': function (event) {
         var memberEmail = $("#newMember").val();
         Meteor.call('addMemberWithEmail', this.team, memberEmail, function (error, result) {
@@ -43,7 +45,7 @@ Template.Activity.events({
         });
     },
     'click a[name="openNewTaskModal"]': function (event) {
-        var stateId = $(event.currentTarget).attr("data-state-id");
+        var stateId = $(event.currentTarget).closest(".state").attr("data-state-id");        
         Session.set("selectedTaskId", -1);
         Session.set("selectedStateId", stateId);
     }
@@ -55,10 +57,10 @@ Template.Activity.helpers({
         return id;
     },
     states: function () {
-        return State.find();
+        return this.states;
     },
     tasks: function () {
-        return Task.find({state: this._id});
+        return this.tasks;
     }
 });
 

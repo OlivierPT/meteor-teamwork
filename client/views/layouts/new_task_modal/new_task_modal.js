@@ -4,31 +4,29 @@
 Template.NewTaskModal.events({
   'click button#createTaskBtn': function (event) {
         
-        var label = $('input#newTaskLabel').val();
-        var desc = $('#description').val();
-        var stateId = $('#taskState').val();
-        var complexity = $('#complexity').val();
-        var category = $('#category').val();
+        var label = $('#newTaskModal #label').val();
+        var desc = $('#newTaskModal #description').val();
+        var stateId = $('#newTaskModal #taskState').val();
+        var complexity = $('#newTaskModal #complexity').val();
+        var category = $('#newTaskModal #category').val();
+        var activityId = Session.get("activity")._id;
 
-        Meteor.call('addTask', label, this.activity, stateId, function (error, result) {
+        Meteor.call('addTask', label, activityId, stateId, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to add the task.", error);
             } else {
                 emitNotification("Task added.");
-                $('input#taskName' + stateId).val("");
+                $('#newTaskModal #label').val("");
             }
         });
+         $('#newTaskModal').modal('hide');
     }
 });
 
 Template.NewTaskModal.helpers({
   newTask: function () {  
-        var newTask = {};
-        newTask._id = -1;
-        newTask.state = Session.get("selectedStateId");
-        newTask.activity = this._id;
-        
+        var newTask = {};        
         return newTask;
     }
 });

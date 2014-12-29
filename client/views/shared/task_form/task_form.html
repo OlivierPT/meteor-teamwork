@@ -3,7 +3,7 @@
         <!-- Label block -->
         <div class="form-group">
             <label for="label">Label</label>
-            <input type="text" class="form-control" id="newTaskLabel" placeholder="Task Label" value="{{label}}" />
+            <input type="text" class="form-control" id="label" placeholder="Task Label" value="{{label}}" />
         </div>
         <!-- End label block -->
         
@@ -19,7 +19,7 @@
             <label for="taskState">State</label>
             <select class="form-control" id="taskState">
                 {{#each states}}
-                <option value="{{_id}}" {{stateSelected}}>
+                <option value="{{id}}" {{stateSelected}}>
                     {{label}}
                 </option>                
                 {{/each}}

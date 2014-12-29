@@ -3,34 +3,40 @@
 /*****************************************************************************/
 Template.TaskDetailModal.events({
     'click button#saveTaskBtn': function (event) {
-        var desc = $('#description').val();
-        var state = $('#taskState').val();
-        var complexity = $('#complexity').val();
-        var category = $('#category').val();
+        var desc = $('#taskDetailModal #description').val();
+        var state = $('#taskDetailModal #taskState').val();
+        var complexity = $('#taskDetailModal #complexity').val();
+        var category = $('#taskDetailModal #category').val();
+        var currentTaskId = Session.get("selectedTaskId");
 
-        var currentTask = Task.findOne({_id: Session.get("selectedTaskId")});
-        currentTask.description = desc;
-        currentTask.state = state;
-        currentTask.complexity = complexity;
-        currentTask.category = category;
+        var modifiedTask = {};
+        modifiedTask.id = currentTaskId;
+        modifiedTask.description = desc;
+        modifiedTask.state = state;
+        modifiedTask.complexity = complexity;
+        modifiedTask.category = category;
 
-        Meteor.call('storeTask', currentTask, function (error, result) {
+        Meteor.call('storeTask', modifiedTask, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to store task modification.", error);
             } else {
-                emitNotification("Task saved.");                
+                emitNotification("Task saved.");
             }
         });
         $('#taskDetailModal').modal('hide');
     },
     'click button#deleteTaskBtn': function (event) {
-        Meteor.call('removeTask', Session.get("selectedTaskId"), function (error, result) {
+        var activityId = Session.get("activity")._id;
+        var taskId = Session.get("selectedTaskId");
+        var stateId = Session.get("selectedStateId");
+
+        Meteor.call('removeTask', activityId, stateId, taskId, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to remove task.", error);
             } else {
-                emitNotification("Task deleted.");                
+                emitNotification("Task deleted.");
             }
         });
         $('#taskDetailModal').modal('hide');
@@ -39,7 +45,16 @@ Template.TaskDetailModal.events({
 
 Template.TaskDetailModal.helpers({
     currentTask: function () {
-        return Task.findOne({_id: Session.get("selectedTaskId")});
+        var task = {};
+        var activity = Session.get("activity");
+        if (activity) {
+            var taskId = Session.get("selectedTaskId");
+            var stateId = Session.get("selectedStateId");
+            
+            var state = getStateById(activity, stateId);
+            task = getTaskById(state, taskId);
+        }
+        return task;
     }
 });
 

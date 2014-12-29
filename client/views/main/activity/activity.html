@@ -13,12 +13,12 @@
 
             <!-- All the State are in one row to have a common size -->
             <div class="panel-body">
-                <div class="container" id="activity-content">
+                <div class="container" id="activity-content" data-activity-id="{{_id}}">
                     <div class="row">
                         <div class="col-md-12">
                             <ul class="list-group list-inline list-states">
                                 {{#each states}}
-                                <li class="list-group-item state" data-state-id="{{_id}}">
+                                <li class="list-group-item state" data-state-id="{{id}}">
                                     <div class="dropdown state-title">
                                         <span>{{label}}</span>
                                         <a href="#" role="button" data-toggle="dropdown">
@@ -27,17 +27,16 @@
                                             </span>
                                         </a>
                                         <ul class="dropdown-menu pull-right" role="menu">
-                                            <li><a href="#" name="deleteState" data-state-id="{{_id}}">Delete</a></li>
-                                            <li><a href="#" name="openNewTaskModal" data-state-id="{{_id}}" data-toggle="modal" data-target="#newTaskModal">Add task</a></li>
+                                            <li><a href="#" name="deleteState">Delete</a></li>
+                                            <li><a href="#" name="openNewTaskModal" data-toggle="modal" data-target="#newTaskModal">Add task</a></li>
                                         </ul>
                                     </div>
-                                    <div class="list-group task-list" data-state-id="{{_id}}">
+                                    <div class="list-group task-list">
                                         {{#each tasks}}
-                                        <a href="#" name="taskDetail" class="list-group-item task" data-toggle="modal" data-target="#taskDetailModal" data-task-id="{{_id}}">
+                                        <a href="#" name="taskDetail" class="list-group-item task" data-toggle="modal" data-target="#taskDetailModal" data-task-id="{{id}}">
                                             <h4 class="list-group-item-heading">{{label}}</h4>
                                             <p class="list-group-item-text">{{description}}...</p>
-                                        </a>      
-
+                                        </a>
                                         {{/each}}
                                     </div>
                                 </li>
@@ -56,23 +55,4 @@
 
     {{> NewTaskModal}}
 
-</template>
-
-<template name="TaskList">
-    <ul class="list-group">
-        {{#each tasks}}
-        <li class="list-group-item">            
-            <a href="#" name="taskDetail" class="list-group-item" data-toggle="modal" data-target="#taskDetailModal" data-task-id="{{_id}}">
-                <div class="panel panel-info task-portlet">
-                    <div class="panel-heading task-portlet-header">
-                        <h3 class="panel-title">{{label}}</h3>
-                    </div>
-                    <div class="panel-body task-portlet-content">
-                        {{description}}...
-                    </div>
-                </div>
-            </a>            
-        </li>
-        {{/each}}
-    </ul>
 </template>

@@ -26,12 +26,6 @@ Router.route('/home', {
 Router.route('/activity/:_id', {
     template: 'Activity',
     name: 'activity',
-    waitOn: function () {
-        return  [
-            Meteor.subscribe('stateByActivity', this.params._id),
-            Meteor.subscribe('tasksByActivity', this.params._id)            
-        ];
-    },
     data: function () {
         return Activity.findOne({_id: this.params._id});
     }
