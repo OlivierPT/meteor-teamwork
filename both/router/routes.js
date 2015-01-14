@@ -10,7 +10,7 @@ Router.configure({
 });
 
 Router.route('/', {
-    template: 'App',
+    template: 'App',    
     data: function () {
         return Activity.find();
     }
@@ -18,13 +18,13 @@ Router.route('/', {
 
 Router.route('/home', {
     template: 'App',
-    data: function () {
-        return Activity.find();
-    }
+    layoutTemplate: 'PolymerLayout'
 });
 
 Router.route('/activity/:_id', {
-    template: 'Activity',
+    //template: 'Activity',
+    template: 'MaterialActivity',
+    layoutTemplate: 'PolymerLayout',
     name: 'activity',
     data: function () {
         return Activity.findOne({_id: this.params._id});
