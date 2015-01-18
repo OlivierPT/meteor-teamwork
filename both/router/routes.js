@@ -2,7 +2,7 @@
 /* Client and Server Routes */
 /*****************************************************************************/
 Router.configure({
-    layoutTemplate: 'MasterLayout',
+    layoutTemplate: 'PolymerLayout',
     loadingTemplate: 'Loading',
     notFoundTemplate: 'NotFound',
     templateNameConverter: 'upperCamelCase',
@@ -10,51 +10,68 @@ Router.configure({
 });
 
 Router.route('/', {
-    template: 'App',    
-    data: function () {
-        return Activity.find();
-    }
+    template: 'Home'
+});
+Router.route('/home', {
+    template: 'Home'   
 });
 
-Router.route('/home', {
-    template: 'App',
-    layoutTemplate: 'PolymerLayout'
+Router.route('/sign-in', {
+    template: 'SignIn',
+    name: 'sign-in'
+});
+
+Router.route('/sign-up', {
+    template: 'SignUp',
+    name: 'sign-up'
+});
+
+Router.route('/about', {
+    template: 'Home',
+    name: 'about'
+});
+
+Router.route('/sign-out', {
+    action: function () {
+        Meteor.logout();
+        Router.go("/home");
+    }
 });
 
 Router.route('/activity/:_id', {
-    //template: 'Activity',
     template: 'MaterialActivity',
-    layoutTemplate: 'PolymerLayout',
-    name: 'activity',
-    data: function () {
-        return Activity.findOne({_id: this.params._id});
-    }
+    name: 'activity'
 });
 
-Router.route('/teams', {
-    template: 'Teams',
-    name: 'teams',
-    data: function () {
-        return Team.find();
-    }
+Router.route('/activity', {
+    template: 'MaterialNewActivity',
+    name: 'newActivity'
 });
 
-Router.route('/team/:_id', {
-    template: 'Team',
-    name: 'team',
-    data: function () {
-        return Team.findOne({_id: this.params._id});
-    },
-    onAfterAction: function () {
-        Session.set("team", Team.findOne({_id: this.params._id}));
-    }
-});
-
-Router.route('/profile', {
-    template: 'Profile',
-    name: 'profile',
-    data: function () {
-        return Meteor.user();
-    }
-});
+//Router.route('/teams', {
+//    template: 'Teams',
+//    name: 'teams',
+//    data: function () {
+//        return Team.find();
+//    }
+//});
+//
+//Router.route('/team/:_id', {
+//    template: 'Team',
+//    name: 'team',
+//    data: function () {
+//        return Team.findOne({_id: this.params._id});
+//    },
+//    onAfterAction: function () {
+//        Session.set("team", Team.findOne({_id: this.params._id}));
+//    }
+//});
+//
+//Router.route('/profile', {
+//    template: 'Profile',
+//    name: 'profile',
+//    data: function () {
+//        return Meteor.user();
+//    }
+//});
 

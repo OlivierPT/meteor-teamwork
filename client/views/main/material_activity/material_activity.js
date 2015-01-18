@@ -2,19 +2,13 @@
 /* MaterialActivity: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
 Template.MaterialActivity.events({
-  /*
-   * Example:
-   *  'click .selector': function (e, tmpl) {
-   *
-   *  }
-   */
-  'click #new-state-btn': function (e, tmpl) {
-      $("#new-state-dialog").toggle();
-   }
+    'click #new-state-btn': function (e, tmpl) {
+        $("#new-state-dialog").toggle();
+    }
 });
 
 Template.MaterialActivity.helpers({
-  states: function () {
+    states: function () {
         return this.states;
     },
     tasks: function () {

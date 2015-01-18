@@ -1,0 +1,33 @@
+<template name="SignUp">
+    <div class="entry" fit layout vertical center center-justified slide-from-right>
+        <div class="entry-body">
+
+            <paper-input-decorator label="Username" error="We need a username"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="username" type="text" required>
+            </paper-input-decorator>
+            
+            <paper-input-decorator label="Email Address" error="We need a valid email!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="email" type="email" required>
+            </paper-input-decorator>
+
+            <paper-input-decorator label="Password" error="Whats your password?"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="password" type="password" required>
+            </paper-input-decorator>
+            
+            <paper-input-decorator label="Confirm password" error="Whats your password?"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="password2" type="password" required>
+            </paper-input-decorator>
+
+            <div horizontal layout reverse>
+                <paper-button id="sign-up-btn">
+                    <core-icon icon="check"></core-icon>
+                    Sign Up
+                </paper-button>
+            </div>
+        </div>
+    </div>
+</template>

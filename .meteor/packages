@@ -6,13 +6,11 @@
 standard-app-packages
 insecure
 accounts-password
-mizzao:autocomplete@0.4.6
-ian:accounts-ui-bootstrap-3
 meteorhacks:kadira
-mizzao:bootstrap-3
 iron:router
-mizzao:jquery-ui
-rgoomar:bootstrap-validator
 
 ecwyne:polymer
 ecwyne:polymer-elements
+differential:vulcanize
+less
+coffeescript

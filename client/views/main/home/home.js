@@ -1,18 +1,18 @@
 /*****************************************************************************/
-/* MasterLayout: Event Handlers and Helpers */
+/* Home: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
-Template.MasterLayout.events({
+Template.Home.events({
   /*
-   * Example: 
+   * Example:
    *  'click .selector': function (e, tmpl) {
    *
    *  }
    */
 });
 
-Template.MasterLayout.helpers({
+Template.Home.helpers({
   /*
-   * Example: 
+   * Example:
    *  items: function () {
    *    return Items.find();
    *  }
@@ -20,13 +20,13 @@ Template.MasterLayout.helpers({
 });
 
 /*****************************************************************************/
-/* MasterLayout: Lifecycle Hooks */
+/* Home: Lifecycle Hooks */
 /*****************************************************************************/
-Template.MasterLayout.created = function () {
+Template.Home.created = function () {
 };
 
-Template.MasterLayout.rendered = function () {
+Template.Home.rendered = function () {
 };
 
-Template.MasterLayout.destroyed = function () {
+Template.Home.destroyed = function () {
 };

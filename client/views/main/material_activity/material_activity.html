@@ -1,35 +1,37 @@
 <template name="MaterialActivity">
-    <div class="material-activity">   
-        <div class="material-state-list" horizontal layout>
-            {{#each states}}
-            <paper-shadow z="1" style="margin-right: 20px">
-                <div class="material-state">
-                    <div class="material-state-title" horizontal layout>
-                        <span>{{label}}</span>
+    <paper-shadow z="1" style="margin-right: 1em">
+        <div vertical layout class="material-activity" style="height:640px; background-color: white; padding: 1em">  
+            <div class="material-state-list" horizontal layout>
+                {{#each states}}
+                <paper-shadow z="1" style="margin-right: 20px">
+                    <div class="material-state">
+                        <div class="material-state-title" horizontal layout>
+                            <span>{{label}}</span>
+                        </div>
+                        <div class="material-task-list" vertical layout>
+                            {{#each tasks}}
+                            <paper-shadow z="2" style="margin: 5px">
+                                <a href="#" name="taskDetail" class="material-task" data-task-id="{{id}}">
+                                    <h4>{{label}}</h4>
+                                    <p>{{description}}...</p>
+                                </a>
+                            </paper-shadow>
+                            {{/each}}
+                        </div>
                     </div>
-                    <div class="material-task-list" vertical layout>
-                        {{#each tasks}}
-                        <paper-shadow z="2" style="margin: 5px">
-                            <a href="#" name="taskDetail" class="material-task" data-task-id="{{id}}">
-                                <h4>{{label}}</h4>
-                                <p>{{description}}...</p>
-                            </a>
-                        </paper-shadow>
-                        {{/each}}
-                    </div>
-                </div>
-            </paper-shadow>
-            {{/each}}
+                </paper-shadow>
+                {{/each}}
+            </div>
+            <paper-fab id="new-state-btn" icon="create" class="blue" title="create"></paper-fab>
         </div>
-        <paper-fab id="new-state-btn" icon="create" class="blue" title="create"></paper-fab>
-    </div>
+    </paper-shadow>
     
     <paper-action-dialog id="new-state-dialog" backdrop autoCloseDisabled layered="false">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
-          tempor incididunt ut labore et dolore magna aliqua. 
-          Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-          nisi ut aliquip ex ea commodo consequat.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod 
+            tempor incididunt ut labore et dolore magna aliqua. 
+            Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
+            nisi ut aliquip ex ea commodo consequat.</p>
 
-       <paper-button affirmative autofocus>Tap me to close</paper-button>
+        <paper-button affirmative autofocus>Tap me to close</paper-button>
     </paper-action-dialog>
 </template>
