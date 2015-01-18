@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+
+<polymer-element name="tw-task">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                padding: 7px;
+                width: 100%;
+                height: 120px;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
+            .task-header {
+                margin-bottom: 10px;
+                background-color: #E5E5E5;
+            }
+            polyfill-next-selector { content: '.task-header h3'; }
+            .task-header ::content h3 {
+                margin: 0;
+                font-size: 1.8rem;
+                font-weight: 300;
+            }
+        </style>
+        
+        <paper-shadow z="1">
+            <div layout vertical style="height: 100%">
+                <div class="task-header" layout horizontal center-justified>            
+                    <content select="h3"></content>
+                </div>
+                <content></content>
+            </div>
+        </paper-shadow>
+        
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

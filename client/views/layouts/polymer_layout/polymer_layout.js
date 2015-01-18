@@ -2,17 +2,24 @@
 /* PolymerLayout: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
 Template.PolymerLayout.events({
-  /*
-   * Example:
-   *  'click .selector': function (e, tmpl) {
-   *
-   *  }
-   */
+    /*
+     * Example:
+     *  'click .selector': function (e, tmpl) {
+     *
+     *  }
+     */
 });
 
 Template.PolymerLayout.helpers({
-  activities: function () {
+    activities: function () {
         return Activity.find();
+    },
+    viewLabel: function () {
+        var controller = Iron.controller();
+
+        // reactively return the value of postId
+        return controller.state.get('viewLabel');
+
     }
 });
 

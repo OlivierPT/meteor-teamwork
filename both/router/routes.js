@@ -9,7 +9,16 @@ Router.configure({
     routeControllerNameConverter: 'upperCamelCase'
 });
 
-UserController = RouteController.extend({
+BaseController = RouteController.extend({
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "View Label");
+        this.render();
+    }
+});
+
+UserController = BaseController.extend({
     onBeforeAction: function () {
         if (!Meteor.userId()) {
             console.log("UserController : No user. Redirect to home.");
@@ -25,25 +34,55 @@ Router.route('/', function () {
 });
 
 Router.route('/home', {
-    template: 'Home'
+    template: 'Home',
+    name: 'home',
+    controller: BaseController,
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "Home");
+        this.render();
+    }
 });
 
 Router.route('/sign-in', {
     template: 'SignIn',
-    name: 'sign-in'
+    name: 'sign-in',
+    controller: BaseController,
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "Sign-In!");
+        this.render();
+    }
 });
 
 Router.route('/sign-up', {
     template: 'SignUp',
-    name: 'sign-up'
+    name: 'sign-up',
+    controller: BaseController,
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "Sign-Up!");
+        this.render();
+    }
 });
 
 Router.route('/about', {
-    template: 'Home',
-    name: 'about'
+    template: 'About',
+    name: 'about',
+    controller: BaseController,
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "About TeamWork");
+        this.render();
+    }
 });
 
 Router.route('/sign-out', {
+    controller: BaseController,
     action: function () {
         Meteor.logout();
         Router.go("/home");
@@ -56,13 +95,26 @@ Router.route('/activity/:_id', {
     name: 'activity',
     data: function () {
         return Activity.findOne({_id: this.params._id});
+    },
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        var activity = Activity.findOne({_id: this.params._id});
+        this.state.set('viewLabel', activity.name);
+        this.render();
     }
 });
 
 Router.route('/activity', {
     controller: UserController,
     template: 'MaterialNewActivity',
-    name: 'newActivity'
+    name: 'newActivity',
+    action: function () {
+        // set the reactive state variable "postId" with a value
+        // of the id from our url
+        this.state.set('viewLabel', "New Activity");
+        this.render();
+    }
 });
 
 //Router.route('/teams', {
