@@ -9,11 +9,23 @@ Router.configure({
     routeControllerNameConverter: 'upperCamelCase'
 });
 
-Router.route('/', {
-    template: 'Home'
+UserController = RouteController.extend({
+    onBeforeAction: function () {
+        if (!Meteor.userId()) {
+            console.log("UserController : No user. Redirect to home.");
+            this.redirect('/home');
+        } else {
+            this.next();
+        }
+    }
 });
+
+Router.route('/', function () {
+    this.redirect('/home');
+});
+
 Router.route('/home', {
-    template: 'Home'   
+    template: 'Home'
 });
 
 Router.route('/sign-in', {
@@ -39,11 +51,16 @@ Router.route('/sign-out', {
 });
 
 Router.route('/activity/:_id', {
+    controller: UserController,
     template: 'MaterialActivity',
-    name: 'activity'
+    name: 'activity',
+    data: function () {
+        return Activity.findOne({_id: this.params._id});
+    }
 });
 
 Router.route('/activity', {
+    controller: UserController,
     template: 'MaterialNewActivity',
     name: 'newActivity'
 });

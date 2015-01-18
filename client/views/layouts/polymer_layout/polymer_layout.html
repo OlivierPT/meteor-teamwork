@@ -1,6 +1,6 @@
 <template name="PolymerLayout">
 
-    <core-drawer-panel forceNarrow="true">
+    <core-drawer-panel>
 
         <core-header-panel drawer>
 
@@ -8,6 +8,7 @@
                 <a href="/">Teamwork</a>
             </core-toolbar>            
             <core-menu>
+                {{# if currentUser}}
                 <a href="{{pathFor route='newActivity'}}">
                     <paper-item>
                         <core-icon icon="add"></core-icon>
@@ -25,8 +26,13 @@
                     </a>
                     {{/each}}           
                 </core-submenu>
-                <a href="#settings" target="_self">
-                    <paper-item icon="settings" label="Settings"></paper-item>
+                {{/if}}
+                
+                <a href="{{pathFor route='about'}}">
+                    <paper-item>
+                        <core-icon icon="help"></core-icon>
+                        About                       
+                    </paper-item>
                 </a>
             </core-menu>
 
