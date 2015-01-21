@@ -8,33 +8,39 @@
             :host {
                 display: block;
                 position: relative;
-                padding: 7px;
-                width: 100%;
+                padding: 10px;
+                width: 90%;
                 height: 120px;
                 font-size: 1.2rem;
                 font-weight: 300;
             }
             .task-header {
-                margin-bottom: 10px;
-                background-color: #E5E5E5;
+                padding: 3px;
+                background-color: #EEB4B4;
             }
             polyfill-next-selector { content: '.task-header h3'; }
             .task-header ::content h3 {
                 margin: 0;
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 font-weight: 300;
             }
+            
+            .task-body {
+                margin: 5px;
+            }
         </style>
-        
+
         <paper-shadow z="1">
             <div layout vertical style="height: 100%">
                 <div class="task-header" layout horizontal center-justified>            
                     <content select="h3"></content>
                 </div>
-                <content></content>
+                <div class="task-body" layout vertical start>
+                    <content></content>
+                </div>
             </div>
         </paper-shadow>
-        
+
     </template>
     <script>
         Polymer({});

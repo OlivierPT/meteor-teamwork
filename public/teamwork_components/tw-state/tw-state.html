@@ -1,0 +1,75 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input-decorator.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="tw-state" attributes="stateId">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                padding-left: 10px;
+                width: 264px;
+                height: 840px;
+                font-size: 1.2rem;
+                font-weight: 300;
+            }
+            .state-header {
+                margin-bottom: 10px;
+                padding-top: 5px;
+                background-color: #00bbd3;
+            }
+            polyfill-next-selector { content: '.state-header h3'; }
+            .state-header ::content h3 {
+                margin: 0;
+                font-size: 1.8rem;
+                font-weight: 300;
+            }
+        </style>
+
+        <paper-shadow z="1">
+            <div layout vertical>
+                <div class="state-header" layout horizontal center-justified>
+                    <div flex style="margin: 10px">
+                        <content select="h3"></content>
+                    </div>                    
+                    <paper-menu-button>
+                        <paper-icon-button icon="menu" noink></paper-icon-button>
+                        <paper-dropdown class="dropdown">
+                            <core-menu class="menu">
+                                <paper-item>Settings</paper-item>
+                                <paper-item onclick="{{deleteState}}">Delete</paper-item>
+                            </core-menu>
+                        </paper-dropdown>
+                    </paper-menu-button>
+                </div>
+                <div class="state-body" layout vertical start>
+                    <content></content>
+                </div>
+                <div class="state-footer"  layout horizontal center-justified>
+                    <paper-input-decorator label="New task" flex>
+                        <input is="core-input">
+                    </paper-input-decorator>
+                    <paper-button noink="" role="button" tabindex="0">
+                        <core-icon icon="add" aria-label="add" role="img"></core-icon>
+                    </paper-button>
+                </div>
+            </div>
+        </paper-shadow>
+    </template>
+    <script>
+        Polymer({
+            stateId: "",
+            deleteState: function () {
+                this.fire('delete-state', {id: 'this.stateId'});
+            }
+        });
+    </script>
+</polymer-element>

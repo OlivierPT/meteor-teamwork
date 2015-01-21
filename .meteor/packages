@@ -12,5 +12,4 @@ iron:router
 ecwyne:polymer
 ecwyne:polymer-elements
 differential:vulcanize
-less
 coffeescript

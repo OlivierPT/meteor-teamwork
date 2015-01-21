@@ -1,22 +1,16 @@
 <template name="MaterialActivity">
-    <div vertical layout class="material-activity" style="overflow-x:scroll;">  
+    <div vertical layout fit style="overflow-x:scroll;">  
         <div class="material-state-list" horizontal layout>
             {{#each states}}
-            <paper-shadow z="1" style="margin-right: 20px">
-                <div class="material-state">
-                    <div class="material-state-title" horizontal layout>
-                        <span>{{label}}</span>
-                    </div>
-                    <div class="material-task-list" vertical layout>
-                        {{#each tasks}}
-                        <tw-task>
-                            <h3>{{label}}</h3>
-                            <p>{{description}}...</p>
-                        </tw-task>                            
-                        {{/each}}
-                    </div>
-                </div>
-            </paper-shadow>
+            <tw-state>
+                <h3>{{label}}</h3>
+                {{#each tasks}}
+                <tw-task>
+                    <h3>{{label}}</h3>
+                    <p>{{description}}...</p>
+                </tw-task>                            
+                {{/each}}
+            </tw-state>
             {{/each}}
         </div>
         <paper-fab id="new-state-btn" icon="create" class="blue" title="create"></paper-fab>
