@@ -9,34 +9,36 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="tw-state" attributes="stateId">
+<polymer-element name="tw-list" attributes="listId">
     <template>
         <style>
             :host {
                 display: block;
                 position: relative;
-                padding-left: 10px;
+                padding-left: 20px;
                 width: 264px;
-                height: 840px;
-                font-size: 1.2rem;
                 font-weight: 300;
             }
-            .state-header {
+            
+            .list-container {
+                background-color: white;
+            }
+            
+            .list-header {
                 margin-bottom: 10px;
                 padding-top: 5px;
-                background-color: #00bbd3;
+                background-color: #03a9f4;
             }
-            polyfill-next-selector { content: '.state-header h3'; }
-            .state-header ::content h3 {
+            polyfill-next-selector { content: '.list-header h3'; }
+            .list-header ::content h3 {
                 margin: 0;
-                font-size: 1.8rem;
                 font-weight: 300;
             }
         </style>
 
         <paper-shadow z="1">
-            <div layout vertical>
-                <div class="state-header" layout horizontal center-justified>
+            <div class="list-container" layout vertical flex>
+                <div class="list-header" layout horizontal center-justified>
                     <div flex style="margin: 10px">
                         <content select="h3"></content>
                     </div>                    
@@ -45,31 +47,39 @@
                         <paper-dropdown class="dropdown">
                             <core-menu class="menu">
                                 <paper-item>Settings</paper-item>
-                                <paper-item onclick="{{deleteState}}">Delete</paper-item>
+                                <paper-item on-click="{{deleteList}}">Delete</paper-item>
                             </core-menu>
                         </paper-dropdown>
                     </paper-menu-button>
                 </div>
-                <div class="state-body" layout vertical start>
+                <div class="list-body" layout vertical>
                     <content></content>
                 </div>
-                <div class="state-footer"  layout horizontal center-justified>
-                    <paper-input-decorator label="New task" flex>
-                        <input is="core-input">
+                <div class="list-footer"  layout horizontal>
+                    <paper-input-decorator label="New task" flex self-start>
+                        <input is="core-input" value="{{newTaskLabel}}" flex>
                     </paper-input-decorator>
-                    <paper-button noink="" role="button" tabindex="0">
+                    <core-button noink="" role="button" tabindex="0" on-click="{{addTask}}" self-center>
                         <core-icon icon="add" aria-label="add" role="img"></core-icon>
-                    </paper-button>
+                    </core-button>
                 </div>
             </div>
         </paper-shadow>
+        
     </template>
     <script>
         Polymer({
-            stateId: "",
-            deleteState: function () {
-                this.fire('delete-state', {id: 'this.stateId'});
+            
+            deleteList: function() {
+                console.log("Fire event delete-list : "+  this.listId);
+                this.fire('delete-list', {id: this.listId});
+            },
+            
+            addTask: function() {
+                console.log("Fire event add-task : "+  this.listId + " label : "+this.newTaskLabel);
+                this.fire('add-task', {id: this.listId, taskLabel: this.newTaskLabel});
             }
+            
         });
     </script>
 </polymer-element>

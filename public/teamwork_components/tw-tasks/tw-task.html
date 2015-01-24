@@ -1,6 +1,9 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
 
 <polymer-element name="tw-task">
     <template>
@@ -10,39 +13,62 @@
                 position: relative;
                 padding: 10px;
                 width: 90%;
-                height: 120px;
-                font-size: 1.2rem;
                 font-weight: 300;
             }
-            .task-header {
+            .task-resume {
                 padding: 3px;
-                background-color: #EEB4B4;
+                background-color: #7986cb !important;
+                color: white;
             }
-            polyfill-next-selector { content: '.task-header h3'; }
-            .task-header ::content h3 {
-                margin: 0;
-                font-size: 1.5rem;
-                font-weight: 300;
+
+            a {
+                text-decoration: none;
+                color: inherit;
             }
-            
-            .task-body {
-                margin: 5px;
-            }
+
         </style>
 
         <paper-shadow z="1">
-            <div layout vertical style="height: 100%">
-                <div class="task-header" layout horizontal center-justified>            
-                    <content select="h3"></content>
-                </div>
-                <div class="task-body" layout vertical start>
-                    <content></content>
-                </div>
-            </div>
+            <span role="button" tabindex="0" layout vertical class="task-resume" 
+                  on-click="{{openTaskDetail}}">
+                <content></content>                  
+            </span>
         </paper-shadow>
+
+        <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog">
+            <p>
+            <paper-input-decorator label="Task label" error="We need label!"
+                                   floatingLabel class="input-light" required>
+                <input is="core-input" id="taskLabel" type="text" required>
+            </paper-input-decorator>
+            </p>
+            <p>
+            <paper-input-decorator label="Task's description"
+                                   floatingLabel>
+                <paper-autogrow-textarea id="autogrow-description">
+                    <textarea id="description"></textarea>
+                </paper-autogrow-textarea>
+            </paper-input-decorator>            
+            </p>
+            <p>
+            <paper-input-decorator label="Add a comment"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="taskLabel" type="text" required>
+            </paper-input-decorator>
+            
+            </p>
+            
+            <paper-button dismissive>Cancel</paper-button>
+            <paper-button affirmative autofocus id="add-state-btn">Update</paper-button>
+        </paper-action-dialog>
 
     </template>
     <script>
-        Polymer({});
+        Polymer({
+            openTaskDetail: function () {
+                console.log("Click on open task detail.");
+                this.$.taskDetailDialog.toggle();
+            }
+        });
     </script>
 </polymer-element>
