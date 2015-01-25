@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="tw-list" attributes="listId">
+<polymer-element name="tw-list" attributes="listId activityId">
     <template>
         <style>
             :host {
@@ -71,13 +71,13 @@
         Polymer({
             
             deleteList: function() {
-                console.log("Fire event delete-list : "+  this.listId);
-                this.fire('delete-list', {id: this.listId});
+                console.log("Fire event delete-list : "+  this.listId + " - activity : "+this.activityId);
+                this.fire('delete-list', {id: this.listId, activity: this.activityId});
             },
             
             addTask: function() {
-                console.log("Fire event add-task : "+  this.listId + " label : "+this.newTaskLabel);
-                this.fire('add-task', {id: this.listId, taskLabel: this.newTaskLabel});
+                console.log("Fire event add-task : "+  this.listId  + " - activity : "+this.activityId + " - label : "+this.newTaskLabel);
+                this.fire('add-task', {id: this.listId, activity: this.activityId, taskLabel: this.newTaskLabel});
             }
             
         });

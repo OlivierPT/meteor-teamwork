@@ -1,29 +1,16 @@
 <template name="MaterialActivity">
-    <div vertical layout fit style="overflow-x: scroll; padding-top: 50px;">  
-        <div class="material-state-list" horizontal layout>
-            {{#each states}}
-            <tw-list listId="{{id}}">
-                <h3>{{label}}</h3>
-                {{#each tasks}}
-                <tw-task>
-                    {{label}}
-                </tw-task>                            
-                {{/each}}
-            </tw-list>
-            {{/each}}
-        </div>
-        <paper-fab id="new-state-btn" icon="create" class="blue" title="create"></paper-fab>
-    </div>
 
-    <paper-action-dialog transition="core-transition-fade" heading="Add a state" id="new-state-dialog">
-        <p>
-        <paper-input-decorator label="State label" error="We need label!"
-                               floatingLabel class="input-light">
-            <input is="core-input" id="newStateLabel" type="text" required>
-        </paper-input-decorator>
-        </p>
-        <paper-button dismissive>Cancel</paper-button>
-        <paper-button affirmative autofocus id="add-state-btn" data-target-activity-id="{{_id}}">Create</paper-button>
-    </paper-action-dialog>
+    <tw-activity activityId="{{_id}}" layout horizontal fit left>
+        {{#each states}}
+        <tw-list listId="{{id}}" activityId="{{../_id}}">
+            <h3>{{label}}</h3>
+            {{#each tasks}}
+            <tw-task taskId="{{id}}" listId="{{../id}}" activityId="{{../../_id}}">
+                {{label}}
+            </tw-task>                            
+            {{/each}}
+        </tw-list>
+        {{/each}}
+    </tw-activity>
 
 </template>

@@ -1,0 +1,86 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="tw-activity"  attributes="activityId">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;    
+                font-weight: 300;
+                background-color: white;
+                width: 100%;
+            }
+
+            .activity {
+                margin: 15px;
+                padding-bottom: 50px;
+                padding-right: 50px;
+            }
+
+            .state-list {
+                 background-color: white;
+            }
+
+            #new-state-btn {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+        </style>
+
+        <div class="activity" layout vertical>
+            <div class="activity-header" layout horizontal left>                
+                <span flex>
+                    <content select="h2"></content>
+                </span>
+                <paper-menu-button>
+                    <paper-icon-button icon="menu" noink></paper-icon-button>
+                    <paper-dropdown class="dropdown">
+                        <core-menu class="menu">
+                            <paper-item>Settings</paper-item>
+                            <paper-item on-click="{{deleteList}}">Delete</paper-item>
+                        </core-menu>
+                    </paper-dropdown>
+                </paper-menu-button>
+            </div>
+            <div class="state-list" horizontal layout left>
+                <content></content>
+            </div>
+            <paper-fab id="new-state-btn" icon="add" class="blue" title="create" on-click="{{openNewListDialog}}"></paper-fab>
+        </div>
+
+        <paper-action-dialog transition="core-transition-fade" heading="Add a state" id="newListDialog">
+            <p>
+            <paper-input-decorator label="State label" error="We need label!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="newStateLabel" type="text" required>
+            </paper-input-decorator>
+            </p>
+            <paper-button dismissive>Cancel</paper-button>
+            <paper-button affirmative autofocus on-click="{{addList}}">Create</paper-button>
+        </paper-action-dialog>
+
+    </template>
+    <script>
+        Polymer({
+            openNewListDialog: function () {
+                console.log("Click on New List Button.");
+                this.$.newListDialog.toggle();
+            },
+            addList: function() {
+                
+            }
+        });
+    </script>
+</polymer-element>

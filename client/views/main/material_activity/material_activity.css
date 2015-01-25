@@ -1,41 +1,4 @@
 /*****************************************************************************/
 /* MaterialActivity: Style */
 /*****************************************************************************/
-html /deep/ #new-state-dialog {
-    position: fixed;
-    top: 20%;
-    right: 30%;
-}
 
-.material-state-list {
-
-}
-
-.material-state {
-    width: 220px; 
-    vertical-align: top;
-    background-color: azure;
-}
-
-.material-state-title {
-    background-color: #428bca;
-    padding: 0.5em;
-    color: #fff;
-}
-
-
-.material-task-list {
-    padding: 1em;
-    min-height: 200px;
-}
-
-.material-task {
-    padding: 10px;
-    background-color: white;
-}
-
-#new-state-btn {
-    position: absolute;
-    bottom: 50px;
-    right: 50px;
-}
