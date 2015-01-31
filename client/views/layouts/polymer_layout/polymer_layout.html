@@ -3,7 +3,6 @@
     <core-drawer-panel>
 
         <core-header-panel drawer>
-
             <core-toolbar id="navheader">
                 <a href="/">Teamwork</a>
             </core-toolbar>            
@@ -14,8 +13,7 @@
                         <core-icon icon="add"></core-icon>
                         New activity                   
                     </paper-item>       
-                </a> 
-
+                </a>
                 <core-submenu icon="view-headline" label="Activities">                    
                     {{#each activities}}
                     <a href="{{pathFor route='activity'}}">
@@ -27,7 +25,6 @@
                     {{/each}}           
                 </core-submenu>
                 {{/if}}
-
                 <a href="{{pathFor route='about'}}">
                     <paper-item>
                         <core-icon icon="help"></core-icon>
@@ -35,7 +32,6 @@
                     </paper-item>
                 </a>
             </core-menu>
-
         </core-header-panel>
 
         <core-header-panel main>
@@ -57,12 +53,11 @@
                 {{/unless}}
             </core-toolbar>
 
-            <div class="container" layout vertical center>
-                <div class="content" fit layout vertical center center-justified>
-                    {{> yield}}        
-                </div>
+            <div class="container" fullbleed layout vertical start center-justified>
+                {{> yield}}        
             </div>
         </core-header-panel>
+        
     </core-drawer-panel>
 
 </template>

@@ -1,16 +1,17 @@
 <template name="MaterialActivity">
-
-    <tw-activity activityId="{{_id}}" layout horizontal fit left>
-        {{#each states}}
-        <tw-list listId="{{id}}" activityId="{{../_id}}">
-            <h3>{{label}}</h3>
-            {{#each tasks}}
-            <tw-task taskId="{{id}}" listId="{{../id}}" activityId="{{../../_id}}">
-                {{label}}
-            </tw-task>                            
+    <div style="width: 100%;">
+        <tw-activity model='{{model}}'>
+            <h2>{{name}}</h2>
+            {{#each lists}}
+            <tw-list listId="{{id}}" activityId="{{../_id}}" model="">
+                <h3>{{label}}</h3>
+                {{#each tasks}}
+                <tw-task taskId="{{id}}" listId="{{../id}}" activityId="{{../../_id}}">
+                    {{label}}
+                </tw-task>                            
+                {{/each}}
+            </tw-list>
             {{/each}}
-        </tw-list>
-        {{/each}}
-    </tw-activity>
-
+        </tw-activity>
+    </div>
 </template>

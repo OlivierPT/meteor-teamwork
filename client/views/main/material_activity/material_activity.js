@@ -9,11 +9,19 @@ Template.MaterialActivity.events({
 });
 
 Template.MaterialActivity.helpers({
-    states: function () {
+    lists: function () {
         return this.states;
     },
     tasks: function () {
         return this.tasks;
+    },
+    model: function() {
+        var model = {};
+        model.id = this._id;
+        model.description = this.description;
+        model.teamId = this.team;
+        
+        return EJSON.stringify(model);
     }
 });
 
@@ -24,13 +32,25 @@ Template.MaterialActivity.created = function () {
 };
 
 Template.MaterialActivity.rendered = function () {
-
+    // Selector pour l'evenement de suppression d'un etat
+    document.querySelector('tw-activity').addEventListener('delete-activity', function (e) {
+        console.log(e.type, e.detail.activityId); 
+        
+        Meteor.call('deleteActivity', e.detail.activityId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to delete the activity.", error);
+            } else {
+                emitNotification("Activity deleted.");
+            }
+        });
+    });
+    
     // Selector pour l'evenement de suppression d'un etat
     document.querySelector('tw-activity').addEventListener('delete-list', function (e) {
-        console.log(e.type, e.detail.id); 
-        var stateId = e.detail.id;
-        var activityId = e.detail.activity;
-        Meteor.call('removeState', stateId, activityId, function (error, result) {
+        console.log(e.type, e.detail.listId); 
+      
+        Meteor.call('removeState', e.detail.listId,  e.detail.activityId, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to delete the state.", error);
@@ -41,13 +61,24 @@ Template.MaterialActivity.rendered = function () {
     });
     
     // Selector pour l'evenement de suppression d'un etat
-    document.querySelector('tw-activity').addEventListener('add-task', function (e) {
-        console.log(e.type, e.detail.id); 
-        var stateId = e.detail.id;
-        var activityId = e.detail.activity;
-        var taskLabel = e.detail.taskLabel;
+    document.querySelector('tw-activity').addEventListener('add-list', function (e) {
+        console.log(e.type, e.detail.activityId); 
         
-        Meteor.call('addTask', taskLabel, activityId, stateId, function (error, result) {
+        Meteor.call('addState', e.detail.listLabel, e.detail.activityId, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to add a list.", error);
+            } else {
+                emitNotification("List added.");
+            }
+        });
+    });
+    
+    // Selector pour l'evenement de suppression d'un etat
+    document.querySelector('tw-activity').addEventListener('add-task', function (e) {
+        console.log(e.type, e.detail.listId); 
+        
+        Meteor.call('addTask', e.detail.taskLabel, e.detail.activityId, e.detail.listId, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to add a task.", error);

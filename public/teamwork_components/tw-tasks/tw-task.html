@@ -5,7 +5,7 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
 
-<polymer-element name="tw-task" attributes="taskId listId activityId">
+<polymer-element name="tw-task" attributes="taskId listId activityId model">
     <template>
         <style>
             :host {
@@ -65,6 +65,10 @@
     </template>
     <script>
         Polymer({
+            created: function () {
+                // hint that items is an array
+                this.model = {};
+            },
             openTaskDetail: function () {
                 console.log("Click on open task detail.");
                 this.$.taskDetailDialog.toggle();

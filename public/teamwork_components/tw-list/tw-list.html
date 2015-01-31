@@ -9,7 +9,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="tw-list" attributes="listId activityId">
+<polymer-element name="tw-list" attributes="listId activityId model">
     <template>
         <style>
             :host {
@@ -69,15 +69,18 @@
     </template>
     <script>
         Polymer({
-            
+            created: function () {
+                // hint that items is an array
+                this.model = {};
+            },
             deleteList: function() {
                 console.log("Fire event delete-list : "+  this.listId + " - activity : "+this.activityId);
-                this.fire('delete-list', {id: this.listId, activity: this.activityId});
+                this.fire('delete-list', {listId: this.listId, activityId: this.activityId});
             },
             
             addTask: function() {
                 console.log("Fire event add-task : "+  this.listId  + " - activity : "+this.activityId + " - label : "+this.newTaskLabel);
-                this.fire('add-task', {id: this.listId, activity: this.activityId, taskLabel: this.newTaskLabel});
+                this.fire('add-task', {listId: this.listId, activityId: this.activityId, taskLabel: this.newTaskLabel});
             }
             
         });

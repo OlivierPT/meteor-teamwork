@@ -11,7 +11,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="tw-activity"  attributes="activityId">
+<polymer-element name="tw-activity"  attributes="model">
     <template>
         <style>
             :host {
@@ -49,7 +49,7 @@
                     <paper-dropdown class="dropdown">
                         <core-menu class="menu">
                             <paper-item>Settings</paper-item>
-                            <paper-item on-click="{{deleteList}}">Delete</paper-item>
+                            <paper-item on-click="{{deleteActivity}}">Delete</paper-item>
                         </core-menu>
                     </paper-dropdown>
                 </paper-menu-button>
@@ -64,7 +64,7 @@
             <p>
             <paper-input-decorator label="State label" error="We need label!"
                                    floatingLabel class="input-light">
-                <input is="core-input" id="newStateLabel" type="text" required>
+                <input is="core-input" id="newListLabel" type="text" value="{{newListLabel}}" required>
             </paper-input-decorator>
             </p>
             <paper-button dismissive>Cancel</paper-button>
@@ -74,12 +74,21 @@
     </template>
     <script>
         Polymer({
+            created: function () {
+                // hint that items is an array
+                this.model = {};
+            },
             openNewListDialog: function () {
                 console.log("Click on New List Button.");
                 this.$.newListDialog.toggle();
             },
             addList: function() {
-                
+                console.log("Fire event add-list : "+  this.model.id  + " - label : "+this.newListLabel);
+                this.fire('add-list', {activityId: this.model.id, listLabel: this.newListLabel});
+            },
+            deleteActivity: function() {
+                console.log("Fire event delete-activity : "+  this.model.id);
+                this.fire('delete-activity', {activityId: this.model.id});
             }
         });
     </script>

@@ -37,19 +37,31 @@ core-toolbar {
     text-transform: uppercase;
 }
 
-.container {
-    margin-right: 0,5em;
-}
-
-.content {
-    background-color: white;
-}
-
 a {
     text-decoration: none;
     color: inherit;
 }
 
-/*[drawer] {
-  background-color: lightcyan;
-}*/
+.container {
+    width: 100%;
+    position: relative;
+    top: 0px;
+}
+
+[drawer] {
+    background-color: #ff4080 !important;
+    color: white;
+}
+
+[drawer] core-toolbar {
+    background: #ff4080;
+}
+
+[main] {
+    background-color: white !important;
+}
+
+[main] core-toolbar {
+    background: #03a9f4;
+    color: white;
+}
