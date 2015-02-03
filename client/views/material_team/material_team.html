@@ -1,8 +1,9 @@
 <template name="MaterialTeam">
     <div style="width: 100%;" layout horizontal center center-justified >
         <tw-team teamId="{{teamId}}">            
-            <div layout vertical fit>
-                <div layout vertical>
+            <div layout vertical>
+                <span><h3>General information</h3></span>
+                <div>
                     <paper-input-decorator label="Team name" error="We need a name"
                                            floatingLabel class="input-light">
                         <input is="core-input" id="label" type="text" value="{{name}}" required>
@@ -15,11 +16,22 @@
                         </paper-autogrow-textarea>
                     </paper-input-decorator>
                 </div>
-                <div layout flex>
-                    Liste des membres
-                        {{#each members}}
-                        <div class="item">{{username}}</div>
-                        {{/each}}                     
+                <span>
+                    <h3>Team's members</h3>
+                </span>
+                <div layout horizontal wrap>  
+                    {{#each members}}
+                    <tw-card>
+                        <h4>{{username}}</h4>                        
+                        <div>{{profile.firstname}}</div>
+                        <div>{{profile.lastname}}</div>
+                        <paper-menu-button>
+                            <paper-button >
+                                remove
+                            </paper-button>
+                        </paper-menu-button>
+                    </tw-card>
+                    {{/each}}                     
                 </div>
             </div>
         </tw-team>

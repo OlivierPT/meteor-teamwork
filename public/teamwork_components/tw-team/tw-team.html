@@ -28,7 +28,7 @@
                 padding-right: 50px;
             }
 
-            #new-member-btn {
+            #addMemberBtn {
                 position: absolute;
                 bottom: 20px;
                 right: 20px;
@@ -50,21 +50,37 @@
                     </paper-dropdown>
                 </paper-menu-button>
             </div>
-            <content></content>
-            <div horizontal layout reverse>
-                <paper-button id="update-btn">
-                    <core-icon icon="check"></core-icon>
-                    Ok
-                </paper-button>
+            <div>
+                <content></content>
             </div>
+            <paper-fab id="addMemberBtn" icon="add" class="blue" title="create" on-click="{{openAddMemberDialog}}"></paper-fab>
         </div>
 
+        <paper-action-dialog transition="core-transition-fade" heading="Add a member" id="addMemberDialog">
+            <p>
+            <paper-input-decorator label="Member username" error="We need username!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="username" type="text" value="{{newUsername}}" required>
+            </paper-input-decorator>
+            </p>
+            <paper-button dismissive>Cancel</paper-button>
+            <paper-button affirmative autofocus on-click="{{addMember}}">Add</paper-button>
+        </paper-action-dialog>
     </template>
     <script>
         Polymer({
             deleteTeam: function () {
                 console.log("Fire event delete-team : " + this.teamId);
                 this.fire('delete-team', {teamId: this.teamId});
+            },
+            openAddMemberDialog: function () {
+                console.log("Click on Add member Button.");
+                this.$.addMemberDialog.toggle();
+            },
+            addMember: function () {
+                console.log("Fire event add-member : " + this.model.teamId + " - username : " + this.username);
+                this.fire('add-member', {teamId: this.model.teamId, username: this.username});
+                this.username = "";
             }
         });
     </script>
