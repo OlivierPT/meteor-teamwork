@@ -1,0 +1,71 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/core-icons/core-icons.html">
+<link rel="import" href="../../bower_components/core-menu/core-menu.html">
+<link rel="import" href="../../bower_components/paper-dropdown/paper-dropdown.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="tw-team"  attributes="teamId">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;    
+                font-weight: 300;
+                background-color: white;
+                width: 100%;
+            }
+
+            .team {
+                margin: 15px;
+                padding-bottom: 50px;
+                padding-right: 50px;
+            }
+
+            #new-member-btn {
+                position: absolute;
+                bottom: 20px;
+                right: 20px;
+            }
+        </style>
+
+        <div class="team" layout vertical>
+            <div layout horizontal left>                
+                <span flex>
+                    <h2>Team Management</h2>
+                </span>
+                <paper-menu-button>
+                    <paper-icon-button icon="menu" noink></paper-icon-button>
+                    <paper-dropdown class="dropdown">
+                        <core-menu class="menu">
+                            <paper-item>Settings</paper-item>
+                            <paper-item on-click="{{deleteTeam}}">Delete</paper-item>
+                        </core-menu>
+                    </paper-dropdown>
+                </paper-menu-button>
+            </div>
+            <content></content>
+            <div horizontal layout reverse>
+                <paper-button id="update-btn">
+                    <core-icon icon="check"></core-icon>
+                    Ok
+                </paper-button>
+            </div>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            deleteTeam: function () {
+                console.log("Fire event delete-team : " + this.teamId);
+                this.fire('delete-team', {teamId: this.teamId});
+            }
+        });
+    </script>
+</polymer-element>

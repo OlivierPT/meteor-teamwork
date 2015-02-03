@@ -10,12 +10,7 @@ Router.configure({
 });
 
 BaseController = RouteController.extend({
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "View Label");
-        this.render();
-    }
+    
 });
 
 UserController = BaseController.extend({
@@ -36,57 +31,29 @@ Router.route('/', function () {
 Router.route('/home', {
     template: 'Home',
     name: 'home',
-    controller: BaseController,
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "Home");
-        this.render();
-    }
+    controller: BaseController
 });
 
 Router.route('/sign-in', {
     template: 'SignIn',
     name: 'sign-in',
-    controller: BaseController,
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "Sign-In!");
-        this.render();
-    }
+    controller: BaseController
 });
 
 Router.route('/sign-up', {
     template: 'SignUp',
     name: 'sign-up',
-    controller: BaseController,
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "Sign-Up!");
-        this.render();
-    }
+    controller: BaseController
 });
 
 Router.route('/about', {
     template: 'About',
     name: 'about',
-    controller: BaseController,
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "About TeamWork");
-        this.render();
-    }
+    controller: BaseController
 });
 
 Router.route('/sign-out', {
-    controller: BaseController,
-    action: function () {
-        Meteor.logout();
-        Router.go("/home");
-    }
+    controller: BaseController
 });
 
 Router.route('/activity/:_id', {
@@ -95,26 +62,13 @@ Router.route('/activity/:_id', {
     name: 'activity',
     data: function () {
         return Activity.findOne({_id: this.params._id});
-    },
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        var activity = Activity.findOne({_id: this.params._id});
-        this.state.set('viewLabel', activity.name);
-        this.render();
     }
 });
 
 Router.route('/activity', {
     controller: UserController,
     template: 'MaterialNewActivity',
-    name: 'newActivity',
-    action: function () {
-        // set the reactive state variable "postId" with a value
-        // of the id from our url
-        this.state.set('viewLabel', "New Activity");
-        this.render();
-    }
+    name: 'newActivity'
 });
 
 //Router.route('/teams', {
@@ -125,16 +79,27 @@ Router.route('/activity', {
 //    }
 //});
 //
-//Router.route('/team/:_id', {
-//    template: 'Team',
-//    name: 'team',
-//    data: function () {
-//        return Team.findOne({_id: this.params._id});
-//    },
-//    onAfterAction: function () {
-//        Session.set("team", Team.findOne({_id: this.params._id}));
-//    }
-//});
+Router.route('/team/:_id', {
+    controller: UserController,
+    template: 'MaterialTeam',
+    name: 'team',
+    data: function () {
+        return Team.findOne({_id: this.params._id});
+    }
+});
+
+
+Router.route('/rest/team/:_id', { where: 'server' })
+  .get(function () {
+      Team.findOne({_id: this.params._id})
+    // NodeJS  response object
+    var response = this.response;
+    var team = Team.findOne({_id: this.params._id})
+    this.response.end(EJSON.stringify(team));
+  })
+  
+
+//
 //
 //Router.route('/profile', {
 //    template: 'Profile',

@@ -1,37 +1,39 @@
 <template name="MaterialNewActivity">
-    <form data-action="create-activity" id="create-activity-form">
-        <paper-input-decorator label="Activity's label" error="We need a label"
-                               floatingLabel>
-            <input is="core-input" id="label" type="text" required>
-        </paper-input-decorator>
+    <div style="width: 100%;" layout horizontal center center-justified >
+        <form data-action="create-activity" id="create-activity-form">
+            <paper-input-decorator label="Activity's label" error="We need a label"
+                                   floatingLabel>
+                <input is="core-input" id="label" type="text" required>
+            </paper-input-decorator>
 
-        <paper-input-decorator label="Activity's description"
-                               floatingLabel>
-            <paper-autogrow-textarea id="autogrow-description">
-                <textarea id="description"></textarea>
-            </paper-autogrow-textarea>
-        </paper-input-decorator>
+            <paper-input-decorator label="Activity's description"
+                                   floatingLabel>
+                <paper-autogrow-textarea id="autogrow-description">
+                    <textarea id="description"></textarea>
+                </paper-autogrow-textarea>
+            </paper-input-decorator>
 
-        <paper-input-decorator label="Associate the Activity to a team or create a new one"
-                               floatingLabel>
-            <paper-radio-group id="team" selected="new" vertical layout>
-                <paper-radio-button name="new" label="New team"></paper-radio-button>
-                {{#each teams}}
-                <paper-radio-button name="{{_id}}" label="{{name}}"></paper-radio-button>
-                {{/each}}
-            </paper-radio-group>
-        </paper-input-decorator>
-        <input is="core-input" id="teamValue" type="hidden" required>
-        
-        <div horizontal layout>
-            <paper-button id="cancel-btn">
-                <core-icon icon="cancel"></core-icon>
-                Cancel
-            </paper-button>
-            <paper-button id="create-btn">
-                <core-icon icon="check"></core-icon>
-                Create
-            </paper-button>
-        </div>
-    </form>
+            <paper-input-decorator label="Associate the Activity to a team or create a new one"
+                                   floatingLabel>
+                <paper-radio-group id="team" selected="new" vertical layout>
+                    <paper-radio-button name="new" label="New team"></paper-radio-button>
+                    {{#each teams}}
+                    <paper-radio-button name="{{_id}}" label="{{name}}"></paper-radio-button>
+                    {{/each}}
+                </paper-radio-group>
+            </paper-input-decorator>
+            <input is="core-input" id="teamValue" type="hidden" required>
+
+            <div horizontal layout>
+                <paper-button id="cancel-btn">
+                    <core-icon icon="cancel"></core-icon>
+                    Cancel
+                </paper-button>
+                <paper-button id="create-btn">
+                    <core-icon icon="check"></core-icon>
+                    Create
+                </paper-button>
+            </div>
+        </form>
+    </div>
 </template>

@@ -14,6 +14,9 @@ Template.PolymerLayout.helpers({
     activities: function () {
         return Activity.find();
     },
+    teams: function () {
+        return Team.find();
+    },
     viewLabel: function () {
         var controller = Iron.controller();
 

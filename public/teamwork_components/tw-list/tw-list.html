@@ -81,6 +81,7 @@
             addTask: function() {
                 console.log("Fire event add-task : "+  this.listId  + " - activity : "+this.activityId + " - label : "+this.newTaskLabel);
                 this.fire('add-task', {listId: this.listId, activityId: this.activityId, taskLabel: this.newTaskLabel});
+                this.newTaskLabel = "";
             }
             
         });

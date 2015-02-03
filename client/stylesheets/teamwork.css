@@ -48,13 +48,17 @@ a {
     top: 0px;
 }
 
+.menu-entry {
+    margin-left: 10px;
+}
+
 [drawer] {
-    background-color: #ff4080 !important;
+    background-color: #ff5252 !important;
     color: white;
 }
 
 [drawer] core-toolbar {
-    background: #ff4080;
+    background: #d23f31;
 }
 
 [main] {

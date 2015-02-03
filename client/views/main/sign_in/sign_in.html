@@ -1,22 +1,22 @@
 <template name="SignIn">
+    <div style="width: 100%;" layout horizontal center center-justified >
+        <form data-action="sign-in">
+            <paper-input-decorator label="Username" error="We need a valid username!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="username" type="text" required>
+            </paper-input-decorator>
 
-    <form data-action="sign-in">
-        <paper-input-decorator label="Username" error="We need a valid username!"
-                               floatingLabel class="input-light">
-            <input is="core-input" id="username" type="text" required>
-        </paper-input-decorator>
+            <paper-input-decorator label="Password" error="Whats your password?"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="password" type="password" required>
+            </paper-input-decorator>
 
-        <paper-input-decorator label="Password" error="Whats your password?"
-                               floatingLabel class="input-light">
-            <input is="core-input" id="password" type="password" required>
-        </paper-input-decorator>
-
-        <div horizontal layout reverse>
-            <paper-button id="sign-in-btn" type="submit">
-                <core-icon icon="check"></core-icon>
-                Sign In
-            </paper-button>
-        </div>
-    </form>
-    
+            <div horizontal layout reverse>
+                <paper-button id="sign-in-btn" type="submit">
+                    <core-icon icon="check"></core-icon>
+                    Sign In
+                </paper-button>
+            </div>
+        </form>
+    </div>
 </template>

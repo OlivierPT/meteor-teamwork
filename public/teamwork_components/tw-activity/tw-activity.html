@@ -85,6 +85,7 @@
             addList: function() {
                 console.log("Fire event add-list : "+  this.model.id  + " - label : "+this.newListLabel);
                 this.fire('add-list', {activityId: this.model.id, listLabel: this.newListLabel});
+                this.newListLabel = "";
             },
             deleteActivity: function() {
                 console.log("Fire event delete-activity : "+  this.model.id);
