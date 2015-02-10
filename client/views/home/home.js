@@ -11,12 +11,12 @@ Template.Home.events({
 });
 
 Template.Home.helpers({
-  /*
-   * Example:
-   *  items: function () {
-   *    return Items.find();
-   *  }
-   */
+  activities: function () {
+        return Activity.find();
+    },
+    teams: function () {
+        return Team.find();
+    }
 });
 
 /*****************************************************************************/

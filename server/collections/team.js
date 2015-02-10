@@ -9,34 +9,35 @@
  * @param {id} userId : the userId of the current user
  */
 Meteor.publish('teams', function () {
-  console.log("PublishCollection : teams - userId = " + this.userId);
-  return Team.find({members : this.userId});
+    if (!this.userId) {
+        this.ready();
+        return;
+    }
+    console.log("PublishCollection : teams - userId = " + this.userId);
+    return Team.find({members: this.userId});
 });
 
+
 Team.allow({
-  insert: function (userId, doc) {
-    return true;
-  },
-
-  update: function (userId, doc, fieldNames, modifier) {
-    return true;
-  },
-
-  remove: function (userId, doc) {
-    return true;
-  }
+    insert: function (userId, doc) {
+        return true;
+    },
+    update: function (userId, doc, fieldNames, modifier) {
+        return true;
+    },
+    remove: function (userId, doc) {
+        return true;
+    }
 });
 
 Team.deny({
-  insert: function (userId, doc) {
-    return false;
-  },
-
-  update: function (userId, doc, fieldNames, modifier) {
-    return false;
-  },
-
-  remove: function (userId, doc) {
-    return false;
-  }
+    insert: function (userId, doc) {
+        return false;
+    },
+    update: function (userId, doc, fieldNames, modifier) {
+        return false;
+    },
+    remove: function (userId, doc) {
+        return false;
+    }
 });

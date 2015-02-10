@@ -2,20 +2,23 @@
 /* Client App Namespace  */
 /*****************************************************************************/
 
-Tracker.autorun(function () {
-    if (Meteor.userId()) {
-        Meteor.subscribe('allUsers');
-        Meteor.subscribe('teams');
 
-        // If number of team changes
-        var userTeamsId = Team.find().map(function (doc) {
-            return doc._id
-        });
-        if (userTeamsId.length > 0) {
-            Meteor.subscribe('activities', userTeamsId);
-        }
-    }
-
+var subs = new SubsManager({
+  // will be cached only 20 recently used subscriptions
+  cacheLimit: 20,
+  // any subscription will be expired after 5 minutes of inactivity
+  expireIn: 5
 });
+
+
+Tracker.autorun(function () {
+    console.log("Start running Tracker");
+    if (Meteor.userId()) {
+        console.log("Subscribing for user : "+Meteor.userId());
+        subs.subscribe('teams');
+        subs.subscribe('activities');
+    }
+    console.log("End running Tracker");
+})
 
 

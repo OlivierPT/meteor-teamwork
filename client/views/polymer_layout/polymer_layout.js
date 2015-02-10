@@ -16,13 +16,6 @@ Template.PolymerLayout.helpers({
     },
     teams: function () {
         return Team.find();
-    },
-    viewLabel: function () {
-        var controller = Iron.controller();
-
-        // reactively return the value of postId
-        return controller.state.get('viewLabel');
-
     }
 });
 

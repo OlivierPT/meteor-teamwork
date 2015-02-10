@@ -1,48 +1,77 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
+<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
 
-<polymer-element name="tw-card">
+<polymer-element name="tw-card" attributes="autoraise objectId link" on-mouseover="{{mouseFocus}}" on-mouseout="{{mouseFocus}}">
     <template>
         <style>
             :host {
                 display: block;
-                position: relative;
-                background-color: white;
                 padding: 20px;
-                width: 256px;
-                font-weight: 300;
+                width: 250px;
             }
-            .card-header {
-                margin-bottom: 10px;
+
+            h2 {
+                font-family: 'Playfair Display SC', serif;
+                font-weight: 200;
             }
-            polyfill-next-selector { content: '.card-header h2'; }
-            .card-header ::content h2 {
-                margin: 0;
-                font-weight: 300;
+            
+            .content {
+                background-color: #03A9F4;
+                color: #FFF;
+                padding: 10px;
             }
-            polyfill-next-selector { content: '.card-header img'; }
-            .card-header ::content img {
-                width: 70px;
-                border-radius: 50%;
-                margin: 10px;
+            .footer {
+                background-color: #ff4080;
+                color: #FFF;
+                padding: 10px;
             }
+            .separator {
+                color: #FFF;
+                margin: 0px;
+            }
+            
+            
+
         </style>
-        <paper-shadow z="1">
-            <div layout vertical>
-                <div class="card-header" layout horizontal center>
-                    <content select="h4"></content>            
-                    <content select="img"></content>
-                </div>
-                <div class="card-content">
-                    <content></content>
-                </div>
-                <div  class="card-footer" layout horizontal reverse>
-                    <content select="paper-button"></content>
-                </div>
+
+        <paper-shadow id="shadow" animated=true>
+            <paper-ripple></paper-ripple>
+            <div class="content">
+                <content></content>
             </div>
+            <hr class="separator">
+            <a href="{{link}}">
+                <div class="footer" layout horizontal reverse>
+                    <core-icon icon="arrow-forward"></core-icon>
+                </div>
+            </a>
         </paper-shadow>
     </template>
+
     <script>
-        Polymer({});
+        Polymer("tw-card", {
+            z_mouseout: 1,
+            z_mouseover: 3,
+            handleDetailsTap: function () {
+                console.log("Details Tapped");
+                this.selecedHero = this.myHero;
+            },
+            mouseFocus: function (a, b, c) {
+                /* Called for on-mouseover as well as on-mouseout - switch on event.type to raise or lower
+                 card
+                 */
+                if (this.autoraise === "true") {
+                    switch (a.type) {
+                        case 'mouseover':
+                            this.$.shadow.setZ(this.z_mouseover);
+                            break;
+                        case 'mouseout':
+                            this.$.shadow.setZ(this.z_mouseout);
+                            break;
+                    }
+                }
+            }
+        });
     </script>
 </polymer-element>

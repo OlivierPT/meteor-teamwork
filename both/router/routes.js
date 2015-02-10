@@ -1,3 +1,5 @@
+
+
 /*****************************************************************************/
 /* Client and Server Routes */
 /*****************************************************************************/
@@ -10,18 +12,17 @@ Router.configure({
 });
 
 BaseController = RouteController.extend({
-    
 });
 
 UserController = BaseController.extend({
     onBeforeAction: function () {
         if (!Meteor.userId()) {
             console.log("UserController : No user. Redirect to home.");
-            this.redirect('/home');
+            this.redirect('/sign-in');
         } else {
             this.next();
         }
-    }
+    },
 });
 
 Router.route('/', function () {
@@ -31,7 +32,7 @@ Router.route('/', function () {
 Router.route('/home', {
     template: 'Home',
     name: 'home',
-    controller: BaseController
+    controller: UserController
 });
 
 Router.route('/sign-in', {
@@ -71,6 +72,12 @@ Router.route('/activity', {
     name: 'newActivity'
 });
 
+Router.route('/team', {
+    controller: UserController,
+    template: 'MaterialNewActivity',
+    name: 'newTeam'
+});
+
 //Router.route('/teams', {
 //    template: 'Teams',
 //    name: 'teams',
@@ -89,23 +96,13 @@ Router.route('/team/:_id', {
 });
 
 
-Router.route('/rest/team/:_id', { where: 'server' })
-  .get(function () {
-      Team.findOne({_id: this.params._id})
-    // NodeJS  response object
-    var response = this.response;
-    var team = Team.findOne({_id: this.params._id})
-    this.response.end(EJSON.stringify(team));
-  })
-  
+Router.route('/rest/team/:_id', {where: 'server'})
+        .get(function () {
+            Team.findOne({_id: this.params._id})
+            // NodeJS  response object
+            var response = this.response;
+            var team = Team.findOne({_id: this.params._id})
+            this.response.end(EJSON.stringify(team));
+        })
 
-//
-//
-//Router.route('/profile', {
-//    template: 'Profile',
-//    name: 'profile',
-//    data: function () {
-//        return Meteor.user();
-//    }
-//});
 

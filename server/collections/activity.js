@@ -9,11 +9,16 @@
  * Return all the activities that the users can access
  * @param {id} userId : the userId of the current user
  */
-//Meteor.reactivePublish('userActivities', function() {
-Meteor.publish('activities', function (userTeamIds) {
-    console.log("Out PublishCollection : activities for teams = " + userTeamIds);
-    return Activity.find({team: {$in: userTeamIds}});
-
+Meteor.publish('activities', function () {
+    if (!this.userId) {
+        this.ready();
+        return;
+    }
+    var userTeamsId = Team.find({members: this.userId}).map(function (doc) {
+        return doc._id
+    });
+    console.log("Out PublishCollection : activities for teams = " + userTeamsId);
+    return Activity.find({team: {$in: userTeamsId}});
 });
 
 

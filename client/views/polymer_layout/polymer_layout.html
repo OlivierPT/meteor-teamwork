@@ -1,6 +1,6 @@
 <template name="PolymerLayout">
 
-    <core-drawer-panel>
+    <core-drawer-panel forceNarrow="true">
 
         <core-header-panel drawer>
             <core-toolbar id="navheader">
@@ -57,7 +57,7 @@
                 <div flex>Main Title</div>
                 {{#if currentUser}}
                 <paper-item>
-                    <a href="/sign-out">
+                    <a href="/sign-in">
                         <core-icon icon="exit-to-app"></core-icon>Sign out</a>
                 </paper-item>
                 {{/if}}

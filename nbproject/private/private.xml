@@ -3,14 +3,32 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-list/tw-list.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/polymer_layout/polymer_layout.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/sign_up/sign_up.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/stylesheets/teamwork.css</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/material_activity/material_activity.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/material_activity/material_activity.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/material_activity/material_activity.css</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-tasks/tw-task.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/layouts/polymer_layout/polymer_layout.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-list/tw-list.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-card/tw-card.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/team/team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_team/material_team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-activity/tw-activity.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/publish/user.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/material_new_activity/material_new_activity.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/sign_in/sign_in.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/both/router/routes.js</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/collections/team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/polymer_layout/polymer_layout.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/main/home/home.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-tasks/tw-task.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-team/tw-team.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/collections/activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/app.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/bower_components/core-list/core-list.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_team/material_team.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/imports/imports.html</file>
         </group>
     </open-files>
 </project-private>
