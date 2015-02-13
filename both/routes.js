@@ -1,4 +1,9 @@
-
+var subs = new SubsManager({
+    // will be cached only 20 recently used subscriptions
+    cacheLimit: 20,
+    // any subscription will be expired after 5 minutes of inactivity
+    expireIn: 5
+});
 
 /*****************************************************************************/
 /* Client and Server Routes */
@@ -11,18 +16,18 @@ Router.configure({
     routeControllerNameConverter: 'upperCamelCase'
 });
 
-BaseController = RouteController.extend({
-});
 
-UserController = BaseController.extend({
+UserController = RouteController.extend({
     onBeforeAction: function () {
+        console.log("onBeforeAction : UserController");
         if (!Meteor.userId()) {
             console.log("UserController : No user. Redirect to home.");
             this.redirect('/sign-in');
         } else {
+            console.log("UserController : User ok. next();");
             this.next();
         }
-    },
+    }
 });
 
 Router.route('/', function () {
@@ -32,62 +37,58 @@ Router.route('/', function () {
 Router.route('/home', {
     template: 'Home',
     name: 'home',
-    controller: UserController
+    waitOn: function () {
+        console.log("Subscribing for user : " + Meteor.userId());
+//        var teamReady = subs.subscribe('teams');
+//        return teamReady && subs.subscribe('activities');
+        return [subs.subscribe('teams'), subs.subscribe('activities')];
+    }
 });
 
 Router.route('/sign-in', {
     template: 'SignIn',
-    name: 'sign-in',
-    controller: BaseController
+    name: 'sign-in'
 });
 
 Router.route('/sign-up', {
     template: 'SignUp',
-    name: 'sign-up',
-    controller: BaseController
+    name: 'sign-up'
 });
 
 Router.route('/about', {
     template: 'About',
-    name: 'about',
-    controller: BaseController
+    name: 'about'
 });
 
 Router.route('/sign-out', {
-    controller: BaseController
+    template: 'SignIn',
+    name: 'sign-out'
 });
 
 Router.route('/activity/:_id', {
-    controller: UserController,
     template: 'MaterialActivity',
     name: 'activity',
+    waitOn: function () {
+        console.log("Subscribing for user : " + Meteor.userId());
+        return [subs.subscribe('teams'), subs.subscribe('activities')];
+    },
     data: function () {
-        return Activity.findOne({_id: this.params._id});
+        console.log("Data - Activity.findOne : "+this.params._id);
+        return Activity.find({_id: this.params._id});
     }
 });
 
 Router.route('/activity', {
-    controller: UserController,
     template: 'MaterialNewActivity',
     name: 'newActivity'
 });
 
 Router.route('/team', {
-    controller: UserController,
     template: 'MaterialNewActivity',
     name: 'newTeam'
 });
 
-//Router.route('/teams', {
-//    template: 'Teams',
-//    name: 'teams',
-//    data: function () {
-//        return Team.find();
-//    }
-//});
-//
 Router.route('/team/:_id', {
-    controller: UserController,
     template: 'MaterialTeam',
     name: 'team',
     data: function () {

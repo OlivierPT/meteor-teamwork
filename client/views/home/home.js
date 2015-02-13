@@ -11,7 +11,7 @@ Template.Home.events({
 });
 
 Template.Home.helpers({
-  activities: function () {
+    activities: function () {
         return Activity.find();
     },
     teams: function () {
