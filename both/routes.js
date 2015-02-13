@@ -35,12 +35,11 @@ Router.route('/', function () {
 });
 
 Router.route('/home', {
+    controller: UserController,
     template: 'Home',
     name: 'home',
     waitOn: function () {
         console.log("Subscribing for user : " + Meteor.userId());
-//        var teamReady = subs.subscribe('teams');
-//        return teamReady && subs.subscribe('activities');
         return [subs.subscribe('teams'), subs.subscribe('activities')];
     }
 });
@@ -66,6 +65,7 @@ Router.route('/sign-out', {
 });
 
 Router.route('/activity/:_id', {
+    controller: UserController,
     template: 'MaterialActivity',
     name: 'activity',
     waitOn: function () {
@@ -73,8 +73,8 @@ Router.route('/activity/:_id', {
         return [subs.subscribe('teams'), subs.subscribe('activities')];
     },
     data: function () {
-        console.log("Data - Activity.findOne : "+this.params._id);
-        return Activity.find({_id: this.params._id});
+        console.log("Data - Activity.findOne : " + this.params._id);
+        return Activity.findOne({_id: this.params._id});
     }
 });
 
@@ -89,6 +89,7 @@ Router.route('/team', {
 });
 
 Router.route('/team/:_id', {
+    controller: UserController,
     template: 'MaterialTeam',
     name: 'team',
     data: function () {

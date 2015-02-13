@@ -1,7 +1,8 @@
 <template name="MaterialActivity">
     <div style="width: 100%;">
-        <tw-activity model='{{model}}'>
+        <tw-activity activityId="{{_id}}">
             <h2>{{name}}</h2>
+            <h3>{{description}}</h3>
             {{#each lists}}
             <tw-list listId="{{id}}" activityId="{{../_id}}" model="">
                 <h3>{{label}}</h3>

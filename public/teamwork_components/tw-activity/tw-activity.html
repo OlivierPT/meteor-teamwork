@@ -11,7 +11,7 @@
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="tw-activity"  attributes="model">
+<polymer-element name="tw-activity"  attributes="activityId">
     <template>
         <style>
             :host {
@@ -43,6 +43,7 @@
             <div class="activity-header" layout horizontal left>                
                 <span flex>
                     <content select="h2"></content>
+                    <content select="h3"></content>
                 </span>
                 <paper-menu-button>
                     <paper-icon-button icon="menu" noink></paper-icon-button>
@@ -74,22 +75,18 @@
     </template>
     <script>
         Polymer({
-            created: function () {
-                // hint that items is an array
-                this.model = {};
-            },
             openNewListDialog: function () {
                 console.log("Click on New List Button.");
                 this.$.newListDialog.toggle();
             },
             addList: function() {
-                console.log("Fire event add-list : "+  this.model.id  + " - label : "+this.newListLabel);
-                this.fire('add-list', {activityId: this.model.id, listLabel: this.newListLabel});
+                console.log("Fire event add-list : "+  this.activityId  + " - label : "+this.newListLabel);
+                this.fire('add-list', {activityId: this.activityId, listLabel: this.newListLabel});
                 this.newListLabel = "";
             },
             deleteActivity: function() {
-                console.log("Fire event delete-activity : "+  this.model.id);
-                this.fire('delete-activity', {activityId: this.model.id});
+                console.log("Fire event delete-activity : "+  this.activityId);
+                this.fire('delete-activity', {activityId: this.activityId});
             }
         });
     </script>
