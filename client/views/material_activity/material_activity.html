@@ -3,6 +3,19 @@
         <tw-activity activityId="{{_id}}">
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
+            <tw-activity-form activityId="{{_id}}" eventSuffix="activity">
+                <paper-input-decorator label="Activity's label" error="We need a label"
+                                       floatingLabel>
+                    <input is="core-input" name="name" id="activityName" type="text" value="{{name}}" required>
+                </paper-input-decorator>
+
+                <paper-input-decorator label="Activity's description"
+                                       floatingLabel>
+                    <paper-autogrow-textarea id="autogrow-description">
+                        <textarea id="activityDescription" name="description">{{description}}</textarea>
+                    </paper-autogrow-textarea>
+                </paper-input-decorator>
+            </tw-activity-form>
             {{#each lists}}
             <tw-list listId="{{id}}" activityId="{{../_id}}" model="">
                 <h3>{{label}}</h3>

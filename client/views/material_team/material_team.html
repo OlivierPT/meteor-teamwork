@@ -1,39 +1,36 @@
 <template name="MaterialTeam">
-    <div style="width: 100%;" layout horizontal center center-justified >
-        <tw-team teamId="{{teamId}}">            
-            <div layout vertical>
-                <span><h3>General information</h3></span>
-                <div>
-                    <paper-input-decorator label="Team name" error="We need a name"
-                                           floatingLabel class="input-light">
-                        <input is="core-input" id="label" type="text" value="{{name}}" required>
-                    </paper-input-decorator>
+    <div style="width: 100%;">
+        <tw-team teamId="{{_id}}">            
+            <h2>{{name}}</h2>
+            <h3>{{description}}</h3>
+            <event-form objectId="{{_id}}" eventSuffix="team">
+                <paper-input-decorator label="Team's label" error="We need a label"
+                                       floatingLabel>
+                    <input is="core-input" name="name" id="teamName" type="text" value="{{name}}" required>
+                </paper-input-decorator>
 
-                    <paper-input-decorator label="Team's description"
-                                           floatingLabel>
-                        <paper-autogrow-textarea id="autogrow-description">
-                            <textarea id="description">{{description}}</textarea>
-                        </paper-autogrow-textarea>
-                    </paper-input-decorator>
-                </div>
-                <span>
-                    <h3>Team's members</h3>
-                </span>
-                <div layout horizontal wrap>  
-                    {{#each members}}
-                    <tw-card>
-                        <h4>{{username}}</h4>                        
-                        <div>{{profile.firstname}}</div>
-                        <div>{{profile.lastname}}</div>
-                        <paper-menu-button>
-                            <paper-button >
-                                remove
-                            </paper-button>
-                        </paper-menu-button>
-                    </tw-card>
-                    {{/each}}                     
-                </div>
-            </div>
+                <paper-input-decorator label="Team's description"
+                                       floatingLabel>
+                    <paper-autogrow-textarea id="autogrow-description">
+                        <textarea id="teamDescription" name="description">{{description}}</textarea>
+                    </paper-autogrow-textarea>
+                </paper-input-decorator>
+            </event-form>
+
+
+            {{#each members}}
+            <tw-card>
+                <h4>{{username}}</h4>                        
+                <div>{{profile.firstname}}</div>
+                <div>{{profile.lastname}}</div>
+                <paper-menu-button>
+                    <paper-button >
+                        remove
+                    </paper-button>
+                </paper-menu-button>
+            </tw-card>
+            {{/each}}                     
+
         </tw-team>
     </div>
 </template>

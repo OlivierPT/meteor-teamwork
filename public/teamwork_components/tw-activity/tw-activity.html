@@ -18,24 +18,42 @@
                 display: block;
                 position: relative;    
                 font-weight: 300;
-                background-color: white;
                 width: 100%;
             }
 
             .activity {
                 margin: 15px;
-                padding-bottom: 50px;
-                padding-right: 50px;
+                background-color: white;
+            }
+
+            .activity-header {
+                position: relative;
+                margin-left: 15px;
             }
 
             .state-list {
-                 background-color: white;
+                padding-top: 30px; 
+                padding-bottom: 30px; 
+                background-color: white;
+
+            }
+
+            .separator {
+                color: #DDD;
+                margin: 0px;
             }
 
             #new-state-btn {
                 position: absolute;
-                bottom: 20px;
+                bottom: 30px;
+                right: 40px;
+            }
+
+            #edit-activity-btn {
+                position: absolute;
+                bottom: -25px;
                 right: 20px;
+                z-index: 100;
             }
         </style>
 
@@ -45,16 +63,13 @@
                     <content select="h2"></content>
                     <content select="h3"></content>
                 </span>
-                <paper-menu-button>
-                    <paper-icon-button icon="menu" noink></paper-icon-button>
-                    <paper-dropdown class="dropdown">
-                        <core-menu class="menu">
-                            <paper-item>Settings</paper-item>
-                            <paper-item on-click="{{deleteActivity}}">Delete</paper-item>
-                        </core-menu>
-                    </paper-dropdown>
-                </paper-menu-button>
+                <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
             </div>
+            <hr class="separator">
+            <core-collapse  id="editActivityForm">
+                <content select="tw-activity-form"></content>
+                <hr class="separator">
+            </core-collapse>
             <div class="state-list" horizontal layout left>
                 <content></content>
             </div>
@@ -75,17 +90,23 @@
     </template>
     <script>
         Polymer({
+            eventDelegates: {
+                'save-activity': 'toggleEditActivty'
+            },
             openNewListDialog: function () {
                 console.log("Click on New List Button.");
                 this.$.newListDialog.toggle();
             },
-            addList: function() {
-                console.log("Fire event add-list : "+  this.activityId  + " - label : "+this.newListLabel);
+            toggleEditActivty: function () {
+                this.$.editActivityForm.toggle();
+            },
+            addList: function () {
+                console.log("Fire event add-list : " + this.activityId + " - label : " + this.newListLabel);
                 this.fire('add-list', {activityId: this.activityId, listLabel: this.newListLabel});
                 this.newListLabel = "";
             },
-            deleteActivity: function() {
-                console.log("Fire event delete-activity : "+  this.activityId);
+            deleteActivity: function () {
+                console.log("Fire event delete-activity : " + this.activityId);
                 this.fire('delete-activity', {activityId: this.activityId});
             }
         });

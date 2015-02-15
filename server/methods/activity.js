@@ -71,6 +71,9 @@ Meteor.methods({
         console.log("New activity created!");
         return actvityId;
     },
+    'editActivity': function (activityId, name, description) {
+        Activity.update({_id: activityId}, {$set: {name: name, description: description}});
+    },
     'deleteActivity': function (activityId) {
         console.log("MethodCall : deleteActivity - activityId = " + activityId);
         // Controles

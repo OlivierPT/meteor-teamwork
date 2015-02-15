@@ -4,7 +4,7 @@
 
         <core-header-panel drawer>
             <core-toolbar id="navheader">
-                <a href="/">Teamwork</a>
+                Menu
             </core-toolbar>            
             <core-menu>
                 {{# if currentUser}}
@@ -40,7 +40,7 @@
                     </a>
                     {{/each}}           
                 </core-submenu>
-                
+
                 {{/if}}
                 <a href="{{pathFor route='about'}}">
                     <paper-item>
@@ -54,7 +54,9 @@
         <core-header-panel main>
             <core-toolbar>
                 <core-icon-button icon="menu" core-drawer-toggle></core-icon-button>
-                <div flex>Main Title</div>
+                <div flex>
+                    <a href="/">Teamwork</a>
+                </div>
                 {{#if currentUser}}
                 <paper-item>
                     <a href="/sign-in">

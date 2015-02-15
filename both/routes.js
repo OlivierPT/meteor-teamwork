@@ -92,6 +92,10 @@ Router.route('/team/:_id', {
     controller: UserController,
     template: 'MaterialTeam',
     name: 'team',
+    waitOn: function () {
+        console.log("Subscribing for user : " + Meteor.userId());
+        return [subs.subscribe('teams'), subs.subscribe('activities')];
+    },
     data: function () {
         return Team.findOne({_id: this.params._id});
     }

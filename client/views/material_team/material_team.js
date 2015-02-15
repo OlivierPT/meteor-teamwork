@@ -11,9 +11,6 @@ Template.MaterialTeam.events({
 });
 
 Template.MaterialTeam.helpers({
-    teamId: function () {
-        return this._id;
-    },
     members: function () {
         return Meteor.users.find({_id: {$in: this.members}});
     }

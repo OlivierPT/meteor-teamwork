@@ -32,7 +32,32 @@ Template.MaterialActivity.created = function () {
 };
 
 Template.MaterialActivity.rendered = function () {
-    // Selector pour l'evenement de suppression d'un etat
+    // Selector for updating an activty
+    document.querySelector('tw-activity').addEventListener('save-activity', function (e) {
+        console.log(e.type, e.detail.activityId); 
+        
+        var name = "";
+        var description = "";
+        for (i = 0; i < e.detail.datas.length; i++) {
+            if (e.detail.datas[i].name === "name") {
+                name = e.detail.datas[i].value;
+            }
+            if (e.detail.datas[i].name === "description") {
+                description = e.detail.datas[i].value;
+            }
+        }
+        
+        Meteor.call('editActivity', e.detail.activityId, name, description, function (error, result) {
+            // identify the error           
+            if (error) {
+                emitError("Impossible to update the activity.", error);
+            } else {
+                emitNotification("Activity updated.");
+            }
+        });
+    });
+    
+    // Selector pour l'evenement de suppression d'une activity
     document.querySelector('tw-activity').addEventListener('delete-activity', function (e) {
         console.log(e.type, e.detail.activityId); 
         

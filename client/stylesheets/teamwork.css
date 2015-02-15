@@ -48,6 +48,16 @@ a {
     top: 0px;
 }
 
+.content {
+    width: 100%;
+    background-color: white;
+    margin: 20px;
+}
+
+.content-header {
+    margin-left: 40px;
+}
+
 .menu-entry {
     margin-left: 10px;
 }

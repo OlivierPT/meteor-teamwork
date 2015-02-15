@@ -18,39 +18,60 @@
                 display: block;
                 position: relative;    
                 font-weight: 300;
-                background-color: white;
                 width: 100%;
             }
 
             .team {
                 margin: 15px;
-                padding-bottom: 50px;
-                padding-right: 50px;
+                background-color: white;
+            }
+
+            .team-header {
+                position: relative;
+                margin-left: 15px;
+            }
+
+            .members-list {
+                padding-top: 30px; 
+                padding-bottom: 30px; 
+                background-color: white;
+
+            }
+            .separator {
+                color: #DDD;
+                margin: 0px;
+            }
+            
+            #edit-team-btn {
+                position: absolute;
+                bottom: -25px;
+                right: 20px;
+                z-index: 100;
             }
 
             #addMemberBtn {
                 position: absolute;
-                bottom: 20px;
-                right: 20px;
+                bottom: 30px;
+                right: 40px;
             }
         </style>
 
         <div class="team" layout vertical>
-            <div layout horizontal left>                
+            <div class="team-header" layout horizontal left>                
                 <span flex>
-                    <h2>Team Management</h2>
+                    <content select="h2"></content>
+                    <content select="h3"></content>
                 </span>
-                <paper-menu-button>
-                    <paper-icon-button icon="menu" noink></paper-icon-button>
-                    <paper-dropdown class="dropdown">
-                        <core-menu class="menu">
-                            <paper-item>Settings</paper-item>
-                            <paper-item on-click="{{deleteTeam}}">Delete</paper-item>
-                        </core-menu>
-                    </paper-dropdown>
-                </paper-menu-button>
+                <paper-fab id="edit-team-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditTeam}}"></paper-fab>
             </div>
-            <div>
+
+            <hr class="separator">
+            <core-collapse  id="editTeamForm">
+                <content select="event-form"></content>
+                <hr class="separator">
+            </core-collapse>
+
+            <div  class="members-list" horizontal layout left wrap>
                 <content></content>
             </div>
             <paper-fab id="addMemberBtn" icon="add" class="blue" title="create" on-click="{{openAddMemberDialog}}"></paper-fab>
@@ -69,6 +90,12 @@
     </template>
     <script>
         Polymer({
+            eventDelegates: {
+                'save-team': 'toggleEditTeam'
+            },
+            toggleEditTeam: function () {
+                this.$.editTeamForm.toggle();
+            },
             deleteTeam: function () {
                 console.log("Fire event delete-team : " + this.teamId);
                 this.fire('delete-team', {teamId: this.teamId});

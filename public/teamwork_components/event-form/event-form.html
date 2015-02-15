@@ -1,0 +1,90 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+
+<polymer-element name="event-form"  attributes="objectId eventSuffix allowDelete">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;    
+                font-weight: 300;
+                width: 100%;
+                background-color: gainsboro;
+                padding: 20px;
+            }
+        </style>
+        <div>
+            <p>
+            <content></content>
+            </p>
+            <div class="event-form-action" layout horizontal right>
+                <paper-button id="save-btn" on-click="{{save}}">
+                    <core-icon icon="check"></core-icon>
+                    Save
+                </paper-button>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            ready: function () {
+                this.objectId = 0;
+                this.eventSuffix = 'object';
+                this.allowDelete = false;
+            },
+            domReady: function () {
+                var decorators = this.getDecorators();
+
+                [].forEach.call(decorators, function (decorator, i) {
+                    var input = decorator.querySelector('input, textarea');
+                    input.addEventListener('change', function (ev) {
+                        var isValid = this.validity.valid;
+                        decorator.isInvalid = !isValid;
+                    });
+                });
+
+            },
+            save: function () {
+                var _this = this;
+
+                // Get all paper inputs within this di-form
+                var inputs = this.getDecorators();
+
+                // Set di-form's valid state
+                _this.valid = true;
+                [].forEach.call(inputs, function (decorator, i) {
+                    var isValid = decorator.querySelector('input, textarea').validity.valid;
+                    decorator.isInvalid = !isValid;
+                    if (!isValid) {
+                        _this.valid = false;
+                    }
+                });
+
+                if (_this.valid) {
+                    var datas = [];
+                    var dataInputs = this.querySelectorAll('input, textarea');
+                    for (i = 0; i < dataInputs.length; i++) {
+                        var dataInput = {};
+                        dataInput.name = dataInputs[i].name;
+                        dataInput.value = dataInputs[i].value;
+                        console.log("Adding dataInputs : " + dataInput);
+                        datas.push(dataInput)
+                    }
+                }
+
+                console.log("Fire event 'save-" + this.eventSuffix + "'");
+                this.fire('save-' + this.eventSuffix, {activityId: this.activityId, datas: datas});
+            },
+            keypressHandler: function (e) {
+                if (e.which === 13) {
+                    // Set validity before firing submit event
+                    this.save();
+                }
+            },
+            getDecorators: function () {
+                return this.querySelectorAll('paper-input-decorator');
+            }
+        });
+    </script>
+</polymer-element>

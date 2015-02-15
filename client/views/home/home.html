@@ -1,14 +1,40 @@
 <template name="Home">
 
-    <div style="width: 100%;" layout horizontal>
-        {{#each activities}}
-        <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}">
-            <div vertical layout center center-justified>
-                <h2>{{name}}</h2>
-                <p>{{description}}</p>
-            </div>
-        </tw-card>
-        {{/each}} 
+    <div class="content" layout vertical>
+        <div class="content-header" layout horizontal left>                
+            <h2 flex>
+                Activities
+            </h2>
+        </div>
+        <hr class="separator">
+        <div style="width: 100%;" layout horizontal wrap>
+            {{#each activities}}
+            <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}">
+                <div vertical layout center center-justified>
+                    <h2>{{name}}</h2>
+                    <p>{{description}}</p>
+                </div>
+            </tw-card>
+            {{/each}} 
+        </div>
     </div>
-
+    
+    <div class="content" layout vertical>
+        <div class="content-header" layout horizontal left>                
+            <h2 flex>
+                Teams
+            </h2>
+        </div>
+        <hr class="separator">
+        <div style="width: 100%;" layout horizontal wrap>
+            {{#each teams}}
+            <tw-card autoraise=true link="{{pathFor route='team'}}" objectId="{{_id}}">
+                <div vertical layout center center-justified>
+                    <h2>{{name}}</h2>
+                    <p>{{description}}</p>
+                </div>
+            </tw-card>
+            {{/each}} 
+        </div>
+    </div>
 </template>
