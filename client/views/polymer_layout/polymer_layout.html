@@ -40,7 +40,12 @@
                     </a>
                     {{/each}}           
                 </core-submenu>
-
+                <a href="{{pathFor route='profile'}}">
+                    <paper-item>
+                        <core-icon icon="social:person"></core-icon>
+                        <span class="menu-entry">Profile</span>                       
+                    </paper-item>
+                </a>
                 {{/if}}
                 <a href="{{pathFor route='about'}}">
                     <paper-item>

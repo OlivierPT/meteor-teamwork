@@ -1,0 +1,20 @@
+<template name="MaterialProfile">
+    <div class="content">
+        <h2>Edit your profile {{username}}</h2>
+        <event-form objectId="{{_id}}" eventSuffix="user">
+            <paper-input-decorator label="User's email" error="The email should be a the good format"
+                                   floatingLabel>
+                <input is="core-input" name="email" id="userEmail" type="email" value="{{email}}" disabled="disabled">
+            </paper-input-decorator>
+            
+            <paper-input-decorator label="User's fistname" floatingLabel>
+                <input is="core-input" name="firstname" id="userFirstName" type="text" value="{{profile.firstname}}">
+            </paper-input-decorator>
+            
+            <paper-input-decorator label="User's lastname" floatingLabel>
+                <input is="core-input" name="lastname" id="userLastName" type="text" value="{{profile.lastname}}">
+            </paper-input-decorator>
+
+        </event-form>
+    </div>
+</template>

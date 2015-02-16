@@ -82,6 +82,21 @@ Router.route('/activity/:_id', {
     }
 });
 
+Router.route('/profile', {
+    controller: UserController,
+    template: 'MaterialProfile',
+    name: 'profile',
+    waitOn: function () {
+        console.log("Subscribing for user : " + Meteor.userId());
+        return [subs.subscribe('teams'), subs.subscribe('activities')];
+    },
+    data: function () {
+        console.log("Data - Activity.findOne : " + this.params._id);
+        return Meteor.users.findOne();
+    }
+    
+});
+
 Router.route('/activity', {
     template: 'MaterialNewActivity',
     name: 'newActivity'
