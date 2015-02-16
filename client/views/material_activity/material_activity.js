@@ -50,9 +50,9 @@ Template.MaterialActivity.rendered = function () {
         Meteor.call('editActivity', e.detail.activityId, name, description, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to update the activity.", error);
+                Notification.emitError("Impossible to update the activity.", error);
             } else {
-                emitNotification("Activity updated.");
+                Notification.emitNotification("Activity updated.");
             }
         });
     });
@@ -64,9 +64,9 @@ Template.MaterialActivity.rendered = function () {
         Meteor.call('deleteActivity', e.detail.activityId, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to delete the activity.", error);
+                Notification.emitError("Impossible to delete the activity.", error);
             } else {
-                emitNotification("Activity deleted.");
+                Notification.emitNotification("Activity deleted.");
             }
         });
     });
@@ -78,9 +78,9 @@ Template.MaterialActivity.rendered = function () {
         Meteor.call('removeState', e.detail.listId,  e.detail.activityId, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to delete the state.", error);
+                Notification.emitError("Impossible to delete the state.", error);
             } else {
-                emitNotification("State deleted.");
+                Notification.emitNotification("State deleted.");
             }
         });
     });
@@ -92,9 +92,9 @@ Template.MaterialActivity.rendered = function () {
         Meteor.call('addState', e.detail.listLabel, e.detail.activityId, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to add a list.", error);
+                Notification.emitError("Impossible to add a list.", error);
             } else {
-                emitNotification("List added.");
+                Notification.emitNotification("List added.");
             }
         });
     });
@@ -106,9 +106,9 @@ Template.MaterialActivity.rendered = function () {
         Meteor.call('addTask', e.detail.taskLabel, e.detail.activityId, e.detail.listId, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to add a task.", error);
+                Notification.emitError("Impossible to add a task.", error);
             } else {
-                emitNotification("Task added.");
+                Notification.emitNotification("Task added.");
             }
         });
     });

@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+
+<polymer-element name="tw-notification">
+    <template>
+        <style>
+            :host {
+                display: block;                
+            }
+        </style>
+        <paper-toast id="notificationToast" text="{{text}}">
+        </paper-toast>
+    </template>
+    <script>
+        Polymer({
+            text: 'Notification',
+            eventDelegates: {
+                'tw-notification': 'onNotification'
+            },
+            onNotification: function(e, detail, sender) {
+                console.log("Notification received!");
+                this.text = detail.text;
+                this.$.notificationToast.show();
+            }
+        });
+    </script>
+</polymer-element>

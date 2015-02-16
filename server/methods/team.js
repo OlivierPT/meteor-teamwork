@@ -11,9 +11,9 @@ Meteor.methods({
       return teamId;
     },
     
-    'updateTeam': function (team) {
-      console.log("MethodCall : updateTeamInfos - id = "+team._id);
-      Team.update({_id: team._id}, team);
+    'updateTeam': function (teamId, name, description) {
+      console.log("MethodCall : updateTeamInfos - id = "+teamId);
+      Team.update({_id: teamId}, {$set: {name: name, description: description, teamUpdate: new Date()}});
       console.log("Team updated");
     },
 

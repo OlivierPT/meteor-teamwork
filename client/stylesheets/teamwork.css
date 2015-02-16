@@ -72,6 +72,13 @@ a {
 }
 
 [main] core-toolbar {
-    background: #03a9f4;
+    background: #536dfe !important; 
     color: white;
 }
+
+/*
+[main] {
+    background-color: #03a9f4;
+    color: white;
+}
+*/

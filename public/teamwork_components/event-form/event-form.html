@@ -28,11 +28,10 @@
     </template>
     <script>
         Polymer({
-            ready: function () {
-                this.objectId = 0;
-                this.eventSuffix = 'object';
-                this.allowDelete = false;
-            },
+            objectId: 0,
+            eventSuffix: 'object',
+            allowDelete: false,
+ 
             domReady: function () {
                 var decorators = this.getDecorators();
 
@@ -74,7 +73,7 @@
                 }
 
                 console.log("Fire event 'save-" + this.eventSuffix + "'");
-                this.fire('save-' + this.eventSuffix, {activityId: this.activityId, datas: datas});
+                this.fire('save-' + this.eventSuffix, {objectId: this.objectId, datas: datas});
             },
             keypressHandler: function (e) {
                 if (e.which === 13) {

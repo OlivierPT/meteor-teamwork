@@ -31,9 +31,9 @@ Template.MaterialTeam.rendered = function () {
         Meteor.call('addMemberWithUsername', e.detail.teamId, e.detail.username, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to add the member.", error);
+                Notification.emitError("Impossible to add the member.", error);
             } else {
-                emitNotification("Member added.");
+                Notification.emitNotification("Member added.");
             }
         });
     });
@@ -45,9 +45,34 @@ Template.MaterialTeam.rendered = function () {
         Meteor.call('deleteTeam', e.detail.teamId, e.detail.username, function (error, result) {
             // identify the error           
             if (error) {
-                emitError("Impossible to add the member.", error);
+                Notification.emitError("Impossible to add the member.", error);
             } else {
-                emitNotification("Member added.");
+                Notification.emitNotification("Member added.");
+            }
+        });
+    });
+    
+    // Selector for DELETE-TEAM
+    document.querySelector('tw-team').addEventListener('save-team', function (e) {
+        console.log(e.type, e.detail.objectId); 
+        var name = "";
+        var description = "";
+        
+        for (i = 0; i < e.detail.datas.length; i++) {
+            if (e.detail.datas[i].name === "name") {
+                name = e.detail.datas[i].value;
+            }
+            if (e.detail.datas[i].name === "description") {
+                description = e.detail.datas[i].value;
+            }
+        }
+                
+        Meteor.call('updateTeam', e.detail.objectId, name, description, function (error, result) {
+            // identify the error           
+            if (error) {
+                Notification.emitError("Impossible update team.", error);
+            } else {
+                Notification.emitNotification("Team updated successfully.");
             }
         });
     });

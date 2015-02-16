@@ -19,7 +19,7 @@ Template.SignUp.events({
 
         Accounts.createUser(username, email, password, function (error) {
             if (error) {
-                emitError("Impossible to create user.", error);
+                Notification.emitError("Impossible to create user.", error);
             } else {
                 Router.go("/home");
             }

@@ -9,7 +9,7 @@ Template.SignIn.events({
 
         Meteor.loginWithPassword(email, password, function (error) {
             if (error) {
-                emitError("Impossible login.", error);
+                Notification.emitError("Impossible login.", error);
             } else {   
                 Router.go("/home");
             }
