@@ -61,7 +61,11 @@ Router.route('/about', {
 
 Router.route('/sign-out', {
     template: 'SignIn',
-    name: 'sign-out'
+    name: 'sign-out',
+    action: function() {
+        Meteor.logout();
+        this.redirect('/sign-in');
+    }
 });
 
 Router.route('/activity/:_id', {
@@ -94,7 +98,9 @@ Router.route('/team/:_id', {
     name: 'team',
     waitOn: function () {
         console.log("Subscribing for user : " + Meteor.userId());
-        return [subs.subscribe('teams'), subs.subscribe('activities')];
+        return [subs.subscribe('teams'), subs.subscribe('activities'), 
+            //subs.subscribe('userMembers', this.params._id)];
+            subs.subscribe('allUsers')];
     },
     data: function () {
         return Team.findOne({_id: this.params._id});

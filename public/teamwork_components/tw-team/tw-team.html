@@ -105,8 +105,8 @@
                 this.$.addMemberDialog.toggle();
             },
             addMember: function () {
-                console.log("Fire event add-member : " + this.model.teamId + " - username : " + this.username);
-                this.fire('add-member', {teamId: this.model.teamId, username: this.username});
+                console.log("Fire event add-member : " + this.teamId + " - username : " + this.newUsername);
+                this.fire('add-member', {teamId: this.teamId, username: this.newUsername});
                 this.username = "";
             }
         });
