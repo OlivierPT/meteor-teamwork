@@ -16,13 +16,10 @@
         </style>
         <div>
             <p>
-            <content></content>
+                <content></content>
             </p>
-            <div class="event-form-action" layout horizontal right>
-                <paper-button id="save-btn" on-click="{{save}}">
-                    <core-icon icon="check"></core-icon>
-                    Save
-                </paper-button>
+            <div class="event-form-action" layout horizontal end-justified>
+                <content select="event-paper-button"></content>
             </div>
         </div>
     </template>
@@ -31,7 +28,9 @@
             objectId: 0,
             eventSuffix: 'object',
             allowDelete: false,
- 
+            eventDelegates: {
+                'even-form-submit': 'handleEventForm'
+            },
             domReady: function () {
                 var decorators = this.getDecorators();
 
@@ -43,6 +42,40 @@
                     });
                 });
 
+            },
+            handleEventForm: function (e, detail, sender) {
+                if (this.isFormValid()) {
+                    var datas = this.collectFormDatas();
+                    console.log("Fire event '" + detail.actionEvent + "' - pour objectId : "+this.objectId);
+                    this.fire(detail.actionEvent, {objectId: this.objectId, datas: datas});
+                }
+            },
+            isFormValid: function () {
+                var valid = true;
+                // Get all paper inputs within this di-form
+                var inputs = this.getDecorators();
+                // Set di-form's valid state
+
+                [].forEach.call(inputs, function (decorator, i) {
+                    var isValid = decorator.querySelector('input, textarea').validity.valid;
+                    decorator.isInvalid = !isValid;
+                    if (!isValid) {
+                        valid = false;
+                    }
+                });
+                return valid;
+            },
+            collectFormDatas: function () {
+                var datas = [];
+                var dataInputs = this.querySelectorAll('input, textarea');
+                for (i = 0; i < dataInputs.length; i++) {
+                    var dataInput = {};
+                    dataInput.name = dataInputs[i].name;
+                    dataInput.value = dataInputs[i].value;
+                    console.log("Adding dataInputs : " + dataInput);
+                    datas.push(dataInput)
+                }
+                return datas;
             },
             save: function () {
                 var _this = this;

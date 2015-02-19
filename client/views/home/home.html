@@ -18,7 +18,7 @@
             {{/each}} 
         </div>
     </div>
-    
+
     <div class="content" layout vertical>
         <div class="content-header" layout horizontal left>                
             <h2 flex>
@@ -39,4 +39,26 @@
     </div>
     <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity"></paper-fab>
     <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"></paper-fab>
+
+    <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog">
+        <event-form>
+            <paper-input-decorator label="State label" error="We need label!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="activityName" type="text" required>
+            </paper-input-decorator>
+        </event-form>
+        <paper-button dismissive>Cancel</paper-button>
+        <paper-button affirmative autofocus on-click="{{addList}}">Create</paper-button>
+    </paper-action-dialog>
+
+    <paper-action-dialog transition="core-transition-fade" heading="Add a Team" id="addTeamDialog">
+        <event-form>
+            <paper-input-decorator label="State label" error="We need label!"
+                                   floatingLabel class="input-light">
+                <input is="core-input" id="teamName" type="text" required>
+            </paper-input-decorator>
+        </event-form>
+        <paper-button dismissive>Cancel</paper-button>
+        <paper-button affirmative autofocus on-click="{{addList}}">Create</paper-button>
+    </paper-action-dialog>
 </template>

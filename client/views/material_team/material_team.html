@@ -3,7 +3,7 @@
         <tw-team teamId="{{_id}}">            
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
-            <event-form objectId="{{_id}}" eventSuffix="team">
+            <event-form objectId="{{_id}}">
                 <paper-input-decorator label="Team's label" error="We need a label"
                                        floatingLabel>
                     <input is="core-input" name="name" id="teamName" type="text" value="{{name}}" required>
@@ -15,6 +15,11 @@
                         <textarea id="teamDescription" name="description">{{description}}</textarea>
                     </paper-autogrow-textarea>
                 </paper-input-decorator>
+                
+                <event-paper-button eventName="save-team">
+                    <core-icon icon="check"></core-icon>
+                    Save
+                </event-paper-button>
             </event-form>
 
 

@@ -2,12 +2,12 @@
 /* Home: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
 Template.Home.events({
-  /*
-   * Example:
-   *  'click .selector': function (e, tmpl) {
-   *
-   *  }
-   */
+  'click #new-actity-btn': function (e, tmpl) {
+        document.querySelector("#addActivityDialog").toggle();
+    },
+    'click #new-team-btn': function (e, tmpl) {
+        document.querySelector("#addTeamDialog").toggle();
+    }
 });
 
 Template.Home.helpers({

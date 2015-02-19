@@ -34,7 +34,7 @@ Template.MaterialActivity.created = function () {
 Template.MaterialActivity.rendered = function () {
     // Selector for updating an activty
     document.querySelector('tw-activity').addEventListener('save-activity', function (e) {
-        console.log(e.type, e.detail.activityId); 
+        console.log(e.type, e.detail.objectId); 
         
         var name = "";
         var description = "";
@@ -47,7 +47,7 @@ Template.MaterialActivity.rendered = function () {
             }
         }
         
-        Meteor.call('editActivity', e.detail.activityId, name, description, function (error, result) {
+        Meteor.call('editActivity', e.detail.objectId, name, description, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);

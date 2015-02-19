@@ -1,0 +1,20 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+
+<polymer-element name="event-paper-button"  attributes="eventName doSubmit" extends="paper-button" on-click="{{fireEvent}}">
+    <template>
+        <shadow></shadow> 
+    </template>
+    <script>
+        Polymer({
+            doSubmit: true,
+            eventName: 'none',
+            fireEvent: function () {
+                if (this.doSubmit) {
+                    this.fire('even-form-submit', {actionEvent: this.eventName});
+                }
+            }
+        });
+    </script>
+</polymer-element>
