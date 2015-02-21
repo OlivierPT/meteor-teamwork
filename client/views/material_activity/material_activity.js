@@ -15,13 +15,20 @@ Template.MaterialActivity.helpers({
     tasks: function () {
         return this.tasks;
     },
-    model: function() {
-        var model = {};
-        model.id = this._id;
-        model.description = this.description;
-        model.teamId = this.team;
-        
-        return EJSON.stringify(model);
+    taskHasDetail: function() {
+        return (this.detail && this.detail.length > 1);
+    },
+    taskHasComments: function() {
+        return (this.comments && this.comments.length > 1);
+    },
+    taskHasDueDate: function() {
+        return (this.dueDate && this.dueDate.length > 1);
+    },
+    taskIsAssigned: function() {
+        return (this.assignedTo && this.assignedTo.length > 1);
+    },
+    taskHasCategory: function() {
+        return false;
     }
 });
 

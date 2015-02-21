@@ -5,20 +5,24 @@
 <link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
 <link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
 
-<polymer-element name="tw-task" attributes="taskId listId activityId model">
+<polymer-element name="tw-task" attributes="taskId listId activityId hasDetails hasComments isAssigned hasDueDate hasCategory">
     <template>
         <style>
             :host {
                 display: block;
                 position: relative;
-                padding: 10px;
+                padding-left: 12px;
+                padding-top: 7px;
                 width: 90%;
                 font-weight: 300;
             }
             .task-resume {
-                padding: 3px;
-                background-color: #7986cb !important;
-                color: white;
+                background-color: #d6dadc !important;
+                color: black;
+                padding-top: 10px;
+                padding-bottom: 5px;
+                padding-left: 5px;
+                padding-right: 5px;
             }
 
             a {
@@ -31,7 +35,26 @@
         <paper-shadow z="1">
             <span role="button" tabindex="0" layout vertical class="task-resume" 
                   on-click="{{openTaskDetail}}">
-                <content></content>                  
+                <content></content>  
+                <template if="{{additionalsInfo}}">
+                    <span horizontal layout end-justified>
+                        <template if="{{hasDetails}}">
+                            <core-icon icon="description"></core-icon>
+                        </template>
+                        <template if="{{isAssigned}}">
+                            <core-icon icon="assignment-ind"></core-icon>
+                        </template>
+                        <template if="{{hasComments}}">
+                            <core-icon icon="subject"></core-icon>
+                        </template>
+                        <template if="{{hasCategory}}">
+                            <core-icon icon="bookmark"></core-icon>
+                        </template>
+                        <template if="{{hasDueDate}}">
+                            <core-icon icon="alarm-on"></core-icon>
+                        </template>
+                    </span>
+                </template>
             </span>
         </paper-shadow>
 
@@ -55,9 +78,9 @@
                                    floatingLabel class="input-light">
                 <input is="core-input" id="taskLabel" type="text" required>
             </paper-input-decorator>
-            
+
             </p>
-            
+
             <paper-button dismissive>Cancel</paper-button>
             <paper-button affirmative autofocus id="add-state-btn">Update</paper-button>
         </paper-action-dialog>
@@ -65,13 +88,17 @@
     </template>
     <script>
         Polymer({
-            created: function () {
-                // hint that items is an array
-                this.model = {};
-            },
+            hasDetails: false,
+            hasComments: false,
+            isAssigned: false,
+            hasDueDate: false,
+            hasCategory: false,
             openTaskDetail: function () {
                 console.log("Click on open task detail.");
                 this.$.taskDetailDialog.toggle();
+            },
+            additionalsInfo: function () {
+                return this.hasDetails || this.hasComments || this.isAssigned || this.hasDueDate;
             }
         });
     </script>

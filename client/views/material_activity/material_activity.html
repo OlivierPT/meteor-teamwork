@@ -1,5 +1,5 @@
 <template name="MaterialActivity">
-    <div style="width: 100%;">
+    <div class="content">
         <tw-activity activityId="{{_id}}">
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
@@ -25,7 +25,9 @@
             <tw-list listId="{{id}}" activityId="{{../_id}}" model="">
                 <h3>{{label}}</h3>
                 {{#each tasks}}
-                <tw-task taskId="{{id}}" listId="{{../id}}" activityId="{{../../_id}}">
+                <tw-task taskId="{{id}}" listId="{{../id}}" activityId="{{../../_id}}"
+                         hasDetails="{{taskHasDetail}}" hasComments="{{taskHasComments}}" isAssigned="{{taskIsAssigned}}"
+                         hasDueDate="{{taskHasDueDate}}" hasCategory="{{taskHasCategory}}">
                     {{label}}
                 </tw-task>                            
                 {{/each}}
