@@ -36,7 +36,7 @@ Meteor.methods({
      * @param {type} userId
      * @returns {undefined}
      */
-    'createActivity': function (name, teamValue, description) {
+    'createActivity': function (name, description, teamValue) {
         console.log("MethodCall : createActivity - name = " + name);
         console.log("MethodCall : createActivity - teamValue = " + teamValue);
         console.log("MethodCall : createActivity - currentUser = " + Meteor.userId());

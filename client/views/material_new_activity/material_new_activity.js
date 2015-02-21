@@ -22,7 +22,7 @@ Template.MaterialNewActivity.events({
         var description = $("#description").val();
         var team = $("#teamValue").val();
 
-        Meteor.call('createActivity', label, team, description, function (error, result) {
+        Meteor.call('createActivity', label, description, team, function (error, result) {
             // identify the error           
             if (error) {
                 emitError("Impossible to create the activity.", error);

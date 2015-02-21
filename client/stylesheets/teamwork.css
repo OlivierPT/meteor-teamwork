@@ -50,12 +50,18 @@ a {
 
 .content {
     width: 100%;
-    background-color: white;
-    margin: 20px;
+    background-color: #03a9f4;
+    margin-top: 20px;
+    color: white;
 }
 
 .content-header {
     margin-left: 40px;
+}
+
+.separator {
+    color: #DDD;
+    margin: 0px;
 }
 
 .menu-entry {
@@ -63,13 +69,10 @@ a {
 }
 
 [drawer] {
-    background-color: #ff5252 !important;
-    color: white;
+    background-color: white !important;
+    color: black;
 }
 
-[drawer] core-toolbar {
-    background: #d23f31;
-}
 
 [main] core-toolbar {
     background: #536dfe !important; 

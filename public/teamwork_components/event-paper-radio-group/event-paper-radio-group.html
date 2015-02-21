@@ -1,0 +1,27 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+
+
+<polymer-element name="event-paper-radio-group"  attributes="inputName" extends="paper-radio-group" on-click="{{fireEvent}}">
+    <template>
+        <shadow></shadow> 
+        <input is="core-input" id="valueInput" name="{{inputName}}" type="hidden" required>
+    </template>
+    <script>
+        Polymer({
+            inputName: 'none',
+            setValueSelected: function (value, isSelected) {
+                this.super(value, isSelected);
+                console.log("setValueSelected - New value : " + value);
+                $.valueInput.value = value;
+            },
+            selectedItemChanged: function () {
+                this.super();
+                console.log("selectedItemChanged - ...");
+                if (this.selectedItem) {
+                    this.$.valueInput.value = this.selectedItem.attributes.name.value;
+                }
+            }
+        });
+    </script>
+</polymer-element>
