@@ -64,6 +64,31 @@ Template.MaterialActivity.rendered = function () {
         });
     });
     
+    // Selector for updating a task
+    document.querySelector('tw-activity').addEventListener('save-task', function (e) {
+        console.log(e.type, e.detail.objectId); 
+        
+        var name = "";
+        var description = "";
+        for (i = 0; i < e.detail.datas.length; i++) {
+            if (e.detail.datas[i].name === "name") {
+                name = e.detail.datas[i].value;
+            }
+            if (e.detail.datas[i].name === "description") {
+                description = e.detail.datas[i].value;
+            }
+        }
+        
+        Meteor.call('storeTask', e.detail.objectId, name, description, function (error, result) {
+            // identify the error           
+            if (error) {
+                Notification.emitError("Impossible to update the activity.", error);
+            } else {
+                Notification.emitNotification("Activity updated.");
+            }
+        });
+    });
+    
     // Selector pour l'evenement de suppression d'une activity
     document.querySelector('tw-activity').addEventListener('delete-activity', function (e) {
         console.log(e.type, e.detail.activityId); 

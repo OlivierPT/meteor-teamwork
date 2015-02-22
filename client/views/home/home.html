@@ -40,7 +40,8 @@
     <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity"></paper-fab>
     <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"></paper-fab>
 
-    <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog">
+
+    <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog" on-epb-click="alert('toto')">
         <event-form>
             <paper-input-decorator label="Activity's name" error="We need a name!"
                                    floatingLabel class="input-light">
@@ -67,6 +68,7 @@
         <event-paper-button dismissive>Cancel</event-paper-button>
         <event-paper-button affirmative eventName="create-activity">Create</event-paper-button>
     </paper-action-dialog>
+
 
     <paper-action-dialog transition="core-transition-fade" heading="Add a Team" id="addTeamDialog">
         <event-form>

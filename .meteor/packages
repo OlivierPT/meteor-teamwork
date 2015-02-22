@@ -9,9 +9,9 @@ accounts-password
 meteorhacks:kadira
 iron:router
 
-ecwyne:polymer
-ecwyne:polymer-elements
 differential:vulcanize
 coffeescript
 meteorhacks:subs-manager
 useraccounts:polymer
+boxxa:polymer
+boxxa:polymer-elements

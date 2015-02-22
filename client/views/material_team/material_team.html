@@ -1,27 +1,29 @@
 <template name="MaterialTeam">
-    <div style="width: 100%;">
+    <div class="content">
         <tw-team teamId="{{_id}}">            
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
-            <event-form objectId="{{_id}}">
-                <paper-input-decorator label="Team's label" error="We need a label"
-                                       floatingLabel>
-                    <input is="core-input" name="name" id="teamName" type="text" value="{{name}}" required>
-                </paper-input-decorator>
+            <event-form-container class="main-form">
+                <event-form objectId="{{_id}}">
+                    <p>
+                    <paper-input-decorator label="Team's label" error="We need a label"
+                                           floatingLabel>
+                        <input is="core-input" name="name" id="teamName" type="text" value="{{name}}" required>
+                    </paper-input-decorator>
 
-                <paper-input-decorator label="Team's description"
-                                       floatingLabel>
-                    <paper-autogrow-textarea id="autogrow-description">
-                        <textarea id="teamDescription" name="description">{{description}}</textarea>
-                    </paper-autogrow-textarea>
-                </paper-input-decorator>
-                
-                <event-paper-button eventName="save-team">
+                    <paper-input-decorator label="Team's description"
+                                           floatingLabel>
+                        <paper-autogrow-textarea id="autogrow-description">
+                            <textarea id="teamDescription" name="description">{{description}}</textarea>
+                        </paper-autogrow-textarea>
+                    </paper-input-decorator>
+                    </p>
+                </event-form>
+                <event-paper-button raised affirmative eventName="save-team" style="background: blue; color: white;">
                     <core-icon icon="check"></core-icon>
                     Save
                 </event-paper-button>
-            </event-form>
-
+            </event-form-container>
 
             {{#each members}}
             <tw-card>

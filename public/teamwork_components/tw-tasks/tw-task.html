@@ -32,10 +32,12 @@
 
         </style>
 
+        <core-signals on-core-signal-save-task="{{save}}"></core-signals>
+        
         <paper-shadow z="1">
             <span role="button" tabindex="0" layout vertical class="task-resume" 
                   on-click="{{openTaskDetail}}">
-                <content></content>  
+                <content select=":not(event-form)"></content>  
                 <template if="{{additionalsInfo}}">
                     <span horizontal layout end-justified>
                         <template if="{{hasDetails}}">
@@ -58,31 +60,10 @@
             </span>
         </paper-shadow>
 
-        <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog">
-            <p>
-            <paper-input-decorator label="Task label" error="We need label!"
-                                   floatingLabel class="input-light" required>
-                <input is="core-input" id="taskLabel" type="text" required>
-            </paper-input-decorator>
-            </p>
-            <p>
-            <paper-input-decorator label="Task's description"
-                                   floatingLabel>
-                <paper-autogrow-textarea id="autogrow-description">
-                    <textarea id="description"></textarea>
-                </paper-autogrow-textarea>
-            </paper-input-decorator>            
-            </p>
-            <p>
-            <paper-input-decorator label="Add a comment"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="taskLabel" type="text" required>
-            </paper-input-decorator>
-
-            </p>
-
-            <paper-button dismissive>Cancel</paper-button>
-            <paper-button affirmative autofocus id="add-state-btn">Update</paper-button>
+        <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog" on-epb-click="{{handleFormEvent}}">
+            <content select="event-form"></content>
+            <event-paper-button dismissive>Cancel</event-paper-button>
+            <event-paper-button affirmative autofocus id="add-state-btn" eventName="save-task">Update</event-paper-button>
         </paper-action-dialog>
 
     </template>
@@ -93,13 +74,33 @@
             isAssigned: false,
             hasDueDate: false,
             hasCategory: false,
+            eventDelegates: {
+                'epb-click': 'handleFormEvent'
+            },
             openTaskDetail: function () {
                 console.log("Click on open task detail.");
                 this.$.taskDetailDialog.toggle();
             },
             additionalsInfo: function () {
                 return this.hasDetails || this.hasComments || this.isAssigned || this.hasDueDate;
-            }
+            },
+            handleFormEvent: function (e, detail, sender) {
+                console.log("Handle event 'epb-click'");
+                var form = e.currentTarget.querySelector('event-form');
+                if (form) {   
+                    console.log("Fire event 'event-form-submit'");
+                    form.fire('event-form-submit', detail);
+                }
+            },
+            save: function (e, detail, sender) {
+                console.log("Handle event 'save-task'");
+                if (detail.objectId === this.taskId) {
+                    console.log("Completing event information");
+                    detail.datas.listId = this.listId;
+                    detail.datas.activityId = this.activityId;
+                    this.fire('save-task', detail);
+                }
+            },
         });
     </script>
 </polymer-element>

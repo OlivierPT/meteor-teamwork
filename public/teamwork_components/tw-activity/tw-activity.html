@@ -19,10 +19,11 @@
                 position: relative;    
                 font-weight: 300;
                 width: 100%;
+                background-color: #03a9f4;
             }
 
             .activity {
-                margin: 15;
+                margin: 15px;
             }
 
             .activity-header {
@@ -62,9 +63,10 @@
                 </span>
                 <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
             </div>
+            
             <hr class="separator">
             <core-collapse  id="editActivityForm">
-                <content select="event-form"></content>
+                <content select="event-form-container"></content>
                 <hr class="separator">
             </core-collapse>
             <div class="state-list" horizontal layout left>

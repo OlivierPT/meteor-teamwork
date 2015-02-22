@@ -1,0 +1,39 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+
+<polymer-element name="event-form-container">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;    
+                font-weight: 300;
+            }
+        </style>
+        <div class="content" relative flex>
+            <content select="event-form"></content>
+
+            <div class="event-form-action" relative layout horizontal>
+                <content select="[dismissive]"></content>
+                <div flex></div>
+                <content select="[affirmative]"></content>
+            </div>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            eventDelegates: {
+                'epb-click': 'handleFormEvent'
+            },
+            handleFormEvent: function (e, detail, sender) {
+                console.log("Handle event 'epb-click'");
+                var form = this.querySelector('event-form');
+                if (form) {   
+                    console.log("Fire event 'event-form-submit'");
+                    form.fire('event-form-submit', detail);
+                }
+            }
+        });
+    </script>
+</polymer-element>

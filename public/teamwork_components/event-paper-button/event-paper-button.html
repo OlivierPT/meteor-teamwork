@@ -12,8 +12,10 @@
             eventName: 'none',
             fireEvent: function () {
                 if (this.doSubmit) {
-                    this.fire('even-form-submit', {actionEvent: this.eventName});
+                    console.log("Fire event : 'epb-click'");
+                    this.fire('epb-click', {actionEvent: this.eventName});
                 }
+                return;
             }
         });
     </script>

@@ -12,12 +12,7 @@
             }
         </style>
         <div>
-            <p>
             <content></content>
-            </p>
-            <div class="event-form-action" layout horizontal end-justified>
-                <content select="event-paper-button"></content>
-            </div>
         </div>
     </template>
     <script>
@@ -26,7 +21,7 @@
             eventSuffix: 'object',
             allowDelete: false,
             eventDelegates: {
-                'even-form-submit': 'handleEventForm'
+                'event-form-submit': 'handleEventForm'
             },
             domReady: function () {
                 var decorators = this.getDecorators();
@@ -47,6 +42,8 @@
                     var datas = this.collectFormDatas();
                     console.log("Fire event '" + detail.actionEvent + "' - pour objectId : " + this.objectId);
                     this.fire(detail.actionEvent, {objectId: this.objectId, datas: datas});
+                    console.log("Fire core-signal '" + detail.actionEvent + "' - pour objectId : " + this.objectId);
+                    this.fire('core-signal', {name: detail.actionEvent, objectId: this.objectId, datas: datas});
                 }
             },
             isFormValid: function () {
@@ -69,7 +66,7 @@
             },
             collectFormDatas: function () {
                 var datas = [];
-                
+
                 // Input and Textarea
                 var dataInputs = this.querySelectorAll('input, textarea');
                 for (i = 0; i < dataInputs.length; i++) {
