@@ -32,8 +32,7 @@
                          hasDetails="{{taskHasDetail}}" hasComments="{{taskHasComments}}" isAssigned="{{taskIsAssigned}}"
                          hasDueDate="{{taskHasDueDate}}" hasCategory="{{taskHasCategory}}">
                     <span>{{label}}</span>
-                    <event-form objectId="{{id}}">
-                        <p>
+                    <event-form-body>                     
                         <paper-input-decorator label="Task label" error="We need label!"
                                                floatingLabel class="input-light" required>
                             <input is="core-input" id="taskLabel" name="label" type="text" value="{{label}}" required>
@@ -47,9 +46,8 @@
                         <paper-input-decorator label="Add a comment"
                                                floatingLabel class="input-light">
                             <input is="core-input" id="taskLabel" name="comment" type="text">
-                        </paper-input-decorator>
-                        </p>
-                    </event-form>
+                        </paper-input-decorator>           
+                    </event-form-body>
                 </tw-task>                            
                 {{/each}}
             </tw-list>

@@ -38,12 +38,14 @@
 
             },
             handleEventForm: function (e, detail, sender) {
+                var datas = detail.datas;
+                if (!datas) {
+                    datas = {};
+                }
                 if (this.isFormValid()) {
-                    var datas = this.collectFormDatas();
+                    datas = this.collectFormDatas(datas);
                     console.log("Fire event '" + detail.actionEvent + "' - pour objectId : " + this.objectId);
                     this.fire(detail.actionEvent, {objectId: this.objectId, datas: datas});
-                    console.log("Fire core-signal '" + detail.actionEvent + "' - pour objectId : " + this.objectId);
-                    this.fire('core-signal', {name: detail.actionEvent, objectId: this.objectId, datas: datas});
                 }
             },
             isFormValid: function () {
@@ -64,29 +66,26 @@
                 });
                 return valid;
             },
-            collectFormDatas: function () {
-                var datas = [];
-
+            collectFormDatas: function (datas) {
+                
                 // Input and Textarea
                 var dataInputs = this.querySelectorAll('input, textarea');
                 for (i = 0; i < dataInputs.length; i++) {
-                    var dataInput = {};
                     if (dataInputs[i].name && dataInputs[i].name.length > 0) {
-                        dataInput.name = dataInputs[i].name;
-                        dataInput.value = dataInputs[i].value;
-                        console.log("Adding dataInputs : " + dataInput);
-                        datas.push(dataInput);
+                        var name = dataInputs[i].name;
+                        var value = dataInputs[i].value;
+                        console.log("Adding dataInputs : " + name +" = "+value);
+                        datas[name] = value;
                     }
                 }
 
                 // Radio
                 var radioGroups = this.querySelectorAll('paper-radio-group');
                 for (i = 0; i < radioGroups.length; i++) {
-                    var dataInput = {};
-                    dataInput.name = radioGroups[i].attributes.name.value; // selectedItem.attributes.name.value
-                    dataInput.value = radioGroups[i].selectedItem.attributes.name.value;
-                    console.log("Adding dataInputs : " + dataInput);
-                    datas.push(dataInput)
+                    var name = radioGroups[i].attributes.name.value; // selectedItem.attributes.name.value
+                    var value = radioGroups[i].selectedItem.attributes.name.value;
+                    console.log("Adding dataInputs : " + name +" = "+value);
+                    datas[name] = value;
                 }
 
                 return datas;

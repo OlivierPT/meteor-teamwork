@@ -32,12 +32,10 @@
 
         </style>
 
-        <core-signals on-core-signal-save-task="{{save}}"></core-signals>
-        
         <paper-shadow z="1">
             <span role="button" tabindex="0" layout vertical class="task-resume" 
                   on-click="{{openTaskDetail}}">
-                <content select=":not(event-form)"></content>  
+                <content select=":not(event-form-body)"></content>  
                 <template if="{{additionalsInfo}}">
                     <span horizontal layout end-justified>
                         <template if="{{hasDetails}}">
@@ -60,11 +58,15 @@
             </span>
         </paper-shadow>
 
-        <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog" on-epb-click="{{handleFormEvent}}">
-            <content select="event-form"></content>
-            <event-paper-button dismissive>Cancel</event-paper-button>
-            <event-paper-button affirmative autofocus id="add-state-btn" eventName="save-task">Update</event-paper-button>
-        </paper-action-dialog>
+        
+            <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog" on-epb-click="{{handleFormEvent}}" on-save-task="{{handleSaveTask}}">
+                <event-form objectId="{{taskId}}">
+                    <content select="event-form-body"></content>
+                </event-form>
+                <event-paper-button dismissive>Cancel</event-paper-button>
+                <event-paper-button affirmative autofocus id="add-state-btn" eventName="save-task">Update</event-paper-button>
+            </paper-action-dialog>
+        
 
     </template>
     <script>
@@ -87,20 +89,20 @@
             handleFormEvent: function (e, detail, sender) {
                 console.log("Handle event 'epb-click'");
                 var form = e.currentTarget.querySelector('event-form');
-                if (form) {   
+                if (form) {
+                    if (!detail.datas) {
+                        detail.datas = {};
+                    }
+                    detail.datas.listId = this.listId;
+                    detail.datas.activityId = this.activityId;
                     console.log("Fire event 'event-form-submit'");
                     form.fire('event-form-submit', detail);
                 }
             },
-            save: function (e, detail, sender) {
-                console.log("Handle event 'save-task'");
-                if (detail.objectId === this.taskId) {
-                    console.log("Completing event information");
-                    detail.datas.listId = this.listId;
-                    detail.datas.activityId = this.activityId;
-                    this.fire('save-task', detail);
-                }
-            },
+            handleSaveTask: function (e, detail, sender) {
+                console.log("Catch Event 'save-task'");
+                this.fire("save-task", detail);
+            }
         });
     </script>
 </polymer-element>
