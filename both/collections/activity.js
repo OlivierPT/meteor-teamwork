@@ -17,15 +17,18 @@ Activity = new Mongo.Collection('activity');
  * @param {type} stateID
  * @returns {unresolved}
  */
-getStateById = function (activity, stateID) {
+getStateById = function (activity, stateId) {
     var i = 0;
+    console.log("Lookin for State :  id = " + stateId);
     while (i < activity.states.length) {
-        if (activity.states[i].id === stateID) {
-            console.log("State found :  ID = " + activity.states[i].id + " - label = " + activity.states[i].label);
+        console.log("Check current State :  id = '" + activity.states[i].id + "' - label = " + activity.states[i].label);
+        if (activity.states[i].id === stateId) {
+            console.log("State found :  Id = '" + activity.states[i].id + "' - label = " + activity.states[i].label);
             return activity.states[i];
         }
         i++;
     }
+    console.log("Throw Meteor.Error : data-error");
     throw new Meteor.Error("data-error", "State not found in Activity");
 };
 

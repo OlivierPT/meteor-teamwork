@@ -55,19 +55,8 @@ Template.MaterialTeam.rendered = function () {
     // Selector for DELETE-TEAM
     document.querySelector('tw-team').addEventListener('save-team', function (e) {
         console.log(e.type, e.detail.objectId); 
-        var name = "";
-        var description = "";
         
-        for (i = 0; i < e.detail.datas.length; i++) {
-            if (e.detail.datas[i].name === "name") {
-                name = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "description") {
-                description = e.detail.datas[i].value;
-            }
-        }
-                
-        Meteor.call('updateTeam', e.detail.objectId, name, description, function (error, result) {
+        Meteor.call('updateTeam', e.detail.objectId, e.detail.datas.name, e.detail.datas.description, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible update team.", error);

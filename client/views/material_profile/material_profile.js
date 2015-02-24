@@ -31,22 +31,7 @@ Template.MaterialProfile.rendered = function () {
     document.querySelector('.content').addEventListener('save-user', function (e) {
         console.log(e.type, e.detail.objectId);
 
-        var email = "";
-        var firstname = "";
-        var lastname = "";
-        for (i = 0; i < e.detail.datas.length; i++) {
-            if (e.detail.datas[i].name === "email") {
-                email = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "firstname") {
-                firstname = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "lastname") {
-                lastname = e.detail.datas[i].value;
-            }
-        }
-
-        Meteor.call('updateUserProfile', e.detail.objectId, email, firstname, lastname, function (error, result) {
+        Meteor.call('updateUserProfile', e.detail.objectId, e.detail.datas.email, e.detail.datas.firstname, e.detail.datas.lastname, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible to update the user profile.", error);

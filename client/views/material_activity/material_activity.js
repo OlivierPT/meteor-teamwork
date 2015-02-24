@@ -42,19 +42,8 @@ Template.MaterialActivity.rendered = function () {
     // Selector for updating an activty
     document.querySelector('tw-activity').addEventListener('save-activity', function (e) {
         console.log(e.type, e.detail.objectId); 
-        
-        var name = "";
-        var description = "";
-        for (i = 0; i < e.detail.datas.length; i++) {
-            if (e.detail.datas[i].name === "name") {
-                name = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "description") {
-                description = e.detail.datas[i].value;
-            }
-        }
-        
-        Meteor.call('editActivity', e.detail.objectId, name, description, function (error, result) {
+    
+        Meteor.call('editActivity', e.detail.objectId, e.detail.datas.name, e.detail.datas.description, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);
@@ -68,7 +57,7 @@ Template.MaterialActivity.rendered = function () {
     document.querySelector('tw-activity').addEventListener('save-task', function (e) {
         console.log(e.type, e.detail.objectId);
         
-        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.stateId, e.detail.objectId, e.detail.datas.name, e.detail.datas.description, function (error, result) {
+        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.listId, e.detail.objectId, e.detail.datas.label, e.detail.datas.detail, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);
