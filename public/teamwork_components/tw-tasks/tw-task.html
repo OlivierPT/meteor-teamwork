@@ -1,9 +1,6 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
-<link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-dialog-transition.html">
-<link rel="import" href="../../bower_components/paper-dialog/paper-action-dialog.html">
+<link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
+<link rel="import" href="../../bower_components/core-animated-pages/transitions/hero-transition.html">
 
 <polymer-element name="tw-task" attributes="taskId listId activityId hasDetails hasComments isAssigned hasDueDate hasCategory">
     <template>
@@ -12,11 +9,35 @@
                 display: block;
                 position: relative;
                 padding-left: 12px;
-                padding-top: 7px;
                 width: 90%;
                 font-weight: 300;
             }
-            .task-resume {
+
+            #resume {
+                padding: 10px 0 0;
+                position: relative;
+            }
+
+            #details {
+                position: fixed;
+                top: 50px;
+                left: 20%;
+                z-index: 100;
+            }
+
+            .task-chip {
+                position: relative;
+                display: block;
+                border-radius: 3px;
+                margin: 4px;
+                overflow: hidden;
+                text-align: start;
+                background-color: #fff;
+                box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.16);
+                color: black;
+            }
+
+            .chip-resume {
                 background-color: #d6dadc !important;
                 color: black;
                 padding-top: 10px;
@@ -25,50 +46,100 @@
                 padding-right: 5px;
             }
 
+            .chip-top {
+                width: 100%;
+                height: 20px;
+                background-color: black;
+            }
+            .chip-bottom {
+                padding-top: 10px;
+                padding-bottom: 5px;
+                padding-left: 5px;
+                padding-right: 5px;
+                line-height: 1.5;
+            }
+
+
+            .task-form {
+                height: 400px;
+                width: 600px;
+                border-radius: 3px;
+                text-align: start;
+                overflow: hidden;
+                background: #fff;
+                box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            }
+            .form-left {
+                width: 40px;
+            }
+            .form-right {
+                padding: 24px;
+            }
+            .form-icon {
+                border-radius: 50%;
+                width: 60px;
+                height: 60px;
+                top: 16px;
+                margin-right: 16px;
+            }
+
             a {
                 text-decoration: none;
                 color: inherit;
             }
-
         </style>
 
-        <paper-shadow z="1">
-            <span role="button" tabindex="0" layout vertical class="task-resume" 
-                  on-click="{{openTaskDetail}}">
-                <content select=":not(event-form-body)"></content>  
-                <template if="{{additionalsInfo}}">
-                    <span horizontal layout end-justified>
-                        <template if="{{hasDetails}}">
-                            <core-icon icon="description"></core-icon>
-                        </template>
-                        <template if="{{isAssigned}}">
-                            <core-icon icon="assignment-ind"></core-icon>
-                        </template>
-                        <template if="{{hasComments}}">
-                            <core-icon icon="subject"></core-icon>
-                        </template>
-                        <template if="{{hasCategory}}">
-                            <core-icon icon="bookmark"></core-icon>
-                        </template>
-                        <template if="{{hasDueDate}}">
-                            <core-icon icon="alarm-on"></core-icon>
-                        </template>
-                    </span>
-                </template>
-            </span>
-        </paper-shadow>
+        <core-animated-pages selected="{{mode}}" transitions="hero-transition" on-core-animated-pages-transition-end="{{complete}}" >
+            <section id="resume">
+                <div hero-id="task-chip" hero-p on-tap="{{transition}}">                   
+                        <div class="chip-top" hero-id="task-badge" hero>
+                        </div>
+                        <span role="button" tabindex="0" layout vertical class="chip-resume">
+                            <content select="[task-label]"></content>  
+                            <template if="{{additionalsInfo}}">
+                                <span horizontal layout end-justified>
+                                    <template if="{{hasDetails}}">
+                                        <core-icon icon="description"></core-icon>
+                                    </template>
+                                    <template if="{{isAssigned}}">
+                                        <core-icon icon="assignment-ind"></core-icon>
+                                    </template>
+                                    <template if="{{hasComments}}">
+                                        <core-icon icon="subject"></core-icon>
+                                    </template>
+                                    <template if="{{hasCategory}}">
+                                        <core-icon icon="bookmark"></core-icon>
+                                    </template>
+                                    <template if="{{hasDueDate}}">
+                                        <core-icon icon="alarm-on"></core-icon>
+                                    </template>
+                                </span>
+                            </template>
+                        </span>
+                </div>
+            </section>
 
-        
-            <paper-action-dialog transition="core-transition-bottom" heading="Task details" id="taskDetailDialog" on-epb-click="{{handleFormEvent}}" on-save-task="{{handleSaveTask}}">
-                <event-form objectId="{{taskId}}">
-                    <content select="event-form-body"></content>
-                </event-form>
-                <event-paper-button dismissive>Cancel</event-paper-button>
-                <event-paper-button affirmative autofocus id="add-state-btn" eventName="save-task">Update</event-paper-button>
-            </paper-action-dialog>
-        
+            <section id="details">
 
+                <div class="task-form" layout horizontal hero-id="task" hero>
+                    <div class="form-left" style="background:black;" hero-id="task-badge" hero on-tap="{{transition}}"></div>
+                    <div class="form-right" flex>
+                        <div layout horizontal center>
+                            <div self-start>
+                                <div class="form-icon" style="background:black;" on-tap="{{transition}}"></div>
+                            </div>
+                            <div flex>
+                                <content select="event-form-container"></content>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </core-animated-pages>
     </template>
+
     <script>
         Polymer({
             hasDetails: false,
@@ -76,8 +147,9 @@
             isAssigned: false,
             hasDueDate: false,
             hasCategory: false,
+            mode: 0,
             eventDelegates: {
-                'epb-click': 'handleFormEvent'
+                'pre-save-task': 'handleSaveTask'
             },
             openTaskDetail: function () {
                 console.log("Click on open task detail.");
@@ -86,22 +158,15 @@
             additionalsInfo: function () {
                 return this.hasDetails || this.hasComments || this.isAssigned || this.hasDueDate;
             },
-            handleFormEvent: function (e, detail, sender) {
-                console.log("Handle event 'epb-click'");
-                var form = e.currentTarget.querySelector('event-form');
-                if (form) {
-                    if (!detail.datas) {
-                        detail.datas = {};
-                    }
-                    detail.datas.listId = this.listId;
-                    detail.datas.activityId = this.activityId;
-                    console.log("Fire event 'event-form-submit'");
-                    form.fire('event-form-submit', detail);
-                }
-            },
             handleSaveTask: function (e, detail, sender) {
                 console.log("Catch Event 'save-task'");
+                detail.datas.listId = this.listId;
+                detail.datas.activityId = this.activityId;
                 this.fire("save-task", detail);
+            },
+            transition: function () {
+                console.log("transition : " + this.mode + " - next mode : " + Math.abs(this.mode - 1));
+                this.mode = Math.abs(this.mode - 1);
             }
         });
     </script>

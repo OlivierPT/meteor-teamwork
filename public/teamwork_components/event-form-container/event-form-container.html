@@ -2,7 +2,7 @@
 
 
 
-<polymer-element name="event-form-container">
+<polymer-element name="event-form-container" attribute="processEvent">
     <template>
         <style>
             :host {
@@ -23,15 +23,18 @@
     </template>
     <script>
         Polymer({
+            processEvent: true,
             eventDelegates: {
                 'epb-click': 'handleFormEvent'
             },
             handleFormEvent: function (e, detail, sender) {
-                console.log("Handle event 'epb-click'");
-                var form = this.querySelector('event-form');
-                if (form) {   
-                    console.log("Fire event 'event-form-submit'");
-                    form.fire('event-form-submit', detail);
+                if (this.processEvent) {
+                    console.log("Handle event 'epb-click'");
+                    var form = this.querySelector('event-form');
+                    if (form) {
+                        console.log("Fire event 'event-form-submit'");
+                        form.fire('event-form-submit', detail);
+                    }
                 }
             }
         });
