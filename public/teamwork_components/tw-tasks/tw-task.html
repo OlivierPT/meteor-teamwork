@@ -22,6 +22,7 @@
                 position: fixed;
                 top: 50px;
                 left: 20%;
+                width:60%;
                 z-index: 100;
             }
 
@@ -61,7 +62,6 @@
 
 
             .task-form {
-                width: 600px;
                 border-radius: 3px;
                 text-align: start;
                 overflow: hidden;
@@ -149,6 +149,7 @@
             mode: 0,
             eventDelegates: {
                 'pre-save-task': 'handleSaveTask',
+                'pre-add-comment': 'handleAddComment',
                 'cancel-edit': 'transition'
             },
             openTaskDetail: function () {
@@ -165,6 +166,13 @@
                 detail.objectId = this.taskId;
                 this.fire("save-task", detail);
                 this.transition();
+            },
+            handleAddComment: function(e, detail, sender) {
+                console.log("Catch Event 'add-comment'");
+                detail.datas.listId = this.listId;
+                detail.datas.activityId = this.activityId;
+                detail.objectId = this.taskId;
+                this.fire("add-comment", detail);
             },
             transition: function () {
                 console.log("transition : " + this.mode + " - next mode : " + Math.abs(this.mode - 1));

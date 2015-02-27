@@ -15,11 +15,14 @@ Template.MaterialActivity.helpers({
     tasks: function () {
         return this.tasks;
     },
+    comments: function () {
+        return this.comments;
+    },
     taskHasDetail: function() {
         return (this.detail && this.detail.length > 1);
     },
     taskHasComments: function() {
-        return (this.comments && this.comments.length > 1);
+        return (this.comments && this.comments.length > 0);
     },
     taskHasDueDate: function() {
         return (this.dueDate && this.dueDate.length > 1);
@@ -65,6 +68,21 @@ Template.MaterialActivity.rendered = function () {
                 Notification.emitError("Impossible to update the activity.", error);
             } else {
                 Notification.emitNotification("Activity updated.");
+            }
+        });
+    });
+    
+    // Selector for updating a task
+    document.querySelector('tw-activity').addEventListener('add-comment', function (e) {
+        console.log(e.type, e.detail.objectId);
+        
+        Meteor.call('addCommentToTask', e.detail.datas.activityId, e.detail.datas.listId, 
+            e.detail.objectId, e.detail.datas.comment, function (error, result) {
+            // identify the error           
+            if (error) {
+                Notification.emitError("Impossible to update the activity.", error);
+            } else {
+                Notification.emitNotification("Comment stored.");
             }
         });
     });

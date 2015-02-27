@@ -42,6 +42,14 @@
                 if (!datas) {
                     datas = {};
                 }
+                // If a target is specified, only the data on the specified target is sent
+                if (detail.target != "none") {
+                    var element = this.querySelector('#'+detail.target);
+                    datas[element.name] = element.value;
+                    console.log("Fire event '" + detail.actionEvent + "' - pour objectId : " + this.objectId);
+                    this.fire(detail.actionEvent, {objectId: this.objectId, datas: datas});
+                    return;
+                }
                 if (this.isFormValid()) {
                     datas = this.collectFormDatas(datas);
                     console.log("Fire event '" + detail.actionEvent + "' - pour objectId : " + this.objectId);

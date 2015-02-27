@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 
 
-<polymer-element name="event-paper-button"  attributes="eventName doSubmit" extends="paper-button" on-click="{{fireEvent}}">
+<polymer-element name="event-paper-button"  attributes="eventName doSubmit target" extends="paper-button" on-click="{{fireEvent}}">
     <template>
         <shadow></shadow> 
     </template>
@@ -10,10 +10,11 @@
         Polymer({
             doSubmit: true,
             eventName: 'none',
+            target: 'none',
             fireEvent: function () {
                 if (this.doSubmit) {
                     console.log("Fire event : 'epb-click'");
-                    this.fire('epb-click', {actionEvent: this.eventName});
+                    this.fire('epb-click', {actionEvent: this.eventName, target: this.target});
                 }
                 return;
             }

@@ -44,7 +44,7 @@
                                     <textarea id="description" name="detail">{{detail}}</textarea>
                                 </paper-autogrow-textarea>
                             </paper-input-decorator>
-                            <div layout verticale start>
+                            <div layout verticale start style="padding-top: 7px;">
                                 <div>Value</div>
                                 <paper-slider pin value="{{value}}" max="100" editable style="width:100%" name="value"></paper-slider>
                             </div>
@@ -52,13 +52,25 @@
                                 <div>Complexity</div>
                                 <paper-slider pin value="{{complexity}}" max="30" editable style="width:100%" name="complexity"></paper-slider>
                             </div>
-                            <paper-input-decorator label="Add a comment"
-                                                   floatingLabel class="input-light">
-                                <input is="core-input" id="taskLabel" name="comment" type="text">
-                            </paper-input-decorator>           
+                            <div layout horizontal>
+                                <paper-input-decorator label="Add a comment"
+                                                       floatingLabel class="input-light" flex>
+                                    <input is="core-input" id="addComment" name="comment" type="text">
+                                </paper-input-decorator>           
+                                <event-paper-button id="add-state-btn" eventName="pre-add-comment" target="addComment">Add</event-paper-button>
+                            </div>
+                            <div layout vertical>
+                                {{#each comments}}
+                                <div>
+                                    <span>{{content}}</span>
+                                    <span>{{author}}</span>
+                                    <span>{{dateCreate}}</span>
+                                </div>
+                                {{/each}}
+                            </div>
                         </event-form>
                         <event-paper-button dismissive eventName="cancel-edit">Cancel</event-paper-button>
-                        <event-paper-button affirmative autofocus id="add-state-btn" eventName="pre-save-task">Update</event-paper-button>
+                        <event-paper-button affirmative autofocus id="add-state-btn" eventName="pre-save-task" raise>Update</event-paper-button>
                     </event-form-container>
                 </tw-task>                            
                 {{/each}}
