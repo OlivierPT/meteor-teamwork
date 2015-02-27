@@ -12,27 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-paper-button/event-paper-button.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/home/home.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/both/collections/activity.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/polymer_layout/polymer_layout.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/home/home.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-tasks/tw-task.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-form-container/event-form-container.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-team/tw-team.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-form-body/event-form-body.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_profile/material_profile.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/stylesheets/teamwork.css</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-list/tw-list.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-card/tw-card.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/bower_components/paper-dialog/paper-action-dialog.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_team/material_team.js</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-activity/tw-activity.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_team/material_team.html</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-form/event-form.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/activity.js</file>
             <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/imports/imports.html</file>
         </group>
     </open-files>

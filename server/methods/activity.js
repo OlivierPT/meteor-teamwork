@@ -213,7 +213,7 @@ Meteor.methods({
      * @param {type} task
      * @returns {undefined}
      */
-    'storeTask': function (activityId, stateId, taskId, label, detail) {
+    'storeTask': function (activityId, stateId, taskId, label, detail, complexity, value) {
         console.log("MethodCall : storeTask - id = " + taskId);
         // update the task
         var activity = Activity.findOne({_id: activityId});
@@ -222,6 +222,8 @@ Meteor.methods({
         
         task.label = label;
         task.detail = detail;
+        task.complexity = complexity;
+        task.value = value;
 
         Activity.update({_id: activityId}, activity);
         console.log("Task stored");

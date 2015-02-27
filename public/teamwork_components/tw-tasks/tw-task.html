@@ -61,7 +61,6 @@
 
 
             .task-form {
-                height: 400px;
                 width: 600px;
                 border-radius: 3px;
                 text-align: start;
@@ -149,7 +148,8 @@
             hasCategory: false,
             mode: 0,
             eventDelegates: {
-                'pre-save-task': 'handleSaveTask'
+                'pre-save-task': 'handleSaveTask',
+                'cancel-edit': 'transition'
             },
             openTaskDetail: function () {
                 console.log("Click on open task detail.");
@@ -162,7 +162,9 @@
                 console.log("Catch Event 'save-task'");
                 detail.datas.listId = this.listId;
                 detail.datas.activityId = this.activityId;
+                detail.objectId = this.taskId;
                 this.fire("save-task", detail);
+                this.transition();
             },
             transition: function () {
                 console.log("transition : " + this.mode + " - next mode : " + Math.abs(this.mode - 1));

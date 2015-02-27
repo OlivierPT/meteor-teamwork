@@ -57,7 +57,9 @@ Template.MaterialActivity.rendered = function () {
     document.querySelector('tw-activity').addEventListener('save-task', function (e) {
         console.log(e.type, e.detail.objectId);
         
-        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.listId, e.detail.objectId, e.detail.datas.label, e.detail.datas.detail, function (error, result) {
+        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.listId, 
+            e.detail.objectId, e.detail.datas.label, e.detail.datas.detail, 
+            e.detail.datas.complexity, e.detail.datas.value, function (error, result) {
             // identify the error           
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);

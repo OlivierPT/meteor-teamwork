@@ -17,7 +17,7 @@
     </template>
     <script>
         Polymer({
-            objectId: 0,
+            objectId: '0',
             eventSuffix: 'object',
             allowDelete: false,
             eventDelegates: {
@@ -84,6 +84,14 @@
                 for (i = 0; i < radioGroups.length; i++) {
                     var name = radioGroups[i].attributes.name.value; // selectedItem.attributes.name.value
                     var value = radioGroups[i].selectedItem.attributes.name.value;
+                    console.log("Adding dataInputs : " + name +" = "+value);
+                    datas[name] = value;
+                }
+                
+                var sliders = this.querySelectorAll('paper-slider');
+                for (i = 0; i < sliders.length; i++) {
+                    var name = sliders[i].attributes.name.value; // selectedItem.attributes.name.value
+                    var value = sliders[i].value;
                     console.log("Adding dataInputs : " + name +" = "+value);
                     datas[name] = value;
                 }
