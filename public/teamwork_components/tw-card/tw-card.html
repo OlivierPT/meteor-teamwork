@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-icon-button/core-icon-button.html">
 <link rel="import" href="../../bower_components/paper-shadow/paper-shadow.html">
 
-<polymer-element name="tw-card" attributes="autoraise objectId link" on-mouseover="{{mouseFocus}}" on-mouseout="{{mouseFocus}}">
+<polymer-element name="tw-card" attributes="autoraise objectId link contentColor footerColor objectType" on-mouseover="{{mouseFocus}}" on-mouseout="{{mouseFocus}}">
     <template>
         <style>
             :host {
@@ -15,37 +15,35 @@
                 font-family: 'Playfair Display SC', serif;
                 font-weight: 200;
             }
-            
+
             .content {
-                background-color: white;
                 color: black;
                 padding: 10px;
             }
             .footer {
-                background-color: #ff4080;
                 color: #FFF;
                 padding: 10px;
-            }
-            .separator {
-                color: #FFF;
-                margin: 0px;
-            }
-            
-            
+            }         
 
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
         </style>
 
         <paper-shadow id="shadow" animated=true>
             <paper-ripple></paper-ripple>
-            <div class="content">
+            <div class="content" style="background: {{contentColor}}">
                 <content></content>
             </div>
-            <a href="{{link}}">
-                <hr class="separator">
-                <div class="footer" layout horizontal reverse>
-                    <core-icon icon="arrow-forward"></core-icon>
-                </div>
-            </a>
+
+            <div class="footer" layout horizontal end style="background: {{footerColor}}">
+                <core-icon icon="delete" on-click="{{handleDeleteObject}}"></core-icon>
+                <a href="{{link}}" flex>
+                    <core-icon icon="arrow-forward" style="position:relative; left: 90%;"></core-icon>
+                </a>
+            </div>
+
         </paper-shadow>
     </template>
 
@@ -53,9 +51,16 @@
         Polymer("tw-card", {
             z_mouseout: 1,
             z_mouseover: 3,
+            footerColor: "#ff4080",
+            contentColor: "#fff",
+            objectType: "unknown",
             handleDetailsTap: function () {
                 console.log("Details Tapped");
                 this.selecedHero = this.myHero;
+            },
+            handleDeleteObject: function() {
+                console.log("Delete object : "+this.objectType+" - id : "+this.objectId);
+                this.fire("delete-"+this.objectType, {objectId: this.objectId});
             },
             mouseFocus: function (a, b, c) {
                 /* Called for on-mouseover as well as on-mouseout - switch on event.type to raise or lower

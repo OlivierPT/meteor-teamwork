@@ -14,8 +14,14 @@ Template.Home.helpers({
     activities: function () {
         return Activity.find();
     },
+    activitiesLast3: function () {
+        return Activity.find({}, {sort: [["teamUpdate", "des"]], limit: 3});
+    },
     teams: function () {
         return Team.find();
+    },
+    teamsLast3: function () {
+        return Team.find({}, {sort: [["name", "asc"]], limit: 3});
     }
 });
 
@@ -43,22 +49,8 @@ Template.Home.rendered = function () {
     document.querySelector('#addActivityDialog').addEventListener('create-activity', function (e) {
         console.log(e.type, e.detail.objectId);
 
-        var name = "";
-        var description = "";
-        var teamId = "";
-        for (i = 0; i < e.detail.datas.length; i++) {
-            if (e.detail.datas[i].name === "name") {
-                name = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "description") {
-                description = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "teamId") {
-                teamId = e.detail.datas[i].value;
-            }
-        }
-
-        Meteor.call('createActivity', name, description, teamId, function (error, result) {
+        Meteor.call('createActivity', e.detail.datas.name, e.detail.datas.description, 
+            e.detail.datas.teamId, function (error, result) {
             // Identify the error           
             if (error) {
                 Notification.emitError("Impossible to create the activity.", error);
@@ -73,23 +65,40 @@ Template.Home.rendered = function () {
     document.querySelector('#addTeamDialog').addEventListener('create-team', function (e) {
         console.log(e.type, e.detail.objectId);
 
-        var name = "";
-        var description = "";
-        for (i = 0; i < e.detail.datas.length; i++) {
-            if (e.detail.datas[i].name === "name") {
-                name = e.detail.datas[i].value;
-            }
-            if (e.detail.datas[i].name === "description") {
-                description = e.detail.datas[i].value;
-            }
-        }
-
-        Meteor.call('createTeam', name, description, function (error, result) {
+        Meteor.call('createTeam', e.detail.datas.name, e.detail.datas.description, function (error, result) {
             // Identify the error           
             if (error) {
                 Notification.emitError("Impossible to create the team.", error);
             } else {
                 Notification.emitNotification("Team created successfully.");
+            }
+        });
+    });
+    
+    // Selector for updating an activty
+    document.querySelector('.content').addEventListener('delete-team', function (e) {
+        console.log(e.type, e.detail.objectId);
+
+        Meteor.call('deleteTeam', e.detail.objectId, function (error, result) {
+            // Identify the error           
+            if (error) {
+                Notification.emitError("Impossible to delete the team.", error);
+            } else {
+                Notification.emitNotification("Team deleted successfully.");
+            }
+        });
+    });
+    
+    // Selector for updating an activty
+    document.querySelector('.content').addEventListener('delete-activity', function (e) {
+        console.log(e.type, e.detail.objectId);
+
+        Meteor.call('deleteActivity', e.detail.objectId, function (error, result) {
+            // Identify the error           
+            if (error) {
+                Notification.emitError("Impossible to delete the activity.", error);
+            } else {
+                Notification.emitNotification("Activity deleted successfully.");
             }
         });
     });

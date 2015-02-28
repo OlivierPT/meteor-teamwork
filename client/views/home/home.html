@@ -1,42 +1,52 @@
 <template name="Home">
 
     <div class="content" layout vertical>
-
-        <div class="content-header" layout horizontal left>                
-            <h2 flex>
-                Activities
-            </h2>
-        </div>
-        <hr class="separator">
-        <div style="width: 100%;" layout horizontal wrap>
-            {{#each activities}}
-            <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}">
-                <div vertical layout center center-justified>
-                    <h2>{{name}}</h2>
-                    <p>{{description}}</p>
-                </div>
-            </tw-card>
-            {{/each}} 
-        </div>
-
-        <hr class="separator">
-        <div class="content-header" layout horizontal left>                
-            <h2 flex>
-                Teams
-            </h2>
-        </div>
-        <hr class="separator">
-        <div style="width: 100%;" layout horizontal wrap>
-            {{#each teams}}
-            <tw-card autoraise=true link="{{pathFor route='team'}}" objectId="{{_id}}">
-                <div vertical layout center center-justified>
-                    <h2>{{name}}</h2>
-                    <p>{{description}}</p>
-                </div>
-            </tw-card>
-            {{/each}} 
-        </div>
+        <tw-card-list title="My activities" color="#2196F3">
+            <div firstCards  layout horizontal>
+                {{#each activitiesLast3}}
+                <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}" objectType="activity" footerColor="#64B5F6">
+                    <div vertical layout center center-justified>
+                        <h2>{{name}}</h2>
+                        <p>{{description}}</p>
+                    </div>
+                </tw-card>
+                {{/each}}  
+            </div>
+            <div allCards layout horizontal wrap>
+                {{#each activities}}
+                <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}"  objectType="activity" footerColor="#64B5F6">
+                    <div vertical layout center center-justified>
+                        <h2>{{name}}</h2>
+                        <p>{{description}}</p>
+                    </div>
+                </tw-card>
+                {{/each}}  
+            </div>
+        </tw-card-list>
+        <tw-card-list title="My teams" color="#009688">
+            <div firstCards  layout horizontal>
+                {{#each teamsLast3}}
+                <tw-card autoraise=true link="{{pathFor route='team'}}" objectId="{{_id}}"  objectType="team" footerColor="#4DB6AC">
+                    <div vertical layout center center-justified>
+                        <h2>{{name}}</h2>
+                        <p>{{description}}</p>
+                    </div>
+                </tw-card>
+                {{/each}}  
+            </div>
+            <div allCards  layout horizontal>
+                {{#each teams}}
+                <tw-card autoraise=true link="{{pathFor route='team'}}" objectId="{{_id}}" objectType="team" footerColor="#4DB6AC">
+                    <div vertical layout center center-justified>
+                        <h2>{{name}}</h2>
+                        <p>{{description}}</p>
+                    </div>
+                </tw-card>
+                {{/each}}  
+            </div>
+        </tw-card-list>
     </div>
+    
     <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity"></paper-fab>
     <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"></paper-fab>
 
