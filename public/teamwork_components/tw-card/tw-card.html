@@ -22,7 +22,6 @@
             }
             .footer {
                 color: #FFF;
-                padding: 10px;
             }         
 
             a {
@@ -38,9 +37,14 @@
             </div>
 
             <div class="footer" layout horizontal end style="background: {{footerColor}}">
-                <core-icon icon="delete" on-click="{{handleDeleteObject}}"></core-icon>
-                <a href="{{link}}" flex>
-                    <core-icon icon="arrow-forward" style="position:relative; left: 90%;"></core-icon>
+                <paper-button on-click="{{handleDeleteObject}}" style="margin:0px; min-width: 0px;">
+                    <core-icon icon="delete"></core-icon>
+                </paper-button> 
+                <div flex></div>
+                <a href="{{link}}">
+                    <paper-button  style="margin:0px; min-width: 0px;" self-end>
+                        <core-icon icon="arrow-forward"></core-icon>
+                    </paper-button>
                 </a>
             </div>
 
@@ -58,9 +62,9 @@
                 console.log("Details Tapped");
                 this.selecedHero = this.myHero;
             },
-            handleDeleteObject: function() {
-                console.log("Delete object : "+this.objectType+" - id : "+this.objectId);
-                this.fire("delete-"+this.objectType, {objectId: this.objectId});
+            handleDeleteObject: function () {
+                console.log("Delete object : " + this.objectType + " - id : " + this.objectId);
+                this.fire("delete-" + this.objectType, {objectId: this.objectId});
             },
             mouseFocus: function (a, b, c) {
                 /* Called for on-mouseover as well as on-mouseout - switch on event.type to raise or lower

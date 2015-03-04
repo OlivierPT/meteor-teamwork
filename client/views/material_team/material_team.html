@@ -3,7 +3,7 @@
         <tw-team teamId="{{_id}}">            
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
-            <event-form-container class="main-form">
+            <event-form-container class="form-team">
                 <event-form objectId="{{_id}}">
                     <p>
                     <paper-input-decorator label="Team's label" error="We need a label"
@@ -19,14 +19,14 @@
                     </paper-input-decorator>
                     </p>
                 </event-form>
-                <event-paper-button raised affirmative eventName="save-team" style="background: blue; color: white;">
+                <event-paper-button raised affirmative eventName="save-team" style="background: #00796B; color: white;">
                     <core-icon icon="check"></core-icon>
                     Save
                 </event-paper-button>
             </event-form-container>
 
             {{#each members}}
-            <tw-card>
+            <tw-card objectType="activity" footerColor="#4DB6AC" autoraise=true objectId="{{_id}}">
                 <h4>{{username}}</h4>                        
                 <div>{{profile.firstname}}</div>
                 <div>{{profile.lastname}}</div>

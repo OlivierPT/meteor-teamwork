@@ -12,10 +12,12 @@ and open the template in the editor.
     position: fixed;
     bottom: 30px;
     right: 20px;
+    z-index: 2;
 }
 
 #new-team-btn {
     position: fixed;
     bottom: 100px;
     right: 20px;
+    z-index: 2;
 }

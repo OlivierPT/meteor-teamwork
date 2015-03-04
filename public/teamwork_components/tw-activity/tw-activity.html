@@ -23,12 +23,13 @@
             }
 
             .activity {
-                margin: 15px;
+                bottom: 15px;
+                height: 90%;
             }
 
             .activity-header {
                 position: relative;
-                margin-left: 15px;
+                margin-left: 25px;
             }
 
             .state-list {
@@ -42,29 +43,32 @@
             }
 
             #new-state-btn {
-                position: absolute;
+                position: fixed;
                 bottom: 30px;
-                right: 40px;
+                right: 30px;
             }
 
             #edit-activity-btn {
                 position: absolute;
-                bottom: -25px;
-                right: 20px;
+                top: 37px;
+                right: 30px;
                 z-index: 100;
             }
         </style>
 
         <div class="activity" layout vertical>
-            <div class="activity-header" layout horizontal left>                
-                <span flex>
-                    <content select="h2"></content>
-                    <content select="h3"></content>
-                </span>
-                <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
-            </div>
-            
+            <div class="activity-header" layout horizontal left>  
+                <core-tooltip position="right">
+                    <span flex>
+                        <content select="h2"></content>
+                    </span>
+                    <div tip>
+                        <content select="h3"></content>
+                    </div>
+                </core-tooltip>                
+            </div>            
             <hr class="separator">
+            <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
             <core-collapse  id="editActivityForm">
                 <content select="event-form-container"></content>
                 <hr class="separator">

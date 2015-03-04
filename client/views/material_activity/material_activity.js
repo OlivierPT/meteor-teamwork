@@ -32,6 +32,9 @@ Template.MaterialActivity.helpers({
     },
     taskHasCategory: function() {
         return false;
+    },
+    members: function() {
+        return Team.findOne({_id: this.team}).members;
     }
 });
 

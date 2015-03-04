@@ -3,7 +3,7 @@
         <tw-activity activityId="{{_id}}">
             <h2>{{name}}</h2>
             <h3>{{description}}</h3>
-            <event-form-container class="main-form">
+            <event-form-container class="form-activity">
                 <event-form objectId="{{_id}}">
                     <paper-input-decorator label="Activity's label" error="We need a label"
                                            floatingLabel>
@@ -19,7 +19,7 @@
 
 
                 </event-form>
-                <event-paper-button raised affirmative eventName="save-activity" style="background: blue; color: white;">
+                <event-paper-button raised affirmative eventName="save-activity" style="background: #0288D1; color: white;">
                     <core-icon icon="check"></core-icon>
                     Save
                 </event-paper-button>
@@ -44,6 +44,33 @@
                                     <textarea id="description" name="detail">{{detail}}</textarea>
                                 </paper-autogrow-textarea>
                             </paper-input-decorator>
+                            <div layout horizontal>
+                                <div>
+                                    <paper-dropdown-menu label="Assign to">
+                                        <paper-dropdown class="dropdown">
+                                            <core-menu class="menu">
+                                                <paper-item>Croissant</paper-item>
+                                                <paper-item>Donut</paper-item>
+                                                <paper-item>Financier</paper-item>
+                                                <paper-item>Madeleine</paper-item>
+                                            </core-menu>
+                                        </paper-dropdown>
+                                    </paper-dropdown-menu>
+                                </div>
+                                <div flex></div>
+                                <div>
+                                    <paper-dropdown-menu label="Select a category">
+                                        <paper-dropdown class="dropdown">
+                                            <core-menu class="menu">
+                                                <paper-item>Croissant</paper-item>
+                                                <paper-item>Donut</paper-item>
+                                                <paper-item>Financier</paper-item>
+                                                <paper-item>Madeleine</paper-item>
+                                            </core-menu>
+                                        </paper-dropdown>
+                                    </paper-dropdown-menu>
+                                </div>
+                            </div>
                             <div layout verticale start style="padding-top: 7px;">
                                 <div>Value</div>
                                 <paper-slider pin value="{{value}}" max="100" editable style="width:100%" name="value"></paper-slider>

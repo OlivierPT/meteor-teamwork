@@ -58,7 +58,7 @@
             #complete {
                 padding: 10px 0 0;
                 position: absolute;
-                z-index: 100;
+                z-index: 1;
                 height: 100%;
             }
 
@@ -71,9 +71,7 @@
             .list-left {
                 width: 20%;
             }
-            .list-left-top h2 {
-                margin: 3px;
-            }
+            
 
             .list-right {
                 padding: 24px;
@@ -88,10 +86,11 @@
         <core-animated-pages selected="{{mode}}" transitions="hero-transition" on-core-animated-pages-transition-end="{{complete}}" >
             <section id="resume">
                 <div hero-id="card-list" layout horizontal>  
-                    <div class="chip-entry" hero-p on-tap="{{transition}}" layout vertical >
-                        <div class="chip-top" style="background:{{color}}" flex hero-id="list-badge" hero>
+                    <div class="chip-entry" hero-p on-tap="{{transition}}" layout vertical hero-id="list-badge" hero>
+                        <div class="chip-top" style="background:{{color}}" flex>
+                            <paper-button>See more...</paper-button>
                         </div>
-                        <div class="chip-bottom" hero-id="list-badge" hero>
+                        <div class="chip-bottom">
                             <h2>{{title}}</h2>
                         </div>
                     </div>
@@ -104,21 +103,13 @@
             <section id="complete">
 
                 <div class="full-list" layout horizontal hero-id="card-list" hero>
-                    <div class="list-left" hero-p on-tap="{{transition}}" layout vertical>                        
-                            <div class="list-left-top" hero-id="list-badge" hero>
-                                <h2>{{title}}</h2>
-                            </div>
-                            <div class="list-left-bottom"  style="background:{{color}}" flex hero-id="list-badge" hero>
-                                
-                            </div>
+                    <div class="list-left" hero-p on-tap="{{transition}}" layout vertical  hero-id="list-badge" hero>
+                        <div class="list-left-top"  style="background:{{color}}" flex> 
+                            <paper-button>See less...</paper-button>
                         </div>
                     </div>
-                    <div class="list-right" flex>
-                        <div layout horizontal center>                            
-                            <div flex>
-                                <content select="[allCards]"></content>
-                            </div>
-                        </div>
+                    <div class="list-right" layout horizontal flex>                      
+                        <content select="[allCards]"></content>
                     </div>
                 </div>
 

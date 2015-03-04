@@ -12,6 +12,7 @@ boxxa:polymer-elements@0.5.5
 callback-hook@1.0.2
 check@1.0.4
 coffeescript@1.0.5
+dburles:mongo-collection-instances@0.3.1
 ddp@1.0.14
 deps@1.0.6
 differential:vulcanize@0.0.3
@@ -50,6 +51,7 @@ minimongo@1.0.6
 mobile-status-bar@1.0.2
 mongo@1.0.11
 mongo-livedata@1.0.7
+msavin:mongol@0.5.4
 npm-bcrypt@0.7.7
 observe-sequence@1.0.4
 ordered-dict@1.0.2
