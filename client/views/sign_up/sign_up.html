@@ -1,32 +1,37 @@
 <template name="SignUp">
-    <div style="width: 100%;" layout horizontal center center-justified >
-        <form data-action="sign-up">
-            <paper-input-decorator label="Username" error="We need a username"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="username" type="text" required>
-            </paper-input-decorator>
+    <div class="content" layout horizontal center-justified>
+        <paper-shadow z="1" class="single-form">
+            <div>
+                <h2>Sign up for Teamwork</h2>
+                <event-form-container>
+                    <event-form>
+                        <paper-input-decorator label="Username" error="We need a username"
+                                               floatingLabel class="input-light">
+                            <input is="core-input" name="username" id="username" type="text" required>
+                        </paper-input-decorator>
 
-            <paper-input-decorator label="Email Address" error="We need a valid email!"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="email" type="email" required>
-            </paper-input-decorator>
+                        <paper-input-decorator label="Email Address" error="We need a valid email!"
+                                               floatingLabel class="input-light">
+                            <input is="core-input" name="email" id="email" type="email" required>
+                        </paper-input-decorator>
 
-            <paper-input-decorator label="Password" error="Whats your password?"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="password" type="password" required>
-            </paper-input-decorator>
+                        <paper-input-decorator label="Password" error="Whats your password?"
+                                               floatingLabel class="input-light">
+                            <input is="core-input" name="password" id="password" type="password" required>
+                        </paper-input-decorator>
 
-            <paper-input-decorator label="Confirm password" error="Whats your password?"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="password2" type="password" required>
-            </paper-input-decorator>
+                        <paper-input-decorator label="Confirm password" error="Whats your password?"
+                                               floatingLabel class="input-light">
+                            <input is="core-input" name="password2" id="password2" type="password" required>
+                        </paper-input-decorator>
+                    </event-form>
 
-            <div horizontal layout reverse>
-                <paper-button id="sign-up-btn">
-                    <core-icon icon="check"></core-icon>
-                    Sign Up
-                </paper-button>
+                    <event-paper-button affirmative eventName="sign-up" id="sign-up-btn">
+                        <core-icon icon="check"></core-icon>
+                        Sign Up
+                    </event-paper-button>
+                </event-form-container>
             </div>
-        </form>
+        </paper-shadow>
     </div>
 </template>

@@ -1,6 +1,7 @@
 <template name="MaterialProfile">
     <div class="content">
         <h2>Edit your profile {{username}}</h2>
+        <event-form-container class="single-form" style="width: 50%; top:15px; alignment-baseline: middle">
         <event-form objectId="{{_id}}" eventSuffix="user">
             <paper-input-decorator label="User's email" error="The email should be a the good format"
                                    floatingLabel>
@@ -16,5 +17,10 @@
             </paper-input-decorator>
 
         </event-form>
+            <event-paper-button affirmative eventName="save-profile" id="sign-in-btn">
+                <core-icon icon="check"></core-icon>
+                Save
+            </event-paper-button>
+        </event-form-container>
     </div>
 </template>

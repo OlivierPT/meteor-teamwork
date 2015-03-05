@@ -2,19 +2,6 @@
 /* SignIn: Event Handlers and Helpersss .js*/
 /*****************************************************************************/
 Template.SignIn.events({
-    
-    'click #sign-in-btn': function (e, tmpl) {
-        var email = $("#username").val();
-        var password = $("#password").val();
-
-        Meteor.loginWithPassword(email, password, function (error) {
-            if (error) {
-                Notification.emitError("Impossible login.", error);
-            } else {   
-                Router.go("/home");
-            }
-        });
-    }
 });
 
 Template.SignIn.helpers({
@@ -39,7 +26,21 @@ Template.SignIn.rendered = function () {
                 $("#sign-in-btn").click();
             }
         })
-    })
+    });
+    
+    
+    // Selector for updating an activty
+    document.querySelector('.content').addEventListener('sign-in', function (e) {
+        console.log(e.type, e.detail.objectId); 
+    
+        Meteor.loginWithPassword(e.detail.datas.username, e.detail.datas.password, function (error) {
+            if (error) {
+                Notification.emitError("Impossible login.", error);
+            } else {   
+                Router.go("/home");
+            }
+        });
+    });
 };
 
 Template.SignIn.destroyed = function () {

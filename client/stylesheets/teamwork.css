@@ -91,6 +91,14 @@ a {
     padding: 20px;
 }
 
+.single-form {
+    background-color: white !important;
+    color: black;
+    width: 30%; 
+    top:15px;
+    padding: 20px;
+}
+
 .form-team::shadow .content {
     background-color: #E0F2F1 !important;
     color: black;
