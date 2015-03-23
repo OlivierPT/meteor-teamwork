@@ -6,7 +6,6 @@
 standard-app-packages
 insecure
 accounts-password
-meteorhacks:kadira
 iron:router
 
 differential:vulcanize
@@ -15,3 +14,4 @@ meteorhacks:subs-manager
 boxxa:polymer
 boxxa:polymer-elements
 msavin:mongol
+meteorhacks:kadira

@@ -1,10 +1,3 @@
-var subs = new SubsManager({
-    // will be cached only 20 recently used subscriptions
-    cacheLimit: 20,
-    // any subscription will be expired after 5 minutes of inactivity
-    expireIn: 5
-});
-
 /*****************************************************************************/
 /* Client and Server Routes */
 /*****************************************************************************/
@@ -37,11 +30,7 @@ Router.route('/', function () {
 Router.route('/home', {
     controller: UserController,
     template: 'Home',
-    name: 'home',
-    waitOn: function () {
-        console.log("Subscribing for user : " + Meteor.userId());
-        return [subs.subscribe('teams'), subs.subscribe('activities')];
-    }
+    name: 'home'
 });
 
 Router.route('/sign-in', {
@@ -72,10 +61,6 @@ Router.route('/activity/:_id', {
     controller: UserController,
     template: 'MaterialActivity',
     name: 'activity',
-    waitOn: function () {
-        console.log("Subscribing for user : " + Meteor.userId());
-        return [subs.subscribe('teams'), subs.subscribe('activities')];
-    },
     data: function () {
         console.log("Data - Activity.findOne : " + this.params._id);
         return Activity.findOne({_id: this.params._id});
@@ -86,15 +71,11 @@ Router.route('/profile', {
     controller: UserController,
     template: 'MaterialProfile',
     name: 'profile',
-    waitOn: function () {
-        console.log("Subscribing for user : " + Meteor.userId());
-        return [subs.subscribe('teams'), subs.subscribe('activities')];
-    },
     data: function () {
         console.log("Data - Activity.findOne : " + this.params._id);
         return Meteor.users.findOne();
     }
-    
+
 });
 
 Router.route('/activity', {
@@ -111,12 +92,6 @@ Router.route('/team/:_id', {
     controller: UserController,
     template: 'MaterialTeam',
     name: 'team',
-    waitOn: function () {
-        console.log("Subscribing for user : " + Meteor.userId());
-        return [subs.subscribe('teams'), subs.subscribe('activities'), 
-            //subs.subscribe('userMembers', this.params._id)];
-            subs.subscribe('allUsers')];
-    },
     data: function () {
         return Team.findOne({_id: this.params._id});
     }
@@ -131,5 +106,3 @@ Router.route('/rest/team/:_id', {where: 'server'})
             var team = Team.findOne({_id: this.params._id})
             this.response.end(EJSON.stringify(team));
         })
-
-

@@ -27,16 +27,17 @@ Template.SignIn.rendered = function () {
             }
         })
     });
-    
-    
+
+
     // Selector for updating an activty
     document.querySelector('.content').addEventListener('sign-in', function (e) {
-        console.log(e.type, e.detail.objectId); 
-    
+        console.log(e.type, e.detail.objectId);
+
         Meteor.loginWithPassword(e.detail.datas.username, e.detail.datas.password, function (error) {
             if (error) {
                 Notification.emitError("Impossible login.", error);
-            } else {   
+            } else {
+                Notification.emitNotification("Logged in!");
                 Router.go("/home");
             }
         });

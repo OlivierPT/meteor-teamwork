@@ -16,6 +16,9 @@ Template.PolymerLayout.helpers({
     },
     teams: function () {
         return Team.find();
+    }, 
+    nbTeam: function() {
+        return Session.get("nbTeam");
     }
 });
 

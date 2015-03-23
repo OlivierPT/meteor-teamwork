@@ -5,18 +5,24 @@
             <url>public/teamwork_components/tw-team/tw-team.html</url>
             <bookmark id="1">
                 <name/>
-                <line>46</line>
+                <line>43</line>
                 <key/>
             </bookmark>
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/tw-tasks/tw-task.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-form-container/event-form-container.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/teamwork_components/event-form/event-form.html</file>
-            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/imports/imports.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/stylesheets/teamwork.css</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/material_activity/material_activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/public/bower_components/core-drag-drop/demo.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/sign_up/sign_up.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/polymer_layout/polymer_layout.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/sign_up/sign_up.html</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/methods/team.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/both/routes.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/collections/activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/server/collections/activity.js</file>
+            <file>file:/Users/olivierpillaudtirard/workspaces/meteor-teamwork/client/views/polymer_layout/polymer_layout.js</file>
         </group>
     </open-files>
 </project-private>

@@ -4,52 +4,52 @@
 
         <core-header-panel drawer>
             <core-toolbar id="navheader">
-            </core-toolbar>            
+            </core-toolbar>
             <core-menu>
                 {{# if currentUser}}
-                <core-submenu icon="view-headline" label="Activities"> 
+                <core-submenu icon="view-headline" label="Activities">
                     <a href="{{pathFor route='newActivity'}}">
                         <paper-item>
                             <core-icon icon="add"></core-icon>
-                            <span class="menu-entry">New activity</span>                   
-                        </paper-item>       
+                            <span class="menu-entry">New activity</span>
+                        </paper-item>
                     </a>
                     {{#each activities}}
                     <a href="{{pathFor route='activity'}}">
                         <paper-item>
                             <core-icon icon="send"></core-icon>
-                            <span class="menu-entry">{{name}}</span>                      
+                            <span class="menu-entry">{{name}}</span>
                         </paper-item>
                     </a>
-                    {{/each}}           
+                    {{/each}}
                 </core-submenu>
-                <core-submenu icon="view-headline" label="Teams"> 
+                <core-submenu icon="view-headline" label="Teams">
                     <a href="{{pathFor route='newTeam'}}">
                         <paper-item>
                             <core-icon icon="add"></core-icon>
-                            <span class="menu-entry">Create a team</span>                   
-                        </paper-item>       
+                            <span class="menu-entry">Create a team</span>
+                        </paper-item>
                     </a>
                     {{#each teams}}
                     <a href="{{pathFor route='team'}}">
                         <paper-item>
                             <core-icon icon="supervisor-account"></core-icon>
-                            <span class="menu-entry">{{name}}</span>                      
+                            <span class="menu-entry">{{name}}</span>
                         </paper-item>
                     </a>
-                    {{/each}}           
+                    {{/each}}
                 </core-submenu>
                 <a href="{{pathFor route='profile'}}">
                     <paper-item>
                         <core-icon icon="social:person"></core-icon>
-                        <span class="menu-entry">Profile</span>                       
+                        <span class="menu-entry">Profile</span>
                     </paper-item>
                 </a>
                 {{/if}}
                 <a href="{{pathFor route='about'}}">
                     <paper-item>
                         <core-icon icon="help"></core-icon>
-                        <span class="menu-entry">About</span>                       
+                        <span class="menu-entry">About</span>
                     </paper-item>
                 </a>
             </core-menu>
@@ -61,6 +61,9 @@
                 <div flex>
                     <a href="/">Teamwork</a>
                 </div>
+                <div>
+                    Nb Teams = {{nbTeam}}
+                </div>
                 {{#if currentUser}}
                 <paper-item>
                     <a href="/sign-out">
@@ -68,17 +71,21 @@
                 </paper-item>
                 {{/if}}
                 {{#unless currentUser}}
-                <paper-item>
-                    <a href="/sign-in">Sign In</a> 
-                </paper-item>
-                <paper-item>
-                    <a href="/sign-up">Sign Up</a>
-                </paper-item>
+                <a href="/sign-in">
+                  <paper-item >
+                      Sign In
+                  </paper-item>
+                </a>
+                <a href="/sign-up">
+                  <paper-item>
+                      Sign Up
+                  </paper-item>
+                </a>
                 {{/unless}}
             </core-toolbar>
 
             <div class="container">
-                {{> yield}}        
+                {{> yield}}
             </div>
             <tw-notification></tw-notification>
         </core-header-panel>

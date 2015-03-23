@@ -9,7 +9,7 @@
  * Return all the activities that the users can access
  * @param {id} userId : the userId of the current user
  */
-Meteor.publish('activities', function () {
+Meteor.publish('activities', function (nbTeams) {
     if (!this.userId) {
         this.ready();
         return;
@@ -33,6 +33,7 @@ Activity.allow({
         return true;
     }
 });
+
 Activity.deny({
     insert: function (userId, doc) {
         return false;
