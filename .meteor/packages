@@ -11,7 +11,7 @@ iron:router
 differential:vulcanize
 coffeescript
 meteorhacks:subs-manager
-boxxa:polymer
-boxxa:polymer-elements
 msavin:mongol
 meteorhacks:kadira
+boxxa:polymer@=0.5.5
+boxxa:polymer-elements@=0.5.5
