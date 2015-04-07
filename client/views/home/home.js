@@ -12,16 +12,16 @@ Template.Home.events({
 
 Template.Home.helpers({
     activities: function () {
-        return Activity.find();
+        return Activities.find();
     },
     activitiesLast3: function () {
-        return Activity.find({}, {sort: [["teamUpdate", "des"]], limit: 3});
+        return Activities.find({}, {sort: [["teamUpdate", "des"]], limit: 3});
     },
     teams: function () {
-        return Team.find();
+        return Teams.find();
     },
     teamsLast3: function () {
-        return Team.find({}, {sort: [["name", "asc"]], limit: 3});
+        return Teams.find({}, {sort: [["name", "asc"]], limit: 3});
     }
 });
 
@@ -49,9 +49,9 @@ Template.Home.rendered = function () {
     document.querySelector('#addActivityDialog').addEventListener('create-activity', function (e) {
         console.log(e.type, e.detail.objectId);
 
-        Meteor.call('createActivity', e.detail.datas.name, e.detail.datas.description, 
+        Meteor.call('createActivity', e.detail.datas.name, e.detail.datas.description,
             e.detail.datas.teamId, function (error, result) {
-            // Identify the error           
+            // Identify the error
             if (error) {
                 Notification.emitError("Impossible to create the activity.", error);
             } else {
@@ -66,7 +66,7 @@ Template.Home.rendered = function () {
         console.log(e.type, e.detail.objectId);
 
         Meteor.call('createTeam', e.detail.datas.name, e.detail.datas.description, function (error, result) {
-            // Identify the error           
+            // Identify the error
             if (error) {
                 Notification.emitError("Impossible to create the team.", error);
             } else {
@@ -74,13 +74,13 @@ Template.Home.rendered = function () {
             }
         });
     });
-    
+
     // Selector for updating an activty
     document.querySelector('.content').addEventListener('delete-team', function (e) {
         console.log(e.type, e.detail.objectId);
 
         Meteor.call('deleteTeam', e.detail.objectId, function (error, result) {
-            // Identify the error           
+            // Identify the error
             if (error) {
                 Notification.emitError("Impossible to delete the team.", error);
             } else {
@@ -88,13 +88,13 @@ Template.Home.rendered = function () {
             }
         });
     });
-    
+
     // Selector for updating an activty
     document.querySelector('.content').addEventListener('delete-activity', function (e) {
         console.log(e.type, e.detail.objectId);
 
         Meteor.call('deleteActivity', e.detail.objectId, function (error, result) {
-            // Identify the error           
+            // Identify the error
             if (error) {
                 Notification.emitError("Impossible to delete the activity.", error);
             } else {

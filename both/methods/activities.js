@@ -12,7 +12,7 @@ Meteor.methods({
      * @returns {undefined}
      */
     'createActivity': function (label, description, teamId) {
-        console.log("MethodCall : createActivity - name = " + name);
+        console.log("MethodCall : createActivity - name = " + label);
         console.log("MethodCall : createActivity - teamId = " + teamId);
         console.log("MethodCall : createActivity - currentUser = " + Meteor.userId());
 

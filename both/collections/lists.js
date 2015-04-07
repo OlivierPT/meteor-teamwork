@@ -27,7 +27,7 @@ Lists.attachSchema(new SimpleSchema({
     }
 }));
 
-// Listsallow({
+// Lists.allow({
 //     insert: function(userId, doc) {
 //         return allowIsBoardMember(userId, Boards.findOne(doc.boardId));
 //     },

@@ -56,6 +56,37 @@ Activities.helpers({
     }
 });
 
+// HOOKS
 Activities.before.insert(function(userId, doc) {
+
     doc.createdAt = new Date();
+    doc.archived = false;
+    // doc.members = [{
+    //     userId: userId,
+    //     isAdmin: true
+    // }];
+
+    // Handle labels
+    // var defaultLabels = ['green', 'yellow', 'orange', 'red', 'purple', 'blue'];
+    // doc.labels = [];
+    // _.each(defaultLabels, function(val) {
+    //     doc.labels.push({
+    //         _id: Random.id(6),
+    //         name: '',
+    //         color: val
+    //     });
+    // });
+
+    // We randomly chose one of the default background colors for the board
+    // if (Meteor.isClient) {
+    //     doc.background = {
+    //         type: "color",
+    //         color: Random.choice(DefaultBoardBackgroundColors)
+    //     };
+    // }
+});
+
+Activities.before.update(function(userId, doc, fieldNames, modifier) {
+    modifier.$set = modifier.$set || {};
+    modifier.$set.modifiedAt = new Date();
 });
