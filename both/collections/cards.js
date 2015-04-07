@@ -5,7 +5,7 @@ CardComments = new Mongo.Collection('card_comments');
 // de-normalized number of comments so we don't have to publish the whole list
 // of comments just to display the number of them in the board view.
 Cards.attachSchema(new SimpleSchema({
-    labal: {
+    label: {
         type: String
     },
     archived: {
@@ -28,10 +28,10 @@ Cards.attachSchema(new SimpleSchema({
         type: Date,
         denyUpdate: true
     },
-    dateLastActivity: {
+    dateLastLog: {
         type: Date
     },
-    description: {
+    detail: {
         type: String,
         optional: true
     },
@@ -42,6 +42,16 @@ Cards.attachSchema(new SimpleSchema({
     members: {
         type: [String],
         optional: true
+    },
+    complexity: {
+      type: Number,
+      decimal: true,
+      optional: true
+    },
+    value: {
+      type: Number,
+      decimal: true,
+      optional: true
     },
     // XXX Should probably be called `authorId`. Is it even needed since we have
     // the `members` field?
@@ -111,7 +121,7 @@ Cards.helpers({
         return Lists.findOne(this.listId);
     },
     activity: function() {
-        return Activity.findOne(this.boardId);
+        return Activities.findOne(this.boardId);
     },
     labels: function() {
         var self = this;
@@ -155,7 +165,7 @@ CardComments.helpers({
 CardComments.hookOptions.after.update = { fetchPrevious: false };
 Cards.before.insert(function(userId, doc) {
     doc.createdAt = new Date();
-    doc.dateLastActivity = new Date();
+    doc.dateLastLog = new Date();
 
     // defaults
     doc.archived = false;
@@ -168,117 +178,4 @@ Cards.before.insert(function(userId, doc) {
 CardComments.before.insert(function(userId, doc) {
     doc.createdAt = new Date();
     doc.userId = userId;
-});
-
-isServer(function() {
-  Cards.after.insert(function(userId, doc) {
-        Logs.insert({
-            type: 'card',
-            logType: "createCard",
-            activityId: doc.activityId,
-            listId: doc.listId,
-            cardId: doc._id,
-            userId: userId
-        });
-    });
-
-    // New activity for card (un)archivage
-    Cards.after.update(function(userId, doc, fieldNames, modifier) {
-        if (_.contains(fieldNames, 'archived')) {
-            if (doc.archived) {
-              Logs.insert({
-                    type: 'card',
-                    logType: "archivedCard",
-                    activityId: doc.activityId,
-                    listId: doc.listId,
-                    cardId: doc._id,
-                    userId: userId
-                });
-            } else {
-              Logs.insert({
-                    type: 'card',
-                    logType: "restoredCard",
-                    activityId: doc.activityId,
-                    listId: doc.listId,
-                    cardId: doc._id,
-                    userId: userId
-                });
-            }
-        }
-    });
-
-    // New activity for card moves
-    Cards.after.update(function(userId, doc, fieldNames, modifier) {
-        var oldListId = this.previous.listId;
-        if (_.contains(fieldNames, "listId") && doc.listId !== oldListId) {
-          Logs.insert({
-                type: 'card',
-                logType: "moveCard",
-                listId: doc.listId,
-                oldListId: oldListId,
-                activityId: doc.activityId,
-                cardId: doc._id,
-                userId: userId
-            });
-        }
-    });
-
-    // Add a new activity if we add or remove a member to the card
-    Cards.before.update(function(userId, doc, fieldNames, modifier) {
-        if (! _.contains(fieldNames, 'members'))
-            return;
-
-        // Say hello to the new member
-        if (modifier.$addToSet && modifier.$addToSet.members) {
-            var memberId = modifier.$addToSet.members;
-            if (!_.contains(doc.members, memberId)) {
-                Logs.insert({
-                    type: 'card',
-                    logType: "joinMember",
-                    activityId: doc.activityId,
-                    cardId: doc._id,
-                    userId: userId,
-                    memberId: memberId
-                });
-            }
-        }
-
-        // Say goodbye to the former member
-        if (modifier.$pull && modifier.$pull.members) {
-            var memberId = modifier.$pull.members;
-            Logs.insert({
-                type: 'card',
-                logType: "unjoinMember",
-                activityId: doc.activityId,
-                cardId: doc._id,
-                userId: userId,
-                memberId: memberId
-            });
-        }
-    });
-
-    // Remove all activities associated with a card if we remove the card
-    Cards.after.remove(function(userId, doc) {
-        Logs.remove({
-            cardId: doc._id
-        });
-    });
-
-    CardComments.after.insert(function(userId, doc) {
-        Logs.insert({
-            type: 'comment',
-            logType: "addComment",
-            activityId: doc.activityId,
-            cardId: doc.cardId,
-            commentId: doc._id,
-            userId: userId
-        });
-    });
-
-    CardComments.after.remove(function(userId, doc) {
-        var log = Logs.findOne({ commentId: doc._id });
-        if (log) {
-            Logs.remove(log._id);
-        }
-    });
 });

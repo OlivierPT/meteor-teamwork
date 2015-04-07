@@ -1,4 +1,4 @@
-Team = new Mongo.Collection('team');
+Teams = new Mongo.Collection('teams');
 
 /*
  * Add query methods like this:

@@ -15,3 +15,6 @@ msavin:mongol
 meteorhacks:kadira
 boxxa:polymer@=0.5.5
 boxxa:polymer-elements@=0.5.5
+aldeed:collection2
+dburles:collection-helpers
+matb33:collection-hooks
