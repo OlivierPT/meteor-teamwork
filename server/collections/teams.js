@@ -1,28 +1,24 @@
-/**
- * This files define all the access to the
- * Activity collection : Publish methodes and access rights
- *
+/*
+ * Add query methods like this:
+ *  Team.findPublic = function () {
+ *    return Team.find({is_public: true});
+ *  }
  */
-
-
 /**
- * Return all the activities that the users can access
+ * Return all the teams that the user is involved to
  * @param {id} userId : the userId of the current user
  */
-Meteor.publish('activities', function (nbTeams) {
+Meteor.publish('teams', function () {
     if (!this.userId) {
         this.ready();
         return;
     }
-    var userTeamsId = Team.find({members: this.userId}).map(function (doc) {
-        return doc._id
-    });
-    console.log("Out PublishCollection : activities for teams = " + userTeamsId);
-    return Activity.find({team: {$in: userTeamsId}});
+    console.log("PublishCollection : teams - userId = " + this.userId);
+    return Teams.find({members: this.userId});
 });
 
 
-Activity.allow({
+Teams.allow({
     insert: function (userId, doc) {
         return true;
     },
@@ -34,7 +30,7 @@ Activity.allow({
     }
 });
 
-Activity.deny({
+Teams.deny({
     insert: function (userId, doc) {
         return false;
     },
