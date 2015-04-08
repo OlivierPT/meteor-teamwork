@@ -1,13 +1,13 @@
 <template name="MaterialActivity">
-    <div class="content">
-        <tw-activity activityId="{{_id}}">
-            <h2>{{name}}</h2>
+    <div class="content" fit>
+        <tw-activity activityId="{{_id}}" fit>
+            <h2>{{label}}</h2>
             <h3>{{description}}</h3>
             <event-form-container class="form-activity">
                 <event-form objectId="{{_id}}">
                     <paper-input-decorator label="Activity's label" error="We need a label"
                                            floatingLabel>
-                        <input is="core-input" name="name" id="activityName" type="text" value="{{name}}" required>
+                        <input is="core-input" name="name" id="activityName" type="text" value="{{label}}" required>
                     </paper-input-decorator>
 
                     <paper-input-decorator label="Activity's description"
@@ -33,7 +33,7 @@
                          hasDueDate="{{taskHasDueDate}}" hasCategory="{{taskHasCategory}}">
                     <span task-label>{{label}}</span>
                     <event-form-container>
-                        <event-form objectId="{{id}}">                     
+                        <event-form objectId="{{id}}">
                             <paper-input-decorator label="Task label" error="We need label!"
                                                    floatingLabel class="input-light" required>
                                 <input is="core-input" id="taskLabel" name="label" type="text" value="{{label}}" required>
@@ -83,7 +83,7 @@
                                 <paper-input-decorator label="Add a comment"
                                                        floatingLabel class="input-light" flex>
                                     <input is="core-input" id="addComment" name="comment" type="text">
-                                </paper-input-decorator>           
+                                </paper-input-decorator>
                                 <event-paper-button id="add-state-btn" eventName="pre-add-comment" target="addComment">Add</event-paper-button>
                             </div>
                             <div layout vertical>
@@ -99,7 +99,7 @@
                         <event-paper-button dismissive eventName="cancel-edit">Cancel</event-paper-button>
                         <event-paper-button affirmative autofocus id="add-state-btn" eventName="pre-save-task" raise>Update</event-paper-button>
                     </event-form-container>
-                </tw-task>                            
+                </tw-task>
                 {{/each}}
             </tw-list>
             {{/each}}

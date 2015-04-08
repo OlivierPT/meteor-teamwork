@@ -16,10 +16,11 @@
         <style>
             :host {
                 display: block;
-                position: relative;    
+                position: relative;
                 font-weight: 300;
                 width: 100%;
                 background-color: #2196F3;
+                heigth: 100%;
             }
 
             .activity {
@@ -33,8 +34,8 @@
             }
 
             .state-list {
-                padding-top: 30px; 
-                padding-bottom: 30px; 
+                padding-top: 30px;
+                padding-bottom: 30px;
             }
 
             .separator {
@@ -56,8 +57,8 @@
             }
         </style>
 
-        <div class="activity" layout vertical>
-            <div class="activity-header" layout horizontal left>  
+        <div class="activity" layout vertical fit>
+            <div class="activity-header" layout horizontal left>
                 <core-tooltip position="right">
                     <span flex>
                         <content select="h2"></content>
@@ -65,8 +66,8 @@
                     <div tip>
                         <content select="h3"></content>
                     </div>
-                </core-tooltip>                
-            </div>            
+                </core-tooltip>
+            </div>
             <hr class="separator">
             <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
             <core-collapse  id="editActivityForm">

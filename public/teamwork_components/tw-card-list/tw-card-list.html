@@ -34,7 +34,7 @@
                 height: 250px
             }
 
-            .chip-top {                
+            .chip-top {
                 height: 90%;
             }
 
@@ -58,7 +58,7 @@
             #complete {
                 padding: 10px 0 0;
                 position: absolute;
-                z-index: 1;
+                z-index: 100;
                 height: 100%;
             }
 
@@ -67,13 +67,15 @@
                 overflow: hidden;
                 background: #fff;
                 box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+                height: 100%;
             }
-            .list-left {
-                width: 20%;
+            .list-header {
+                width: 100%;
+                padding: 10px;
             }
-            
 
-            .list-right {
+
+            .list-body {
                 padding: 24px;
             }
 
@@ -83,32 +85,27 @@
             }
         </style>
 
-        <core-animated-pages selected="{{mode}}" transitions="hero-transition" on-core-animated-pages-transition-end="{{complete}}" >
+        <core-animated-pages selected="{{mode}}" transitions="hero-transition"
+            on-core-animated-pages-transition-end="{{complete}}" >
             <section id="resume">
-                <div hero-id="card-list" layout horizontal>  
-                    <div class="chip-entry" hero-p on-tap="{{transition}}" layout vertical hero-id="list-badge" hero>
-                        <div class="chip-top" style="background:{{color}}" flex>
-                            <paper-button>See more...</paper-button>
-                        </div>
-                        <div class="chip-bottom">
-                            <h2>{{title}}</h2>
-                        </div>
+                <div hero-id="card-list" layout horizontal>
+                    <div class="chip-entry" style="background:{{color}}"
+                      hero-p on-tap="{{transition}}" layout vertical hero-id="header" hero>
+                        <h2>{{title}}</h2>
                     </div>
                     <div class="chip-resume" layout horizontal flex>
                         <content select="[firstCards]"></content>
-                    </div> 
+                    </div>
                 </div>
             </section>
 
             <section id="complete">
-
-                <div class="full-list" layout horizontal hero-id="card-list" hero>
-                    <div class="list-left" hero-p on-tap="{{transition}}" layout vertical  hero-id="list-badge" hero>
-                        <div class="list-left-top"  style="background:{{color}}" flex> 
-                            <paper-button>See less...</paper-button>
-                        </div>
+                <div class="full-list" layout vertical hero-id="card-list" hero>
+                    <div class="list-header" style="background:{{color}}" hero-p on-tap="{{transition}}"
+                    layout vertical hero-id="header" hero>
+                        <h2>{{title}}</h2>
                     </div>
-                    <div class="list-right" layout horizontal flex>                      
+                    <div class="list-body" layout horizontal flex>
                         <content select="[allCards]"></content>
                     </div>
                 </div>

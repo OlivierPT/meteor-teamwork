@@ -42,14 +42,14 @@ Lists.attachSchema(new SimpleSchema({
 
 
 Lists.helpers({
-    cards: function() {
-        return Cards.find(_.extend(Filter.getMongoSelector(), {
+    tasks: function() {
+        return Tasks.find(_.extend(Filter.getMongoSelector(), {
             listId: this._id,
             archived: false
         }), { sort: ['sort'] });
     },
     activity: function() {
-        return Activity.findOne(this.activityId);
+        return Activities.findOne(this.activityId);
     }
 });
 

@@ -56,17 +56,17 @@ Activities.deny({
     // });
 
 // SERVER HOOKS
-
-    // Genesis: the first activity of the newly created board
-    Activities.after.insert(function(userId, doc) {
-        Logs.insert({
-            type: 'board',
-            logTypeId: doc._id,
-            logType: "createBoard",
-            activityId: doc._id,
-            userId: userId
-        });
+// Genesis: the first activity of the newly created board
+Activities.after.insert(function(userId, doc) {
+    console.log("Activities.after.insert : " + doc.label);
+    Logs.insert({
+        type: 'board',
+        logTypeId: doc._id,
+        logType: "createBoard",
+        activityId: doc._id,
+        userId: userId
     });
+});
 
     // If the user remove one label from a board, we cant to remove reference of
     // this label in any card of this board.

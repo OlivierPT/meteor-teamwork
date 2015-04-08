@@ -19,6 +19,9 @@ Template.PolymerLayout.helpers({
     },
     nbTeam: function() {
         return Session.get("nbTeam");
+    },
+    status: function() {
+        return Meteor.status();
     }
 });
 

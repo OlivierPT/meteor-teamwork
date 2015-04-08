@@ -1,33 +1,33 @@
-Cards.after.insert(function(userId, doc) {
+Tasks.after.insert(function(userId, doc) {
       Logs.insert({
-          type: 'card',
-          logType: "createCard",
+          type: 'task',
+          logType: "createTask",
           activityId: doc.activityId,
           listId: doc.listId,
-          cardId: doc._id,
+          taskId: doc._id,
           userId: userId
       });
   });
 
   // New activity for card (un)archivage
-  Cards.after.update(function(userId, doc, fieldNames, modifier) {
+  Tasks.after.update(function(userId, doc, fieldNames, modifier) {
       if (_.contains(fieldNames, 'archived')) {
           if (doc.archived) {
             Logs.insert({
-                  type: 'card',
-                  logType: "archivedCard",
+                  type: 'task',
+                  logType: "archivedTask",
                   activityId: doc.activityId,
                   listId: doc.listId,
-                  cardId: doc._id,
+                  taskId: doc._id,
                   userId: userId
               });
           } else {
             Logs.insert({
-                  type: 'card',
-                  logType: "restoredCard",
+                  type: 'task',
+                  logType: "restoredTask",
                   activityId: doc.activityId,
                   listId: doc.listId,
-                  cardId: doc._id,
+                  taskId: doc._id,
                   userId: userId
               });
           }
@@ -35,23 +35,23 @@ Cards.after.insert(function(userId, doc) {
   });
 
   // New activity for card moves
-  Cards.after.update(function(userId, doc, fieldNames, modifier) {
+  Tasks.after.update(function(userId, doc, fieldNames, modifier) {
       var oldListId = this.previous.listId;
       if (_.contains(fieldNames, "listId") && doc.listId !== oldListId) {
         Logs.insert({
-              type: 'card',
-              logType: "moveCard",
+              type: 'task',
+              logType: "moveTask",
               listId: doc.listId,
               oldListId: oldListId,
               activityId: doc.activityId,
-              cardId: doc._id,
+              taskId: doc._id,
               userId: userId
           });
       }
   });
 
   // Add a new activity if we add or remove a member to the card
-  Cards.before.update(function(userId, doc, fieldNames, modifier) {
+  Tasks.before.update(function(userId, doc, fieldNames, modifier) {
       if (! _.contains(fieldNames, 'members'))
           return;
 
@@ -60,10 +60,10 @@ Cards.after.insert(function(userId, doc) {
           var memberId = modifier.$addToSet.members;
           if (!_.contains(doc.members, memberId)) {
               Logs.insert({
-                  type: 'card',
+                  type: 'task',
                   logType: "joinMember",
                   activityId: doc.activityId,
-                  cardId: doc._id,
+                  taskId: doc._id,
                   userId: userId,
                   memberId: memberId
               });
@@ -74,10 +74,10 @@ Cards.after.insert(function(userId, doc) {
       if (modifier.$pull && modifier.$pull.members) {
           var memberId = modifier.$pull.members;
           Logs.insert({
-              type: 'card',
+              type: 'task',
               logType: "unjoinMember",
               activityId: doc.activityId,
-              cardId: doc._id,
+              taskId: doc._id,
               userId: userId,
               memberId: memberId
           });
@@ -85,24 +85,24 @@ Cards.after.insert(function(userId, doc) {
   });
 
   // Remove all activities associated with a card if we remove the card
-  Cards.after.remove(function(userId, doc) {
+  Tasks.after.remove(function(userId, doc) {
       Logs.remove({
-          cardId: doc._id
+          taskId: doc._id
       });
   });
 
-  CardComments.after.insert(function(userId, doc) {
+  TaskComments.after.insert(function(userId, doc) {
       Logs.insert({
           type: 'comment',
           logType: "addComment",
           activityId: doc.activityId,
-          cardId: doc.cardId,
+          taskId: doc.taskId,
           commentId: doc._id,
           userId: userId
       });
   });
 
-  CardComments.after.remove(function(userId, doc) {
+  TaskComments.after.remove(function(userId, doc) {
       var log = Logs.findOne({ commentId: doc._id });
       if (log) {
           Logs.remove(log._id);

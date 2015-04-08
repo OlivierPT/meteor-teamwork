@@ -61,9 +61,6 @@
                 <div flex>
                     <a href="/">Teamwork</a>
                 </div>
-                <div>
-                    Nb Teams = {{nbTeam}}
-                </div>
                 {{#if currentUser}}
                 <paper-item>
                     <a href="/sign-out">
@@ -82,9 +79,12 @@
                   </paper-item>
                 </a>
                 {{/unless}}
-            </core-toolbar>
+                <core-tooltip label="Meteor server: {{status.status}}" position="left">
+                  <core-icon icon={{#if status.connected}}cloud-done{{else}}cloud-off{{/if}}></core-icon>
+                </core-tooltip>
+              </core-toolbar>
 
-            <div class="container">
+            <div class="container" fit>
                 {{> yield}}
             </div>
             <tw-notification></tw-notification>

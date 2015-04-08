@@ -1,10 +1,10 @@
-Cards = new Mongo.Collection('cards');
-CardComments = new Mongo.Collection('card_comments');
+Tasks = new Mongo.Collection('tasks');
+TaskComments = new Mongo.Collection('task_comments');
 
 // XXX To improve pub/sub performances a card document should included a
 // de-normalized number of comments so we don't have to publish the whole list
 // of comments just to display the number of them in the board view.
-Cards.attachSchema(new SimpleSchema({
+Tasks.attachSchema(new SimpleSchema({
     label: {
         type: String
     },
@@ -64,11 +64,11 @@ Cards.attachSchema(new SimpleSchema({
     }
 }));
 
-CardComments.attachSchema(new SimpleSchema({
+TaskComments.attachSchema(new SimpleSchema({
     activityId: {
         type: String
     },
-    cardId: {
+    taskId: {
         type: String
     },
     // XXX Rename in `content`? `text` is a bit vague...
@@ -116,7 +116,7 @@ CardComments.attachSchema(new SimpleSchema({
 
 
 // HELPERS
-Cards.helpers({
+Tasks.helpers({
     list: function() {
         return Lists.findOne(this.listId);
     },
@@ -138,7 +138,7 @@ Cards.helpers({
         return Logs.find({ type: 'card', cardId: this._id }, { sort: { createdAt: -1 }});
     },
     comments: function() {
-        return CardComments.find({ cardId: this._id }, { sort: { createdAt: -1 }});
+        return TaskComments.find({ cardId: this._id }, { sort: { createdAt: -1 }});
     }
     //,
     // attachments: function() {
@@ -156,14 +156,14 @@ Cards.helpers({
     // }
 });
 
-CardComments.helpers({
+TaskComments.helpers({
     user: function() {
         return Users.findOne(this.userId);
     }
 });
 
-CardComments.hookOptions.after.update = { fetchPrevious: false };
-Cards.before.insert(function(userId, doc) {
+TaskComments.hookOptions.after.update = { fetchPrevious: false };
+Tasks.before.insert(function(userId, doc) {
     doc.createdAt = new Date();
     doc.dateLastLog = new Date();
 
@@ -175,7 +175,7 @@ Cards.before.insert(function(userId, doc) {
 });
 
 
-CardComments.before.insert(function(userId, doc) {
+TaskComments.before.insert(function(userId, doc) {
     doc.createdAt = new Date();
     doc.userId = userId;
 });
