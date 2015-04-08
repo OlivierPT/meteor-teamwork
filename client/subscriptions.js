@@ -10,7 +10,7 @@ subs.subscribe('teams');
 Tracker.autorun(function () {
 
     console.log("Start running Tracker");
-    var nbTeams = Team.find().count();
+    var nbTeams = Teams.find().count();
     subs.subscribe('activities', nbTeams);
 
     console.log("End running Tracker");

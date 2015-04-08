@@ -63,7 +63,7 @@ Router.route('/activity/:_id', {
     name: 'activity',
     data: function () {
         console.log("Data - Activity.findOne : " + this.params._id);
-        return Activity.findOne({_id: this.params._id});
+        return Activities.findOne({_id: this.params._id});
     }
 });
 
@@ -93,16 +93,16 @@ Router.route('/team/:_id', {
     template: 'MaterialTeam',
     name: 'team',
     data: function () {
-        return Team.findOne({_id: this.params._id});
+        return Teams.findOne({_id: this.params._id});
     }
 });
 
 
 Router.route('/rest/team/:_id', {where: 'server'})
         .get(function () {
-            Team.findOne({_id: this.params._id})
+            Teams.findOne({_id: this.params._id})
             // NodeJS  response object
             var response = this.response;
-            var team = Team.findOne({_id: this.params._id})
+            var team = Teams.findOne({_id: this.params._id})
             this.response.end(EJSON.stringify(team));
         })

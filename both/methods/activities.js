@@ -20,11 +20,6 @@ Meteor.methods({
         check(label, NonEmptyString);
         check(teamId, NonEmptyString);
 
-        var newActivity = {};
-        newActivity.label = label;
-        newActivity.description = description;
-        newActivity.team = teamId;
-
         // var stateDatas = {};
         // stateDatas.label = "ToDo";
         // newActivity.states.push(createState(stateDatas));
@@ -33,8 +28,7 @@ Meteor.methods({
         // stateDatas.label = "Done";
         // newActivity.states.push(createState(stateDatas));
 
-        //var actvityId = Activity.insert({name: name, owner: Meteor.userId(), team: teamId, description: description});
-        var actvityId = Activities.insert(newActivity);
+        var actvityId = Activities.insert({label: label, description: description, teamId: teamId, permission: 'public'});
         console.log("New activity created!");
         return actvityId;
     },

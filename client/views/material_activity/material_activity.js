@@ -34,7 +34,7 @@ Template.MaterialActivity.helpers({
         return false;
     },
     members: function() {
-        return Team.findOne({_id: this.team}).members;
+        return Teams.findOne({_id: this.team}).members;
     }
 });
 
@@ -47,10 +47,10 @@ Template.MaterialActivity.created = function () {
 Template.MaterialActivity.rendered = function () {
     // Selector for updating an activty
     document.querySelector('tw-activity').addEventListener('save-activity', function (e) {
-        console.log(e.type, e.detail.objectId); 
-    
+        console.log(e.type, e.detail.objectId);
+
         Meteor.call('editActivity', e.detail.objectId, e.detail.datas.name, e.detail.datas.description, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);
             } else {
@@ -58,15 +58,15 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector for updating a task
     document.querySelector('tw-activity').addEventListener('save-task', function (e) {
         console.log(e.type, e.detail.objectId);
-        
-        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.listId, 
-            e.detail.objectId, e.detail.datas.label, e.detail.datas.detail, 
+
+        Meteor.call('storeTask', e.detail.datas.activityId, e.detail.datas.listId,
+            e.detail.objectId, e.detail.datas.label, e.detail.datas.detail,
             e.detail.datas.complexity, e.detail.datas.value, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);
             } else {
@@ -74,14 +74,14 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector for updating a task
     document.querySelector('tw-activity').addEventListener('add-comment', function (e) {
         console.log(e.type, e.detail.objectId);
-        
-        Meteor.call('addCommentToTask', e.detail.datas.activityId, e.detail.datas.listId, 
+
+        Meteor.call('addCommentToTask', e.detail.datas.activityId, e.detail.datas.listId,
             e.detail.objectId, e.detail.datas.comment, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to update the activity.", error);
             } else {
@@ -89,13 +89,13 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector pour l'evenement de suppression d'une activity
     document.querySelector('tw-activity').addEventListener('delete-activity', function (e) {
-        console.log(e.type, e.detail.activityId); 
-        
+        console.log(e.type, e.detail.activityId);
+
         Meteor.call('deleteActivity', e.detail.activityId, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to delete the activity.", error);
             } else {
@@ -103,13 +103,13 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector pour l'evenement de suppression d'un etat
     document.querySelector('tw-activity').addEventListener('delete-list', function (e) {
-        console.log(e.type, e.detail.listId); 
-      
+        console.log(e.type, e.detail.listId);
+
         Meteor.call('removeState', e.detail.listId,  e.detail.activityId, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to delete the state.", error);
             } else {
@@ -117,13 +117,13 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector pour l'evenement de suppression d'un etat
     document.querySelector('tw-activity').addEventListener('add-list', function (e) {
-        console.log(e.type, e.detail.activityId); 
-        
+        console.log(e.type, e.detail.activityId);
+
         Meteor.call('addState', e.detail.listLabel, e.detail.activityId, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to add a list.", error);
             } else {
@@ -131,13 +131,13 @@ Template.MaterialActivity.rendered = function () {
             }
         });
     });
-    
+
     // Selector pour l'evenement de suppression d'un etat
     document.querySelector('tw-activity').addEventListener('add-task', function (e) {
-        console.log(e.type, e.detail.listId); 
-        
+        console.log(e.type, e.detail.listId);
+
         Meteor.call('addTask', e.detail.taskLabel, e.detail.activityId, e.detail.listId, function (error, result) {
-            // identify the error           
+            // identify the error
             if (error) {
                 Notification.emitError("Impossible to add a task.", error);
             } else {

@@ -9,20 +9,36 @@ Activities.attachSchema(new SimpleSchema({
         type: String
     },
     description: {
-        type: String
+        type: String,
+        optional: true
     },
     archived: {
-        type: Boolean
+        type: Boolean,
+        autoValue: function() {
+          if (this.isInsert) {
+            return false;
+          }
+        }
     },
     createdAt: {
         type: Date,
-        denyUpdate: true
+        denyUpdate: true,
+        autoValue: function() {
+          if (this.isInsert) {
+            return new Date();
+          }
+        }
     },
     // XXX Inconsistent field naming
     modifiedAt: {
         type: Date,
         denyInsert: true,
-        optional: true
+        optional: true,
+        autoValue: function() {
+        if (this.isUpdate) {
+          return new Date();
+        }
+      }
     },
     permission: {
         type: String,
@@ -56,11 +72,12 @@ Activities.helpers({
     }
 });
 
-// HOOKS
+// HOOKS GLOBAUX
 Activities.before.insert(function(userId, doc) {
-
-    doc.createdAt = new Date();
+    console.log("Activities.before.insert : " + doc.label);
+    doc.createdAt = Date.now();
     doc.archived = false;
+    doc.permission = 'public';
     // doc.members = [{
     //     userId: userId,
     //     isAdmin: true
@@ -88,5 +105,5 @@ Activities.before.insert(function(userId, doc) {
 
 Activities.before.update(function(userId, doc, fieldNames, modifier) {
     modifier.$set = modifier.$set || {};
-    modifier.$set.modifiedAt = new Date();
+    modifier.$set.modifiedAt = Date.now();
 });

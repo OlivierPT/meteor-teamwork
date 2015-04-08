@@ -6,21 +6,21 @@
                 {{#each activitiesLast3}}
                 <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}" objectType="activity" footerColor="#64B5F6">
                     <div vertical layout center center-justified>
-                        <h2>{{name}}</h2>
+                        <h2>{{label}}</h2>
                         <p>{{description}}</p>
                     </div>
                 </tw-card>
-                {{/each}}  
+                {{/each}}
             </div>
             <div allCards layout horizontal wrap>
                 {{#each activities}}
                 <tw-card autoraise=true link="{{pathFor route='activity'}}" objectId="{{_id}}"  objectType="activity" footerColor="#64B5F6">
                     <div vertical layout center center-justified>
-                        <h2>{{name}}</h2>
+                        <h2>{{label}}</h2>
                         <p>{{description}}</p>
                     </div>
                 </tw-card>
-                {{/each}}  
+                {{/each}}
             </div>
         </tw-card-list>
         <tw-card-list title="My teams" color="#009688">
@@ -32,7 +32,7 @@
                         <p>{{description}}</p>
                     </div>
                 </tw-card>
-                {{/each}}  
+                {{/each}}
             </div>
             <div allCards  layout horizontal>
                 {{#each teams}}
@@ -42,11 +42,11 @@
                         <p>{{description}}</p>
                     </div>
                 </tw-card>
-                {{/each}}  
+                {{/each}}
             </div>
         </tw-card-list>
     </div>
-    
+
     <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity"></paper-fab>
     <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"></paper-fab>
 
@@ -71,9 +71,9 @@
                     {{#each teams}}
                     <paper-radio-button name="{{_id}}" label="{{name}}"></paper-radio-button>
                     {{/each}}
-                </paper-radio-group>  
+                </paper-radio-group>
                 <input is="core-input" type="hidden">
-            </paper-input-decorator>            
+            </paper-input-decorator>
         </event-form>
         <event-paper-button dismissive>Cancel</event-paper-button>
         <event-paper-button affirmative eventName="create-activity">Create</event-paper-button>
@@ -91,7 +91,7 @@
                 <paper-autogrow-textarea id="autogrow-description">
                     <textarea id="teamDescription" name="description"></textarea>
                 </paper-autogrow-textarea>
-            </paper-input-decorator>          
+            </paper-input-decorator>
         </event-form>
         <event-paper-button dismissive>Cancel</event-paper-button>
         <event-paper-button affirmative eventName="create-team">Create</event-paper-button>

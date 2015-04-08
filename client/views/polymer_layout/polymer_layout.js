@@ -12,11 +12,11 @@ Template.PolymerLayout.events({
 
 Template.PolymerLayout.helpers({
     activities: function () {
-        return Activity.find();
+        return Activities.find();
     },
     teams: function () {
-        return Team.find();
-    }, 
+        return Teams.find();
+    },
     nbTeam: function() {
         return Session.get("nbTeam");
     }

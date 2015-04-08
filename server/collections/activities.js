@@ -18,7 +18,7 @@ Meteor.publish('activities', function (nbTeams) {
         return doc._id
     });
     console.log("Out PublishCollection : activities for teams = " + userTeamsId);
-    return Activities.find({team: {$in: userTeamsId}});
+    return Activities.find({teamId: {$in: userTeamsId}});
 });
 
 
@@ -55,7 +55,8 @@ Activities.deny({
     //     }, { unique: true });
     // });
 
-// HOOKS
+// SERVER HOOKS
+
     // Genesis: the first activity of the newly created board
     Activities.after.insert(function(userId, doc) {
         Logs.insert({
