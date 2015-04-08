@@ -46,62 +46,62 @@ Template.Home.rendered = function () {
     });
 
     // Selector for updating an activty
-    document.querySelector('#addActivityDialog').addEventListener('create-activity', function (e) {
-        console.log(e.type, e.detail.objectId);
-
-        Meteor.call('createActivity', e.detail.datas.name, e.detail.datas.description,
-            e.detail.datas.teamId, function (error, result) {
-            // Identify the error
-            if (error) {
-                Notification.emitError("Impossible to create the activity.", error);
-            } else {
-                Notification.emitNotification("Activity created successfully.");
-            }
-        });
-    });
-
-
-    // Selector for updating an activty
-    document.querySelector('#addTeamDialog').addEventListener('create-team', function (e) {
-        console.log(e.type, e.detail.objectId);
-
-        Meteor.call('createTeam', e.detail.datas.name, e.detail.datas.description, function (error, result) {
-            // Identify the error
-            if (error) {
-                Notification.emitError("Impossible to create the team.", error);
-            } else {
-                Notification.emitNotification("Team created successfully.");
-            }
-        });
-    });
-
-    // Selector for updating an activty
-    document.querySelector('.content').addEventListener('delete-team', function (e) {
-        console.log(e.type, e.detail.objectId);
-
-        Meteor.call('deleteTeam', e.detail.objectId, function (error, result) {
-            // Identify the error
-            if (error) {
-                Notification.emitError("Impossible to delete the team.", error);
-            } else {
-                Notification.emitNotification("Team deleted successfully.");
-            }
-        });
-    });
-
-    // Selector for updating an activty
-    document.querySelector('.content').addEventListener('delete-activity', function (e) {
-        console.log(e.type, e.detail.objectId);
-
-        Meteor.call('deleteActivity', e.detail.objectId, function (error, result) {
-            // Identify the error
-            if (error) {
-                Notification.emitError("Impossible to delete the activity.", error);
-            } else {
-                Notification.emitNotification("Activity deleted successfully.");
-            }
-        });
-    });
+    // document.querySelector('#addActivityDialog').addEventListener('create-activity', function (e) {
+    //     console.log(e.type, e.detail.objectId);
+    //
+    //     Meteor.call('createActivity', e.detail.datas.name, e.detail.datas.description,
+    //         e.detail.datas.teamId, function (error, result) {
+    //         // Identify the error
+    //         if (error) {
+    //             Notification.emitError("Impossible to create the activity.", error);
+    //         } else {
+    //             Notification.emitNotification("Activity created successfully.");
+    //         }
+    //     });
+    // });
+    //
+    //
+    // // Selector for updating an activty
+    // document.querySelector('#addTeamDialog').addEventListener('create-team', function (e) {
+    //     console.log(e.type, e.detail.objectId);
+    //
+    //     Meteor.call('createTeam', e.detail.datas.name, e.detail.datas.description, function (error, result) {
+    //         // Identify the error
+    //         if (error) {
+    //             Notification.emitError("Impossible to create the team.", error);
+    //         } else {
+    //             Notification.emitNotification("Team created successfully.");
+    //         }
+    //     });
+    // });
+    //
+    // // Selector for updating an activty
+    // document.querySelector('.content').addEventListener('delete-team', function (e) {
+    //     console.log(e.type, e.detail.objectId);
+    //
+    //     Meteor.call('deleteTeam', e.detail.objectId, function (error, result) {
+    //         // Identify the error
+    //         if (error) {
+    //             Notification.emitError("Impossible to delete the team.", error);
+    //         } else {
+    //             Notification.emitNotification("Team deleted successfully.");
+    //         }
+    //     });
+    // });
+    //
+    // // Selector for updating an activty
+    // document.querySelector('.content').addEventListener('delete-activity', function (e) {
+    //     console.log(e.type, e.detail.objectId);
+    //
+    //     Meteor.call('deleteActivity', e.detail.objectId, function (error, result) {
+    //         // Identify the error
+    //         if (error) {
+    //             Notification.emitError("Impossible to delete the activity.", error);
+    //         } else {
+    //             Notification.emitNotification("Activity deleted successfully.");
+    //         }
+    //     });
+    // });
 };
 
 Template.Home.destroyed = function () {

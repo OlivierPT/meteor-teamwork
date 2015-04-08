@@ -1,0 +1,145 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+
+
+<polymer-element name="tw-home" on-create-activity="{{doCreateActivity}}">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: relative;
+                font-weight: 300;
+                width: 100%;
+                background-color: #2196F3;
+                heigth: 100%;
+            }
+
+            #new-actity-btn {
+                position: fixed;
+                bottom: 30px;
+                right: 20px;
+                z-index: 2;
+            }
+
+            #new-team-btn {
+                position: fixed;
+                bottom: 100px;
+                right: 20px;
+                z-index: 2;
+            }
+        </style>
+
+        <core-animated-pages selected="{{page}}" transitions="hero-transition cross-fade slide-down" on-core-animated-pages-transition-end="{{complete}}">
+          <section>
+              <div hero-id="card-list" layout horizontal>
+                  <div class="chip-entry" style="background: #2196F3"
+                    hero-p on-tap="{{transition}}" layout vertical hero-id="header" hero>
+                      <h2>{{title}}</h2>
+                  </div>
+                  <div class="chip-resume" layout horizontal flex>
+                    <template repeat="{{activitiesItems as activity}}">
+                      <tw-card autoraise=true link="{{routerPath('activity', activity._id)}}" objectId="{{activity._id}}"  objectType="activity" footerColor="#64B5F6">
+                          <div vertical layout center center-justified>
+                              <h2>{{activity.label}}</h2>
+                              <p>{{activity.description}}</p>
+                          </div>
+                      </tw-card>
+                    </template>
+                  </div>
+              </div>
+            <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity" on-click="{{toggleActivity}}"></paper-fab>
+            <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"  on-click="{{toggleTeam}}"></paper-fab>
+          </section>
+      </core-animated-pages>
+
+
+        <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog" on-epb-click="{{clickToForm}}">
+            <event-form>
+                <paper-input-decorator label="Activity's name" error="We need a name!"
+                                       floatingLabel class="input-light">
+                    <input is="core-input" id="activityName" name="name" type="text" required>
+                </paper-input-decorator>
+                <paper-input-decorator label="Activity's description"
+                                       floatingLabel>
+                    <paper-autogrow-textarea id="autogrow-description">
+                        <textarea id="activityDescription" name="description"></textarea>
+                    </paper-autogrow-textarea>
+                </paper-input-decorator>
+
+                <paper-input-decorator label="Associate the Activity to a team or create a new one"
+                                       floatingLabel>
+                    <paper-radio-group name="teamId" id="teamRadio" selected="new" vertical layout>
+                        <paper-radio-button name="new" label="New team"></paper-radio-button>
+                        <template repeat="{{teams as team}}">
+                          <paper-radio-button name="{{team._id}}" label="{{team.name}}"></paper-radio-button>
+                        </template>
+                    </paper-radio-group>
+                    <input is="core-input" type="hidden">
+                </paper-input-decorator>
+            </event-form>
+            <event-paper-button dismissive>Cancel</event-paper-button>
+            <event-paper-button affirmative eventName="create-activity">Create</event-paper-button>
+        </paper-action-dialog>
+
+        <paper-action-dialog transition="core-transition-fade" heading="Add a Team" id="addTeamDialog"  on-epb-click="{{clickToForm}}">
+            <event-form>
+                <paper-input-decorator label="Team's name" error="We need a name!"
+                                       floatingLabel class="input-light">
+                    <input is="core-input" id="teamName" name="name" type="text" required>
+                </paper-input-decorator>
+                <paper-input-decorator label="Team's description"
+                                       floatingLabel>
+                    <paper-autogrow-textarea id="autogrow-description">
+                        <textarea id="teamDescription" name="description"></textarea>
+                    </paper-autogrow-textarea>
+                </paper-input-decorator>
+            </event-form>
+            <event-paper-button dismissive>Cancel</event-paper-button>
+            <event-paper-button affirmative eventName="create-team">Create</event-paper-button>
+        </paper-action-dialog>
+
+    </template>
+    <script>
+        Polymer({
+          subActivitiesReady: false,
+          activities: null,
+          activitiesItems: null,
+          ready: function() {
+            this.activities = Activities.find();
+            this.activitiesItems = this.activities.fetch();
+          },
+          doCreateActivity: function (e, detail, sender) {
+              console.log("CatchEvent event create-activity");
+              console.log(e.type, e.detail.objectId);
+
+              Meteor.call('createActivity', detail.datas.name, detail.datas.description,
+                  detail.datas.teamId, function (error, result) {
+                  // Identify the error
+                  if (error) {
+                      Notification.emitError("Impossible to create the activity.", error);
+                  } else {
+                      Notification.emitNotification("Activity created successfully.");
+                  }
+              });
+          },
+          doCreateTeam: function () {
+              console.log("CatchEvent event create-team");
+          },
+          toggleTeam: function () {
+            this.$.addTeamDialog.toggle();
+          },
+          toggleActivity: function () {
+            this.$.addActivityDialog.toggle();
+          },
+          routerPath: function(name, objId) {
+            return Router.path(name, { _id: objId });
+          },
+          clickToForm: function (e, detail, sender) {
+            var form = sender.querySelector("event-form");
+            if (form) {
+                console.log("Fire event 'event-form-submit'");
+                form.fire('event-form-submit', e.detail);
+            }
+          }
+        });
+    </script>
+</polymer-element>

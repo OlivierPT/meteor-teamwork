@@ -64,8 +64,8 @@ Activities.helpers({
     logs: function() {
         return Logs.find({ activityId: this._id }, { sort: { createdAt: -1 }});
     },
-    absoluteUrl: function() {
-        return Router.path("activity", { activityId: this._id });
+    linkUrl: function() {
+        return Router.pathFor("activity", { _id: this._id });
     },
     team: function() {
       return Teams.findOne({ _id: this.teamId});
