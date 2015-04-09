@@ -48,6 +48,7 @@ a {
     top: 0px;
     bottom: 0px;
     left:0px;
+    padding-top: 20px;
 }
 
 .content {
@@ -92,6 +93,7 @@ a {
     color: black;
     padding: 20px;
 }
+
 
 .single-form {
     background-color: white !important;

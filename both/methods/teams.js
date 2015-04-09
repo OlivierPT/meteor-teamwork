@@ -4,16 +4,16 @@
 
 Meteor.methods({
 
-  'createTeam': function (name, description) {
-      console.log("MethodCall : createTeam - name = "+name);
-      var teamId = Teams.insert({name: name, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
+  'createTeam': function (label, description) {
+      console.log("MethodCall : createTeam - label = "+label);
+      var teamId = Teams.insert({label: label, description: description, owner: Meteor.userId(), members: [Meteor.userId()]});
       console.log("Team created : "+teamId);
       return teamId;
     },
 
-    'updateTeam': function (teamId, name, description) {
+    'updateTeam': function (teamId, label, description) {
       console.log("MethodCall : updateTeamInfos - id = "+teamId);
-      Teams.update({_id: teamId}, {$set: {name: name, description: description, teamUpdate: new Date()}});
+      Teams.update({_id: teamId}, {$set: {label: label, description: description, teamUpdate: new Date()}});
       console.log("Team updated");
     },
 

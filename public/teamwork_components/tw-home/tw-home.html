@@ -1,7 +1,7 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 
 
-<polymer-element name="tw-home" on-create-activity="{{doCreateActivity}}">
+<polymer-element name="tw-home">
     <template>
         <style>
             :host {
@@ -26,33 +26,116 @@
                 right: 20px;
                 z-index: 2;
             }
+
+            .chip {
+                padding-bottom: 10px;
+            }
+
+            .chip-entry {
+                width: 20%;
+                height: 250px;
+                color: white;
+                text-align: center;
+            }
+
+            .chip-resume {
+                background-color: white !important;
+                color: black;
+                padding: 10px;
+            }
+
+            .list {
+              min-height: 640px;
+            }
+
+            .list-header {
+                width: 100%;
+                color: white;
+                padding-left: 30px;
+            }
+
+            .full-list {
+              background-color: white !important;
+              color: black;
+              padding: 10px;
+            }
         </style>
 
-        <core-animated-pages selected="{{page}}" transitions="hero-transition cross-fade slide-down" on-core-animated-pages-transition-end="{{complete}}">
-          <section>
-              <div hero-id="card-list" layout horizontal>
-                  <div class="chip-entry" style="background: #2196F3"
-                    hero-p on-tap="{{transition}}" layout vertical hero-id="header" hero>
-                      <h2>{{title}}</h2>
-                  </div>
-                  <div class="chip-resume" layout horizontal flex>
-                    <template repeat="{{activitiesItems as activity}}">
-                      <tw-card autoraise=true link="{{routerPath('activity', activity._id)}}" objectId="{{activity._id}}"  objectType="activity" footerColor="#64B5F6">
-                          <div vertical layout center center-justified>
-                              <h2>{{activity.label}}</h2>
-                              <p>{{activity.description}}</p>
-                          </div>
-                      </tw-card>
-                    </template>
-                  </div>
+        <meteor-cursor cursor={{activities}} data={{activitiesItems}}><meteor-cursor/>
+        <meteor-cursor cursor={{teams}} data={{teamsItems}}><meteor-cursor/>
+
+
+          <core-animated-pages selected="{{mode}}" transitions="hero-transition cross-fade">
+            <section>
+                <!-- Activities short list -->
+                <div class="chip" layout horizontal>
+                    <div class="chip-entry" style="background: {{activitiesPrefs.headerColor}}"
+                      hero-p on-tap="{{showAllActivities}}" layout vertical hero-id="header-activities"
+                      hero?="{{(selectedPrefs.name === 'activities')}}" cross-fade?="{{(selectedPrefs.name !== 'activities')}}">
+                        <h2>{{activitiesPrefs.label}}</h2>
+                    </div>
+                    <div class="chip-resume" layout horizontal flex
+                      hero?="{{(selectedPrefs.name === 'activities')}}" cross-fade?="{{(selectedPrefs.name !== 'activities')}}">
+                      <template repeat="{{activitiesItems as activity}}">
+                        <tw-card autoraise=true link="{{routerPath('activity', activity._id)}}" objectId="{{activity._id}}"
+                        objectType="activity" footerColor="{{activitiesPrefs.cardColor}}">
+                            <div vertical layout center center-justified>
+                                <h2>{{activity.label}}</h2>
+                                <p>{{activity.description}}</p>
+                            </div>
+                        </tw-card>
+                      </template>
+                    </div>
+                </div>
+
+                <!-- Teams short list -->
+                <div class="chip" layout horizontal>
+                    <div class="chip-entry" style="background: {{teamsPrefs.headerColor}}"
+                      hero-p on-tap="{{showAllTeams}}" layout vertical hero-id="header-teams"
+                      hero?="{{(selectedPrefs.name === 'teams')}}" cross-fade?="{{(selectedPrefs.name !== 'teams')}}">
+                        <h2>{{teamsPrefs.label}}</h2>
+                    </div>
+                    <div class="chip-resume" layout horizontal flex hero-id="list-teams"
+                      hero?="{{(selectedPrefs.name === 'teams')}}" cross-fade?="{{(selectedPrefs.name !== 'teams')}}">
+                      <template repeat="{{teamsItems as team}}">
+                        <tw-card autoraise=true link="{{routerPath('team', team._id)}}" objectId="{{team._id}}"
+                        objectType="team" footerColor="{{teamsPrefs.cardColor}}">
+                            <div vertical layout center center-justified>
+                                <h2>{{team.label}}</h2>
+                                <p>{{team.description}}</p>
+                            </div>
+                        </tw-card>
+                      </template>
+                    </div>
+                </div>
+            </section>
+            <section>
+              <div layout vertical class="list">
+                <div class="list-header" style="background: {{selectedPrefs.headerColor}}"
+                  hero-p on-tap="{{transition}}" layout vertical hero-id="header-{{selectedPrefs.name}}" hero>
+                    <h2>{{selectedPrefs.label}}</h2>
+                </div>
+                <div class="full-list" layout horizontal flex hero hero-id="list-{{selectedPrefs.name}}">
+                  <template repeat="{{selectedItems as item}}">
+                    <tw-card autoraise=true link="{{routerPath('{{selectedPrefs.path}}', item._id)}}"
+                      objectId="{{item._id}}"  objectType="item" footerColor="{{selectedPrefs.cardColor}}">
+                        <div vertical layout center center-justified>
+                            <h2>{{item.label}}</h2>
+                            <p>{{item.description}}</p>
+                        </div>
+                    </tw-card>
+                  </template>
+                </div>
               </div>
-            <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity" on-click="{{toggleActivity}}"></paper-fab>
-            <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"  on-click="{{toggleTeam}}"></paper-fab>
-          </section>
-      </core-animated-pages>
+            </section>
+        </core-animated-pages>
+
+        <paper-fab id="new-actity-btn" icon="av:my-library-add" class="blue" title="create an activity" on-click="{{toggleActivity}}"></paper-fab>
+        <paper-fab id="new-team-btn" icon="social:group-add" class="blue" title="create a team"  on-click="{{toggleTeam}}"></paper-fab>
 
 
-        <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog" on-epb-click="{{clickToForm}}">
+        <paper-action-dialog transition="core-transition-fade" heading="Add an Activity" id="addActivityDialog"
+            on-epb-click="{{clickToForm}}" on-create-activity="{{doCreateActivity}}">
             <event-form>
                 <paper-input-decorator label="Activity's name" error="We need a name!"
                                        floatingLabel class="input-light">
@@ -69,8 +152,8 @@
                                        floatingLabel>
                     <paper-radio-group name="teamId" id="teamRadio" selected="new" vertical layout>
                         <paper-radio-button name="new" label="New team"></paper-radio-button>
-                        <template repeat="{{teams as team}}">
-                          <paper-radio-button name="{{team._id}}" label="{{team.name}}"></paper-radio-button>
+                        <template repeat="{{teamsItems as team}}">
+                            <paper-radio-button name="{{team._id}}" label="{{team.name}}"></paper-radio-button>
                         </template>
                     </paper-radio-group>
                     <input is="core-input" type="hidden">
@@ -80,7 +163,8 @@
             <event-paper-button affirmative eventName="create-activity">Create</event-paper-button>
         </paper-action-dialog>
 
-        <paper-action-dialog transition="core-transition-fade" heading="Add a Team" id="addTeamDialog"  on-epb-click="{{clickToForm}}">
+        <paper-action-dialog transition="core-transition-fade" heading="Add a Team" id="addTeamDialog"
+            on-epb-click="{{clickToForm}}" on-create-team="{{doCreateTeam}}">
             <event-form>
                 <paper-input-decorator label="Team's name" error="We need a name!"
                                        floatingLabel class="input-light">
@@ -103,9 +187,16 @@
           subActivitiesReady: false,
           activities: null,
           activitiesItems: null,
+          teams: null,
+          teamsItems: null,
+          mode: 0,
+          activitiesPrefs: {name: 'activities', headerColor: '#2196F3', cardColor: '#64B5F6', label: 'My Activities', path: 'activity'},
+          teamsPrefs: {name: 'teams', headerColor: '#009688', cardColor: '#4DB6AC', label: 'My Teams', path: 'team'},
+          selectedPrefs: null,
+          selectedItems: null,
           ready: function() {
             this.activities = Activities.find();
-            this.activitiesItems = this.activities.fetch();
+            this.teams = Teams.find();
           },
           doCreateActivity: function (e, detail, sender) {
               console.log("CatchEvent event create-activity");
@@ -121,8 +212,18 @@
                   }
               });
           },
-          doCreateTeam: function () {
+          doCreateTeam: function (e, detail, sender) {
               console.log("CatchEvent event create-team");
+              console.log(e.type, e.detail.objectId);
+
+              Meteor.call('createTeam', detail.datas.name, detail.datas.description, function (error, result) {
+                  // Identify the error
+                  if (error) {
+                      Notification.emitError("Impossible to create the team.", error);
+                  } else {
+                      Notification.emitNotification("Team created successfully.");
+                  }
+              });
           },
           toggleTeam: function () {
             this.$.addTeamDialog.toggle();
@@ -139,6 +240,20 @@
                 console.log("Fire event 'event-form-submit'");
                 form.fire('event-form-submit', e.detail);
             }
+          },
+          showAllActivities: function(event) {
+            this.selectedPrefs = this.activitiesPrefs;
+            this.selectedItems = this.activitiesItems;
+            this.transition(event);
+          },
+          showAllTeams: function(event) {
+            this.selectedPrefs = this.teamsPrefs;
+            this.selectedItems = this.teamsItems;
+            this.transition(event);
+          },
+          transition: function (event) {
+              console.log("transition : " + this.mode + " - next mode : " + Math.abs(this.mode - 1));
+              this.mode = Math.abs(this.mode - 1);
           }
         });
     </script>

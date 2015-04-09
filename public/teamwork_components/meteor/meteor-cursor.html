@@ -1,0 +1,87 @@
+<polymer-element name="meteor-cursor">
+  <script>
+    Polymer('meteor-cursor', {
+      computation: null,
+      handle: null,
+      publish: {
+        data: null,
+        cursor: null
+      },
+      observe: {
+        'cursor': 'refind'
+      },
+      refind: function() {
+        if (this.handle) {
+          this.handle.stop();
+          this.handle = null;
+        }
+
+        if (this.cursor) {
+          this.data = [];
+          this.initialdata = [];
+          this.initdone = false;
+
+          this.handle = this.cursor.observeChanges({
+            addedBefore: function(id, fields, before) {
+              // added _id
+              fields._id = id;
+              if (before == null) {
+                if (this.initdone) {
+                  this.data.push(fields);
+                } else {
+                  this.initialdata.push(fields);
+                }
+              } else {
+                if (this.initdone) {
+                  var i = this._findIndex(this.data, before);
+                  this.data.splice(i, 0, fields);
+                } else {
+                  var i = this._findIndex(this.initData, before);
+                  this.initdata.splice(i, 0, fields);
+                }
+              }
+            }.bind(this),
+            changed: function(id, fields) {
+              var entry = this.data[this._findIndex(this.data, id)];
+              for(var field in fields) {
+                if(fields[field] === undefined) {
+                  delete entry[field];
+                } else {
+                  entry[field] = fields[field];
+                }
+              }
+            }.bind(this),
+            movedBefore: function(id, before) {
+              var oldindex = this._findIndex(this.data, id);
+              var entry = this.data.splice(oldindex, 1)[0];
+
+              if (before) {
+                var newindex = this._findIndex(this.data, before);
+                this.data.splice(newindex, 0, entry);
+              } else {
+                this.data.push(entry);
+              }
+            }.bind(this),
+            removed: function(id) {
+              var index = this._findIndex(this.data, id);
+              this.data.splice(i, 1);
+            }.bind(this)
+          });
+
+          // push initial data as observeChanges returns.
+          this.initdone = true;
+          this.data = this.initialdata;
+          this.initialdata = null;
+        }
+      },
+      _findIndex: function(data, id) {
+        for (i = 0; i < data.length; i++) {
+          if (EJSON.equals(data[i]._id,id)) {
+            return i;
+          }
+        }
+        return -1;
+      }
+    });
+  </script>
+</polymer-element>
