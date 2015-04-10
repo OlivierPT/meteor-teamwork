@@ -16,26 +16,34 @@
         <style>
             :host {
                 display: block;
-                position: relative;    
+                position: relative;
                 font-weight: 300;
                 width: 100%;
                 background-color: #009688;
+                color: white;
             }
 
             .team-header {
                 position: relative;
-                margin-left: 15px;
+                margin-left: 30px;
             }
 
             .members-list {
-                padding-top: 30px; 
-                padding-bottom: 30px; 
+                padding-top: 30px;
+                padding-bottom: 30px;
             }
             .separator {
                 color: #DDD;
                 margin: 0px;
             }
-            
+
+            .form-team {
+                background-color: #E0F2F1 !important;
+                color: black;
+                padding: 20px;
+            }
+
+
             #edit-team-btn {
                 position: absolute;
                 top: 37px;
@@ -51,26 +59,52 @@
         </style>
 
         <div class="team" layout vertical>
-            <div class="team-header" layout horizontal left>                
+            <div class="team-header" layout horizontal left>
                 <core-tooltip position="right">
                     <span flex>
-                        <content select="h2"></content>
+                        <h2>{{team.label}}</h2>
                     </span>
                     <div tip>
-                        <content select="h3"></content>
+                        <h3>{{team.description}}</h3>
                     </div>
-                </core-tooltip>     
+                </core-tooltip>
             </div>
 
             <hr class="separator">
             <paper-fab id="edit-team-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditTeam}}"></paper-fab>
             <core-collapse  id="editTeamForm">
-                <content select="event-form-container"></content>
+                <event-form-container class="form-team" on-save-team={{saveTeam}}>
+                    <event-form>
+                        <p>
+                        <paper-input-decorator label="Team's label" error="We need a label"
+                                               floatingLabel>
+                            <input is="core-input" name="name" id="teamName" type="text" value="{{team.label}}" required>
+                        </paper-input-decorator>
+
+                        <paper-input-decorator label="Team's description"
+                                               floatingLabel>
+                            <paper-autogrow-textarea id="autogrow-description">
+                                <textarea id="teamDescription" name="description">{{team.description}}</textarea>
+                            </paper-autogrow-textarea>
+                        </paper-input-decorator>
+                        </p>
+                    </event-form>
+                    <event-paper-button raised affirmative eventName="save-team" style="background: #00796B; color: white;">
+                        <core-icon icon="check"></core-icon>
+                        Save
+                    </event-paper-button>
+                </event-form-container>
                 <hr class="separator">
             </core-collapse>
 
-            <div  class="members-list" horizontal layout left wrap>
-                <content></content>
+            <div  class="members-list" horizontal layout left wrap on-delete-member={{deleteMember}}>
+              <template repeat="{{team.members as member}}" >
+                <tw-card objectType="member" footerColor="#4DB6AC" autoraise=true objectId="{{member}}">
+                    <h4>{{userForMember(member).username}}</h4>
+                    <div>{{userForMember(member).profile.firstname}}</div>
+                    <div>{{userForMember(member).profile.lastname}}</div>
+                </tw-card>
+              </template>
             </div>
             <paper-fab id="addMemberBtn" icon="add" class="blue" title="create" on-click="{{openAddMemberDialog}}"></paper-fab>
         </div>
@@ -88,8 +122,9 @@
     </template>
     <script>
         Polymer({
-            eventDelegates: {
-                'save-team': 'toggleEditTeam'
+            team: null,
+            ready: function() {
+              this.team = Teams.findOne({_id: this.teamId});
             },
             toggleEditTeam: function () {
                 this.$.editTeamForm.toggle();
@@ -104,8 +139,44 @@
             },
             addMember: function () {
                 console.log("Fire event add-member : " + this.teamId + " - username : " + this.newUsername);
-                this.fire('add-member', {teamId: this.teamId, username: this.newUsername});
+                Meteor.call('addMemberWithUsername', this.teamId, this.newUsername, function (error, result) {
+                    // identify the error
+                    if (error) {
+                        Notification.emitError("Impossible to add the member.", error);
+                    } else {
+                        Notification.emitNotification("Member added.");
+                    }
+                });
+                // Reset du champ username
                 this.username = "";
+                this.team = Teams.findOne({_id: this.teamId});
+            },
+            userForMember: function(member) {
+               return Meteor.users.findOne({_id: member});
+            },
+            saveTeam: function(e, detail, sender) {
+              Meteor.call('updateTeam', this.teamId, detail.datas.name, detail.datas.description, function (error, result) {
+                  // identify the error
+                  if (error) {
+                      Notification.emitError("Impossible update team.", error);
+                  } else {
+                      Notification.emitNotification("Team updated successfully.");
+                  }
+              });
+
+              this.toggleEditTeam();
+            },
+            deleteMember:  function(e, detail, sender) {
+              Meteor.call('removeMember', this.teamId, detail.objectId, function (error, result) {
+                  // identify the error
+                  if (error) {
+                      Notification.emitError("Impossible to remove this member.", error);
+                  } else {
+                      Notification.emitNotification("Member removed from Team successfully.");
+                  }
+              });
+
+              this.team = Teams.findOne({_id: this.teamId});
             }
         });
     </script>

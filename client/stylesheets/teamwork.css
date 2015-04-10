@@ -103,11 +103,6 @@ a {
     padding: 20px;
 }
 
-.form-team::shadow .content {
-    background-color: #E0F2F1 !important;
-    color: black;
-    padding: 20px;
-}
 
 .form-activity::shadow .content {
     background-color: #E1F5FE !important;

@@ -1,38 +1,3 @@
 <template name="MaterialTeam">
-    <div class="content">
-        <tw-team teamId="{{_id}}">            
-            <h2>{{name}}</h2>
-            <h3>{{description}}</h3>
-            <event-form-container class="form-team">
-                <event-form objectId="{{_id}}">
-                    <p>
-                    <paper-input-decorator label="Team's label" error="We need a label"
-                                           floatingLabel>
-                        <input is="core-input" name="name" id="teamName" type="text" value="{{name}}" required>
-                    </paper-input-decorator>
-
-                    <paper-input-decorator label="Team's description"
-                                           floatingLabel>
-                        <paper-autogrow-textarea id="autogrow-description">
-                            <textarea id="teamDescription" name="description">{{description}}</textarea>
-                        </paper-autogrow-textarea>
-                    </paper-input-decorator>
-                    </p>
-                </event-form>
-                <event-paper-button raised affirmative eventName="save-team" style="background: #00796B; color: white;">
-                    <core-icon icon="check"></core-icon>
-                    Save
-                </event-paper-button>
-            </event-form-container>
-
-            {{#each members}}
-            <tw-card objectType="activity" footerColor="#4DB6AC" autoraise=true objectId="{{_id}}">
-                <h4>{{username}}</h4>                        
-                <div>{{profile.firstname}}</div>
-                <div>{{profile.lastname}}</div>
-            </tw-card>
-            {{/each}}                     
-
-        </tw-team>
-    </div>
+  <tw-team teamId="{{paramId}}"></tw-team>
 </template>

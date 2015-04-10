@@ -93,7 +93,8 @@ Router.route('/team/:_id', {
     template: 'MaterialTeam',
     name: 'team',
     data: function () {
-        return Teams.findOne({_id: this.params._id});
+        //return Teams.findOne({_id: this.params._id});
+        return this.params._id;
     }
 });
 
