@@ -129,6 +129,7 @@ Polymer({
     ready: function() {
         // TODO Make the subscription system Cleaner
         Meteor.subscribe('lists', this.activityId);
+        Meteor.subscribe('tasks', this.activityId);
         this.activity = Activities.findOne({_id: this.activityId});
         this.lists = Lists.find({activityId: this.activityId});
     },

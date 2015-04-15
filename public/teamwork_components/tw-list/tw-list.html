@@ -11,37 +11,37 @@
 
 <polymer-element name="tw-list" attributes="listId list">
     <template>
-        <style>
-            :host {
-                display: block;
-                position: relative;
-                padding-left: 20px;
-                width: 264px;
-                font-weight: 300;
-                color: black;
-            }
+    <style>
+    :host {
+        display: block;
+        position: relative;
+        padding-left: 20px;
+        width: 264px;
+        font-weight: 300;
+        color: black;
+    }
 
-            .list-container {
-                background-color: white;
-            }
+    .list-container {
+        background-color: white;
+    }
 
-            .list-header {
-                margin-bottom: 10px;
-                padding-top: 5px;
-                background-color: #d6dadc;
-            }
-            .list-footer{
-                padding-left: 5px;
-                padding-right: 5px;
+    .list-header {
+        margin-bottom: 10px;
+        padding-top: 5px;
+        background-color: #d6dadc;
+    }
+    .list-footer{
+        padding-left: 5px;
+        padding-right: 5px;
+        background-color: white;
+    }
+    .list-header h3 {
+        margin: 0;
+        font-weight: 300;
+    }
+    </style>
 
-            }
-            .list-header h3 {
-                margin: 0;
-                font-weight: 300;
-            }
-        </style>
-
-        <meteor-cursor cursor={{tasks}} data={{tasksItems}}><meteor-cursor/>
+    <meteor-cursor cursor={{tasks}} data={{tasksItems}}><meteor-cursor/>
 
         <paper-shadow z="1">
             <div class="list-container" layout vertical flex>
@@ -62,41 +62,58 @@
                 <div class="list-body" layout vertical>
                     <template repeat="{{tasksItems as task}}">
                         <tw-task taskId="{{task._id}}" task="{{task}}"></tw-task>
-                        </template>
-                    </div>
-                </div>
-                <div class="list-footer"  layout horizontal>
-                    <paper-input-decorator label="New task" flex self-start>
-                        <input is="core-input" value="{{newTaskLabel}}" flex>
-                    </paper-input-decorator>
-                    <core-button noink="" role="button" tabindex="0" on-click="{{addTask}}" self-center>
-                        <core-icon icon="add" aria-label="add" role="img"></core-icon>
-                    </core-button>
+                    </template>
                 </div>
             </div>
-        </paper-shadow>
+            <div class="list-footer"  layout horizontal>
+                <paper-input-decorator label="New task" flex self-start>
+                    <input is="core-input" value="{{newTaskLabel}}" flex>
+                </paper-input-decorator>
+                <core-button noink="" role="button" tabindex="0" on-click="{{addTask}}" self-center>
+                    <core-icon icon="add" aria-label="add" role="img"></core-icon>
+                </core-button>
+            </div>
+        </div>
+    </paper-shadow>
 
-    </template>
-    <script>
-        Polymer({
-            listId: null,
-            list: null,
-            tasks: null,
-            tasksItems: null,
-            ready: function() {
-                tasks = Tasks.find({listId: this.listId});
-            },
-            deleteList: function() {
-                console.log("Fire event delete-list : "+  this.listId + " - activity : "+this.activityId);
-                this.fire('delete-list', {listId: this.listId, activityId: this.activityId});
-            },
-
-            addTask: function() {
-                console.log("Fire event add-task : "+  this.listId  + " - activity : "+this.activityId + " - label : "+this.newTaskLabel);
-                this.fire('add-task', {listId: this.listId, activityId: this.activityId, taskLabel: this.newTaskLabel});
-                this.newTaskLabel = "";
+</template>
+<script>
+Polymer({
+    listId: null,
+    list: null,
+    tasks: null,
+    tasksItems: null,
+    ready: function() {
+        this.tasks = Tasks.find({listId: this.listId});
+    },
+    deleteList: function() {
+        console.log("Fire event delete-list : "+  this.listId);
+        Meteor.call('removeList', this.listId, function (error, result) {
+            // identify the error
+            if (error) {
+                Notification.emitError("Impossible to delete the list.", error);
+            } else {
+                Notification.emitNotification("State deleted.");
             }
-
         });
-    </script>
+
+    },
+
+    addTask: function() {
+        console.log("Fire event add-task : "+  this.listId  + " - activity : "+this.activityId + " - label : "+this.newTaskLabel);
+
+        Meteor.call('addTask', this.newTaskLabel, this.listId, this.list.activityId, function (error, result) {
+            // identify the error
+            if (error) {
+                Notification.emitError("Impossible to add a task.", error);
+            } else {
+                Notification.emitNotification("Task added.");
+            }
+        });
+
+        this.newTaskLabel = "";
+    }
+
+});
+</script>
 </polymer-element>

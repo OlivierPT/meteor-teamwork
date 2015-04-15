@@ -11,7 +11,7 @@
  */
 Meteor.publish('lists', function (activityId) {
     console.log("Out PublishCollection : lists of the current activity = " + activityId);
-    return Lists.find({activityId: activityId});
+    return Lists.find({activityId: activityId, archived: false});
 });
 
 

@@ -9,9 +9,9 @@
  * Return lists belonging to an activity
  * @param {activityId} : the id of the activity
  */
-Meteor.publish('lists', function (activityId) {
+Meteor.publish('tasks', function (activityId) {
     console.log("Out PublishCollection : tasks of the current activity = " + activityId);
-    return Tasks.find({activityId: activityId});
+    return Tasks.find({activityId: activityId, archived: false});
 });
 
 

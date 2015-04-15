@@ -11,21 +11,23 @@ Meteor.methods({
    * @param {type} stateId
    * @returns {undefined}
    */
-  'addCard': function (label, listId) {
+  'addTask': function (label, listId, activityId) {
       console.log("MethodCall : addTask - label = " + label + " - listId = " + listId);
       // Controles
       check(label, NonEmptyString);
+      check(listId, NonEmptyString);
+      check(activityId, NonEmptyString);
 
-      Cards.insert({label: label, listId: listId});
+      Tasks.insert({label: label, listId: listId, activityId: activityId});
   },
   /**
    *
    * @param {type} cardId
    * @returns {undefined}
    */
-  'removeCard': function (cardId) {
-      console.log("MethodCall : removeTask - cardId = " + cardId);
-      Cards.update({_id: cardId}, {$set: {archived: true}});
+  'removeTask': function (taskId) {
+      console.log("MethodCall : removeTask - cardId = " + taskId);
+      Tasks.update({_id: taskId}, {$set: {archived: true}});
       console.log("Card deleted");
   },
   /**
@@ -33,11 +35,11 @@ Meteor.methods({
    * @param {type} task
    * @returns {undefined}
    */
-  'updateCard': function (cardId, label, detail, complexity, value) {
-      console.log("MethodCall : updateCard - id = " + cardId);
+  'updateTask': function (taskId, label, detail, complexity, value) {
+      console.log("MethodCall : updateCard - id = " + taskId);
       // update the task
 
-      Cards.update({_id: cardId}, {$set: {label: label, detail: detail, complexity: complexity, value: value}});
+      Tasks.update({_id: taskId}, {$set: {label: label, detail: detail, complexity: complexity, value: value}});
       console.log("Card stored");
   },
   /**
@@ -45,7 +47,7 @@ Meteor.methods({
    * @param {type} task
    * @returns {undefined}
    */
-  'moveCard': function (cardId, newListId, nextCardId) {
+  'moveTasks': function (taskId, newListId, nextCardId) {
       console.log("MethodCall : moveTask - cardId = " +cardId+ " - newListId : " + newListId+ " - nextCardId = "+nextCardId);
 
   //     var activity = Activity.findOne({_id: activityId});
@@ -90,14 +92,14 @@ Meteor.methods({
   },
   /**
    *
-   * @param {type} task
-   * @param {type} comment
+   * @param {String} taskId
+   * @param {String} comment
    * @returns {undefined}
    */
-  'addCommentToCard': function (cardId, comment) {
-      console.log("MethodCall : addCommentToTask - cardId = " + cardId + " , comment = " + comment);
-      CardComments.insert({content: comment});
-      console.log("CardComment inserted");
+  'addCommentToTask': function (taskId, comment) {
+      console.log("MethodCall : addCommentToTask - cardId = " + taskId + " , comment = " + comment);
+      TaskComments.insert({content: comment});
+      console.log("TaskComment inserted");
   }
 
 

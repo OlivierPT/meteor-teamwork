@@ -9,7 +9,12 @@ Tasks.attachSchema(new SimpleSchema({
         type: String
     },
     archived: {
-        type: Boolean
+        type: Boolean,
+        autoValue: function() {
+          if (this.isInsert) {
+            return false;
+          }
+        }
     },
     listId: {
         type: String
@@ -18,7 +23,8 @@ Tasks.attachSchema(new SimpleSchema({
     // the board identifier from the card), but it would make the system more
     // difficult to manage and less efficient.
     activityId: {
-        type: String
+        type: String,
+        optional: true
     },
     coverId: {
         type: String,
@@ -26,10 +32,21 @@ Tasks.attachSchema(new SimpleSchema({
     },
     createdAt: {
         type: Date,
-        denyUpdate: true
+        denyUpdate: true,
+        autoValue: function() {
+          if (this.isInsert) {
+            return new Date();
+          }
+        }
     },
     dateLastLog: {
-        type: Date
+        type: Date,
+        optional: true,
+        autoValue: function() {
+          if (this.isUpdate || this.isInsert) {
+            return new Date();
+          }
+        }
     },
     detail: {
         type: String,
@@ -53,14 +70,18 @@ Tasks.attachSchema(new SimpleSchema({
       decimal: true,
       optional: true
     },
-    // XXX Should probably be called `authorId`. Is it even needed since we have
-    // the `members` field?
-    userId: {
-        type: String
+    authorId: {
+        type: String,
+        autoValue: function() {
+          if (this.isInsert) {
+            return this.userId;
+          }
+        }
     },
     sort: {
         type: Number,
-        decimal: true
+        decimal: true,
+        optional: true
     }
 }));
 
@@ -81,7 +102,6 @@ TaskComments.attachSchema(new SimpleSchema({
         type: Date,
         denyUpdate: false
     },
-    // XXX Should probably be called `authorId`
     authorId: {
         type: String
     }
@@ -121,21 +141,21 @@ Tasks.helpers({
         return Lists.findOne(this.listId);
     },
     activity: function() {
-        return Activities.findOne(this.boardId);
+        return Activities.findOne(this.activityId);
     },
-    labels: function() {
-        var self = this;
-        var boardLabels = self.board().labels;
-        var cardLabels = _.filter(boardLabels, function(label) {
-            return _.contains(self.labelIds, label._id);
-        });
-        return cardLabels;
-    },
+    // labels: function() {
+    //     var self = this;
+    //     var boardLabels = self.activity().labels;
+    //     var cardLabels = _.filter(boardLabels, function(label) {
+    //         return _.contains(self.labelIds, label._id);
+    //     });
+    //     return cardLabels;
+    // },
     author: function() {
         return Users.findOne(this.authorId);
     },
     logs: function() {
-        return Logs.find({ type: 'card', cardId: this._id }, { sort: { createdAt: -1 }});
+        return Logs.find({ type: 'task', cardId: this._id }, { sort: { createdAt: -1 }});
     },
     comments: function() {
         return TaskComments.find({ cardId: this._id }, { sort: { createdAt: -1 }});
