@@ -102,10 +102,3 @@ a {
     top:15px;
     padding: 20px;
 }
-
-
-.form-activity::shadow .content {
-    background-color: #E1F5FE !important;
-    color: black;
-    padding: 20px;
-}

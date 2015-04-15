@@ -5,10 +5,12 @@
       handle: null,
       publish: {
         data: null,
-        cursor: null
+        cursor: null,
+        object: null
       },
       observe: {
-        'cursor': 'refind'
+        'cursor': 'refind',
+        'object': 'update'
       },
       refind: function() {
         if (this.handle) {
@@ -72,6 +74,16 @@
           this.initdone = true;
           this.data = this.initialdata;
           this.initialdata = null;
+        }
+      },
+      update: function() {
+        if (this.handle) {
+          this.handle.stop();
+          this.handle = null;
+        }
+
+        if (this.object) {
+          this.data = object;
         }
       },
       _findIndex: function(data, id) {

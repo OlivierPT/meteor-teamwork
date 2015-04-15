@@ -60,9 +60,9 @@ Activities.deny({
 Activities.after.insert(function(userId, doc) {
     console.log("Activities.after.insert : " + doc.label);
     Logs.insert({
-        type: 'board',
+        type: 'activity',
         logTypeId: doc._id,
-        logType: "createBoard",
+        logType: "createActivity",
         activityId: doc._id,
         userId: userId
     });

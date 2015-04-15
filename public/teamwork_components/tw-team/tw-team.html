@@ -123,6 +123,7 @@
     <script>
         Polymer({
             team: null,
+            teamItem: null,
             ready: function() {
               this.team = Teams.findOne({_id: this.teamId});
             },
@@ -149,6 +150,8 @@
                 });
                 // Reset du champ username
                 this.username = "";
+                // TODO : Make the update using the reactive system
+                // TEAM should update automaticaly
                 this.team = Teams.findOne({_id: this.teamId});
             },
             userForMember: function(member) {
@@ -175,7 +178,8 @@
                       Notification.emitNotification("Member removed from Team successfully.");
                   }
               });
-
+              // TODO : Make the update using the reactive system
+              // TEAM should update automaticaly
               this.team = Teams.findOne({_id: this.teamId});
             }
         });

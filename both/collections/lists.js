@@ -5,14 +5,24 @@ Lists.attachSchema(new SimpleSchema({
         type: String
     },
     archived: {
-        type: Boolean
+        type: Boolean,
+        autoValue: function() {
+          if (this.isInsert) {
+            return false;
+          }
+        }
     },
     activityId: {
         type: String
     },
     createdAt: {
         type: Date,
-        denyUpdate: true
+        denyUpdate: true,
+        autoValue: function() {
+          if (this.isInsert) {
+            return new Date();
+          }
+        }
     },
     sort: {
         type: Number,
@@ -23,7 +33,12 @@ Lists.attachSchema(new SimpleSchema({
     updatedAt: {
         type: Date,
         denyInsert: true,
-        optional: true
+        optional: true,
+        autoValue: function() {
+            if (this.isUpdate) {
+              return new Date();
+            }
+          }
     }
 }));
 
@@ -57,9 +72,8 @@ Lists.helpers({
 Lists.hookOptions.after.update = { fetchPrevious: false };
 
 Lists.before.insert(function(userId, doc) {
-    doc.createdAt = new Date();
-    doc.archived = false;
-    if (!doc.userId) doc.userId = userId;
+    // List are insert after the others
+    doc.sort = Lists.find({activityId: doc.activityId}).count();
 });
 
 Lists.before.update(function(userId, doc, fieldNames, modifier) {

@@ -29,16 +29,15 @@ Activities.attachSchema(new SimpleSchema({
           }
         }
     },
-    // XXX Inconsistent field naming
     modifiedAt: {
         type: Date,
         denyInsert: true,
         optional: true,
         autoValue: function() {
-        if (this.isUpdate) {
-          return new Date();
-        }
-      }
+            if (this.isUpdate) {
+              return new Date();
+            }
+          }
     },
     permission: {
         type: String,

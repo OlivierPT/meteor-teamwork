@@ -63,7 +63,8 @@ Router.route('/activity/:_id', {
     name: 'activity',
     data: function () {
         console.log("Data - Activity.findOne : " + this.params._id);
-        return Activities.findOne({_id: this.params._id});
+        //return Activities.findOne({_id: this.params._id});
+        return this.params._id;
     }
 });
 

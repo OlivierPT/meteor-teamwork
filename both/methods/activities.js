@@ -32,7 +32,7 @@ Meteor.methods({
         console.log("New activity created!");
         return actvityId;
     },
-    'editActivity': function (activityId, name, description) {
+    'editActivity': function (activityId, label, description) {
         Activities.update({_id: activityId}, {$set: {label: label, description: description}});
     },
     'deleteActivity': function (activityId) {

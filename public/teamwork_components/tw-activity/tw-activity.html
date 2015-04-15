@@ -13,106 +13,167 @@
 
 <polymer-element name="tw-activity"  attributes="activityId">
     <template>
-        <style>
-            :host {
-                display: block;
-                position: relative;
-                font-weight: 300;
-                width: 100%;
-                background-color: #2196F3;
-                heigth: 100%;
-            }
+    <style>
+    :host {
+        display: block;
+        position: relative;
+        font-weight: 300;
+        width: 100%;
+        background-color: #2196F3;
+        color: white;
+    }
 
-            .activity {
-                bottom: 15px;
-                height: 90%;
-            }
 
-            .activity-header {
-                position: relative;
-                margin-left: 25px;
-            }
+    .activity-header {
+        position: relative;
+        margin-left: 30px;
+    }
 
-            .state-list {
-                padding-top: 30px;
-                padding-bottom: 30px;
-            }
+    .lists-list {
+        padding-top: 30px;
+        padding-bottom: 30px;
+    }
 
-            .separator {
-                color: #DDD;
-                margin: 0px;
-            }
+    .separator {
+        color: #DDD;
+        margin: 0px;
+    }
 
-            #new-state-btn {
-                position: fixed;
-                bottom: 30px;
-                right: 30px;
-            }
+    .form-activity {
+        background-color: #E1F5FE !important;
+        color: black;
+        padding: 20px;
+    }
 
-            #edit-activity-btn {
-                position: absolute;
-                top: 37px;
-                right: 30px;
-                z-index: 100;
-            }
-        </style>
+    #new-list-btn {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+    }
 
-        <div class="activity" layout vertical fit>
+    #edit-activity-btn {
+        position: absolute;
+        top: 37px;
+        right: 30px;
+        z-index: 100;
+    }
+    </style>
+
+    <meteor-cursor cursor={{lists}} data={{listsItems}}><meteor-cursor/>
+
+        <div class="activity" layout vertical>
             <div class="activity-header" layout horizontal left>
                 <core-tooltip position="right">
                     <span flex>
-                        <content select="h2"></content>
+                        <h2>{{activity.label}}</h2>
                     </span>
                     <div tip>
-                        <content select="h3"></content>
+                        <h3>{{activity.description}}</h3>
                     </div>
                 </core-tooltip>
             </div>
             <hr class="separator">
             <paper-fab id="edit-activity-btn" icon="create" class="blue" title="edit" on-click="{{toggleEditActivty}}"></paper-fab>
             <core-collapse  id="editActivityForm">
-                <content select="event-form-container"></content>
-                <hr class="separator">
-            </core-collapse>
-            <div class="state-list" horizontal layout left>
-                <content></content>
-            </div>
-            <paper-fab id="new-state-btn" icon="add" class="blue" title="create" on-click="{{openNewListDialog}}"></paper-fab>
+                <event-form-container class="form-activity" on-save-activity={{saveActivity}}>
+                    <event-form objectId="{{_id}}">
+                        <paper-input-decorator label="Activity's label" error="We need a label"
+                        floatingLabel>
+                        <input is="core-input" name="label" id="activityName" type="text" value="{{activity.label}}" required>
+                    </paper-input-decorator>
+
+                    <paper-input-decorator label="Activity's description"
+                    floatingLabel>
+                    <paper-autogrow-textarea id="autogrow-description">
+                        <textarea id="activityDescription" name="description">{{activity.description}}</textarea>
+                    </paper-autogrow-textarea>
+                </paper-input-decorator>
+
+
+            </event-form>
+            <event-paper-button raised affirmative eventName="save-activity" style="background: #0288D1; color: white;">
+                <core-icon icon="check"></core-icon>
+                Save
+            </event-paper-button>
+        </event-form-container>
+        <hr class="separator">
+    </core-collapse>
+    <div class="list-list" horizontal layout left>
+        <template repeat="{{listsItems as list}}">
+            <tw-list listId="{{list._id}}">
+            </template>
         </div>
+        <paper-fab id="new-list-btn" icon="add" class="blue" title="create" on-click="{{openNewListDialog}}"></paper-fab>
+    </div>
 
-        <paper-action-dialog transition="core-transition-fade" heading="Add a state" id="newListDialog">
-            <p>
+    <paper-action-dialog transition="core-transition-fade" heading="Add a state" id="newListDialog"
+        on-epb-click="{{clickToForm}}" on-add-list="{{addList}}">
+        <event-form>
             <paper-input-decorator label="State label" error="We need label!"
-                                   floatingLabel class="input-light">
-                <input is="core-input" id="newListLabel" type="text" value="{{newListLabel}}" required>
-            </paper-input-decorator>
-            </p>
-            <paper-button dismissive>Cancel</paper-button>
-            <paper-button affirmative autofocus on-click="{{addList}}">Create</paper-button>
-        </paper-action-dialog>
+            floatingLabel class="input-light">
+            <input is="core-input" id="newListLabel" type="text" name="label" value="{{newListLabel}}" required>
+        </paper-input-decorator>
+        </event-form>
+    <event-paper-button dismissive>Cancel</event-paper-button>
+    <event-paper-button affirmative eventName="add-list">Create</event-paper-button>
+</paper-action-dialog>
 
-    </template>
-    <script>
-        Polymer({
-            eventDelegates: {
-                'save-activity': 'toggleEditActivty'
-            },
-            openNewListDialog: function () {
-                console.log("Click on New List Button.");
-                this.$.newListDialog.toggle();
-            },
-            toggleEditActivty: function () {
-                this.$.editActivityForm.toggle();
-            },
-            addList: function () {
-                console.log("Fire event add-list : " + this.activityId + " - label : " + this.newListLabel);
-                this.fire('add-list', {activityId: this.activityId, listLabel: this.newListLabel});
-                this.newListLabel = "";
-            },
-            deleteActivity: function () {
-                console.log("Fire event delete-activity : " + this.activityId);
-                this.fire('delete-activity', {activityId: this.activityId});
+</template>
+<script>
+Polymer({
+    activity: null,
+    lists: null,
+    listsItem: null,
+    ready: function() {
+        // TODO Make the subscription system Cleaner
+        Meteor.subscribe('lists', this.activityId);
+        this.activity = Activities.findOne({_id: this.activityId});
+        this.lists = Lists.find({activityId: this.activityId});
+    },
+    openNewListDialog: function () {
+        console.log("Click on New List Button.");
+        this.$.newListDialog.toggle();
+    },
+    toggleEditActivty: function () {
+        this.$.editActivityForm.toggle();
+    },
+    clickToForm: function (e, detail, sender) {
+      var form = sender.querySelector("event-form");
+      if (form) {
+          console.log("Fire event 'event-form-submit'");
+          form.fire('event-form-submit', e.detail);
+      }
+    },
+    addList: function (e, detail, sender) {
+        console.log("Fire event add-list : " + this.activityId + " - label : " + detail.datas.label);
+        Meteor.call('addList', detail.datas.label, this.activityId, function (error, result) {
+            // identify the error
+            if (error) {
+                Notification.emitError("Impossible to add a list.", error);
+            } else {
+                Notification.emitNotification("List added.");
             }
         });
-    </script>
+        this.newListLabel = "";
+    },
+    deleteActivity: function (e, detail, sender) {
+        console.log("Fire event delete-activity : " + this.activityId);
+
+    },
+    saveActivity: function (e, detail, sender) {
+        console.log("Fire event save-activity : " + this.activityId);
+        Meteor.call('editActivity', this.activityId, detail.datas.label, detail.datas.description, function (error, result) {
+            // identify the error
+            if (error) {
+                Notification.emitError("Impossible to update the activity.", error);
+            } else {
+                Notification.emitNotification("Activity updated.");
+            }
+        });
+
+        // TODO : Make the update using the reactive system
+        this.activity = Activities.findOne({_id: this.activityId});
+    }
+});
+</script>
 </polymer-element>
