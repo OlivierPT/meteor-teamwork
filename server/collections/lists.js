@@ -1,13 +1,13 @@
 /**
  * This files define all the access to the
- * Activity collection : Publish methodes and access rights
+ * Lists collection : Publish methodes and access rights
  *
  */
 
 
 /**
- * Return all the activities that the users can access
- * @param {id} userId : the userId of the current user
+ * Return lists belonging to an activity
+ * @param {activityId} : the id of the activity
  */
 Meteor.publish('lists', function (activityId) {
     console.log("Out PublishCollection : lists of the current activity = " + activityId);
@@ -49,7 +49,6 @@ Lists.deny({
     // });
 
 // SERVER HOOKS
-// Genesis: the first activity of the newly created board
 Lists.after.insert(function(userId, doc) {
     console.log("Activities.after.insert : " + doc.label);
     Logs.insert({

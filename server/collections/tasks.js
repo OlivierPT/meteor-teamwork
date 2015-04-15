@@ -1,3 +1,46 @@
+/**
+ * This files define all the access to the
+ * Lists collection : Publish methodes and access rights
+ *
+ */
+
+
+/**
+ * Return lists belonging to an activity
+ * @param {activityId} : the id of the activity
+ */
+Meteor.publish('lists', function (activityId) {
+    console.log("Out PublishCollection : tasks of the current activity = " + activityId);
+    return Tasks.find({activityId: activityId});
+});
+
+
+Tasks.allow({
+    insert: function (userId, doc) {
+        return true;
+    },
+    update: function (userId, doc, fieldNames, modifier) {
+        return true;
+    },
+    remove: function (userId, doc) {
+        return true;
+    }
+});
+
+Tasks.deny({
+    insert: function (userId, doc) {
+        return false;
+    },
+    update: function (userId, doc, fieldNames, modifier) {
+        return false;
+    },
+    remove: function (userId, doc) {
+        return false;
+    }
+});
+
+
+// SERVER HOOKS
 Tasks.after.insert(function(userId, doc) {
   Logs.insert({
     type: 'task',

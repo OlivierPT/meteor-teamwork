@@ -32,6 +32,7 @@
     .lists-list {
         padding-top: 30px;
         padding-bottom: 30px;
+        margin-top: 20px;
     }
 
     .separator {
@@ -59,9 +60,10 @@
     }
     </style>
 
-    <meteor-cursor cursor={{lists}} data={{listsItems}}><meteor-cursor/>
 
-        <div class="activity" layout vertical>
+    <div class="activity" layout vertical>
+        <meteor-cursor cursor={{lists}} data={{listsItems}}><meteor-cursor/>
+
             <div class="activity-header" layout horizontal left>
                 <core-tooltip position="right">
                     <span flex>
@@ -98,24 +100,24 @@
         </event-form-container>
         <hr class="separator">
     </core-collapse>
-    <div class="list-list" horizontal layout left>
+    <div class="lists-list" horizontal layout left>
         <template repeat="{{listsItems as list}}">
-            <tw-list listId="{{list._id}}">
-            </template>
-        </div>
-        <paper-fab id="new-list-btn" icon="add" class="blue" title="create" on-click="{{openNewListDialog}}"></paper-fab>
+            <tw-list listId="{{list._id}}" list="{{list}}"></tw-list>
+        </template>
     </div>
+    <paper-fab id="new-list-btn" icon="add" class="blue" title="create" on-click="{{openNewListDialog}}"></paper-fab>
+</div>
 
-    <paper-action-dialog transition="core-transition-fade" heading="Add a state" id="newListDialog"
-        on-epb-click="{{clickToForm}}" on-add-list="{{addList}}">
-        <event-form>
-            <paper-input-decorator label="State label" error="We need label!"
-            floatingLabel class="input-light">
-            <input is="core-input" id="newListLabel" type="text" name="label" value="{{newListLabel}}" required>
-        </paper-input-decorator>
-        </event-form>
-    <event-paper-button dismissive>Cancel</event-paper-button>
-    <event-paper-button affirmative eventName="add-list">Create</event-paper-button>
+<paper-action-dialog transition="core-transition-fade" heading="Add a state" id="newListDialog"
+on-epb-click="{{clickToForm}}" on-add-list="{{addList}}">
+<event-form>
+    <paper-input-decorator label="State label" error="We need label!"
+    floatingLabel class="input-light">
+    <input is="core-input" id="newListLabel" type="text" name="label" value="{{newListLabel}}" required>
+</paper-input-decorator>
+</event-form>
+<event-paper-button dismissive>Cancel</event-paper-button>
+<event-paper-button affirmative eventName="add-list">Create</event-paper-button>
 </paper-action-dialog>
 
 </template>
@@ -138,11 +140,11 @@ Polymer({
         this.$.editActivityForm.toggle();
     },
     clickToForm: function (e, detail, sender) {
-      var form = sender.querySelector("event-form");
-      if (form) {
-          console.log("Fire event 'event-form-submit'");
-          form.fire('event-form-submit', e.detail);
-      }
+        var form = sender.querySelector("event-form");
+        if (form) {
+            console.log("Fire event 'event-form-submit'");
+            form.fire('event-form-submit', e.detail);
+        }
     },
     addList: function (e, detail, sender) {
         console.log("Fire event add-list : " + this.activityId + " - label : " + detail.datas.label);

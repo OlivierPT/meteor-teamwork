@@ -2,7 +2,7 @@
 <link rel="import" href="../../bower_components/core-animated-pages/core-animated-pages.html">
 <link rel="import" href="../../bower_components/core-animated-pages/transitions/hero-transition.html">
 
-<polymer-element name="tw-task" attributes="taskId listId activityId hasDetails hasComments isAssigned hasDueDate hasCategory">
+<polymer-element name="tw-task" attributes="taskId task">
     <template>
         <style>
             :host {
@@ -90,11 +90,11 @@
 
         <core-animated-pages selected="{{mode}}" transitions="hero-transition" on-core-animated-pages-transition-end="{{complete}}" >
             <section id="resume">
-                <div hero-id="task-chip" hero-p on-tap="{{transition}}">                   
+                <div hero-id="task-chip" hero-p on-tap="{{transition}}">
                         <div class="chip-top" hero-id="task-badge" hero>
                         </div>
                         <span role="button" tabindex="0" layout vertical class="chip-resume">
-                            <content select="[task-label]"></content>  
+                            <content select="[task-label]"></content>
                             <template if="{{additionalsInfo}}">
                                 <span horizontal layout end-justified>
                                     <template if="{{hasDetails}}">
