@@ -94,7 +94,7 @@
                         <div class="chip-top" hero-id="task-badge" hero>
                         </div>
                         <span role="button" tabindex="0" layout vertical class="chip-resume">
-                            <content select="[task-label]"></content>
+                            {{task.label}}
                             <template if="{{additionalsInfo}}">
                                 <span horizontal layout end-justified>
                                     <template if="{{hasDetails}}">
